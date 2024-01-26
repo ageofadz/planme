@@ -30,9 +30,6 @@ export default function BasicTable(rows: Row[], setRows: Dispatch<SetStateAction
         if (field=='category') {
           return {...row, category: e.target.value, name: ''}
         }
-        if (field=='options') {
-          return {...row, options: row.options}
-        }
       } else {
         return row
       }
@@ -66,7 +63,22 @@ export default function BasicTable(rows: Row[], setRows: Dispatch<SetStateAction
             <TableCell><b>Activity</b></TableCell>
             <TableCell><b>Category</b></TableCell>
             <TableCell><b>Name</b></TableCell>
-            <TableCell><Button variant="outlined" onClick={()=>handleAdd()}><b>Add stage</b><AddBoxOutlined /></Button>
+            <TableCell><Button variant="outlined" onClick={()=>handleAdd()}><b>Add stage</b><AddBoxOutlined /></Button></TableCell>
+            <TableCell>
+
+            <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Template</InputLabel>
+                        <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={"Test-Teach-Test"}
+                        label="Template"
+                        >
+                        <MenuItem>Test-Teach-Test</MenuItem>
+                        <MenuItem>Twenty</MenuItem>
+                        <MenuItem>Thirty</MenuItem>
+                        </Select>
+                        </FormControl>
     </TableCell>
           </TableRow>
         </TableHead>
@@ -74,10 +86,10 @@ export default function BasicTable(rows: Row[], setRows: Dispatch<SetStateAction
           {(provider) => (
             <TableBody ref={provider.innerRef} {...provider.droppableProps}>
               {rows.map((row, index) => (
-                <Draggable key={row.id} draggableId={row.id} index={index}>
+                <Draggable key={`${index}`} draggableId={`${index}`} index={index}>
                   {(provider) => (
                     <TableRow
-                      key={row.id}
+                      key={`${index}`}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                       {...provider.draggableProps}
                       ref={provider.innerRef}
@@ -90,8 +102,6 @@ export default function BasicTable(rows: Row[], setRows: Dispatch<SetStateAction
                       >
                         <DragHandle />
                       </TableCell>
-                        <TableCell
-                          align="left" className='w-0' hidden={true} suppressHydrationWarning>{row.id}</TableCell>
                       <TableCell
                         align="left">
                           
@@ -123,13 +133,10 @@ export default function BasicTable(rows: Row[], setRows: Dispatch<SetStateAction
                                     {getMenuItemsForCategory(row.category, row.name, row.id, handleChange)}
                                 </FormControl>
                               </TableCell>
-                      <TableCell
-                        align="left">
-                          {getOptionsForItem(row.category, row.name, row.id, handleChange)
-                          }
-                          </TableCell>
                         <TableCell
                           align="left"><Button onClick={() => handleRemove(row.id)}><RemoveCircleOutline /></Button></TableCell>
+
+
                     </TableRow>
                   )}
                 </Draggable>

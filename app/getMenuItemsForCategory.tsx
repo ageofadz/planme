@@ -23,6 +23,7 @@ export default function getMenuItemsForCategory (
                 >
                     <MenuItem value={'Grass skirts'}>Grass skirts</MenuItem>
                     <MenuItem value={'Vocab bingo'}>Vocab bingo</MenuItem>
+                    <MenuItem value={'Vocab on board'}>Vocab on board</MenuItem>
                 </Select>
             </>
         );
@@ -65,8 +66,10 @@ export default function getMenuItemsForCategory (
                     label="Name"
                     onChange={(e) => func(e, id, 'name')}
                 >
-                    <MenuItem value={'Slap the board'}>Slap the board</MenuItem>
-                    <MenuItem value={'Sticky ball'}>Sticky ball</MenuItem>
+                    <MenuItem value={'Slap the board - collage'}>Slap the board - collage</MenuItem>
+                    <MenuItem value={'Slap the board - targets'}>Slap the board - targets</MenuItem>
+                    <MenuItem value={'Sticky ball - collage'}>Sticky ball - collage</MenuItem>
+                    <MenuItem value={'Sticky ball - targets'}>Sticky ball - targets</MenuItem>
                 </Select>
             </>
         );
@@ -122,7 +125,12 @@ export default function getMenuItemsForCategory (
                         label="Name"
                         onChange={(e) => func(e, id, 'name')}
                     >
-                        <MenuItem value={'Song'}>Song</MenuItem>
+                        <MenuItem value={'Intro Song'}>Intro Song</MenuItem>
+                        <MenuItem value={'Song/video 1'}>Song/video 1</MenuItem>
+                        <MenuItem value={'Song/video 2'}>Song/video 2</MenuItem>
+                        <MenuItem value={'Song/video 3'}>Song/video 3</MenuItem>
+                        <MenuItem value={'Cleanup song'}>Cleanup song</MenuItem>
+                        <MenuItem value={'Goodbye song'}>Goodbye song</MenuItem>
                         <MenuItem value={'Rules'}>Rules</MenuItem>
                     </Select>
                 </>
