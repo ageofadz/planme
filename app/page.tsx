@@ -86,7 +86,7 @@ export default function Home() {
       goodbye: "https://www.youtube.com/watch?v=PraN5ZoSjiY",
 
     },
-    rules: {
+    rules: { 
       listen: true,
       sitNicely: true,
       english: true,
@@ -184,7 +184,7 @@ const handleSubmitTerms = (target: FormData) => {
 
                 <FormGroup>
 
-                    <FormControlLabel control={<Switch defaultChecked />} label="Generate handouts" />
+                    <FormControlLabel control={<Switch checked={options.generateHandouts} onChange={(e) => setOptions({...options, generateHandouts : e.target.checked})} />} label="Generate handouts" />
 
                     {<TextField className="my-2" label="Timer URL" value={options.songs?.timer} onChange={(e) => setOptions({...options, songs: {...options.songs, timer: e.target.value}})} />}
                     {<TextField className="my-2" label="Intro Song URL" value={options.songs?.intro} onChange={(e) => setOptions({...options, songs: {...options.songs, intro: e.target.value}})} />}
@@ -201,13 +201,13 @@ const handleSubmitTerms = (target: FormData) => {
                     Rules:
                     <br></br>
 
-                <FormControlLabel control={<Checkbox value={options.rules?.listen} onChange={(e) => setOptions({...options, rules: {listen: e.target.checked}})} />} label="Listen to the teacher"  />
-                <FormControlLabel control={<Checkbox value={options.rules?.sitNicely} onChange={(e) => setOptions({...options, rules: {sitNicely: e.target.checked}})} />} label="Sit nicely" />
-                <FormControlLabel control={<Checkbox value={options.rules?.english} onChange={(e) => setOptions({...options, rules: {english: e.target.checked}})} />} label="Speak English" />
-                <FormControlLabel control={<Checkbox value={options.rules?.raiseHand} onChange={(e) => setOptions({...options, rules: {raiseHand: e.target.checked}})} />} label="Raise your hand" />
-                <FormControlLabel control={<Checkbox value={options.rules?.nice} onChange={(e) => setOptions({...options, rules: {nice: e.target.checked}})} />} label="Be nice" />
-                <FormControlLabel control={<Checkbox value={options.rules?.tryBest} onChange={(e) => setOptions({...options, rules: {tryBest: e.target.checked}})} />} label="Try your best" />
-                <FormControlLabel control={<Checkbox value={options.rules?.sticker} onChange={(e) => setOptions({...options, rules: {sticker: e.target.checked}})} />} label="Five stars, sticker" />
+                <FormControlLabel control={<Checkbox checked={options.rules?.listen} onChange={(e) => setOptions({...options, rules: {...options.rules, listen: e.target.checked}})} />} label="Listen to the teacher"  />
+                <FormControlLabel control={<Checkbox checked={options.rules?.sitNicely} onChange={(e) => setOptions({...options, rules: {...options.rules, sitNicely: e.target.checked}})} />} label="Sit nicely" />
+                <FormControlLabel control={<Checkbox checked={options.rules?.english} onChange={(e) => setOptions({...options, rules: {...options.rules, english: e.target.checked}})} />} label="Speak English" />
+                <FormControlLabel control={<Checkbox checked={options.rules?.raiseHand} onChange={(e) => setOptions({...options, rules: {...options.rules, raiseHand: e.target.checked}})} />} label="Raise your hand" />
+                <FormControlLabel control={<Checkbox checked={options.rules?.nice} onChange={(e) => setOptions({...options, rules: {...options.rules, nice: e.target.checked}})} />} label="Be nice" />
+                <FormControlLabel control={<Checkbox checked={options.rules?.tryBest} onChange={(e) => setOptions({...options, rules: {...options.rules, tryBest: e.target.checked}})} />} label="Try your best" />
+                <FormControlLabel control={<Checkbox checked={options.rules?.sticker} onChange={(e) => setOptions({...options, rules: {...options.rules, sticker: e.target.checked}})} />} label="Five stars, sticker" />
                 </Paper>
                     
                 </FormGroup>

@@ -53,6 +53,7 @@ export default function getMenuItemsForCategory (
                     onChange={(e) => func(e, id, 'name')}
                 >
                     <MenuItem value={'Dragon drilling'}>Dragon drilling</MenuItem>
+                    <MenuItem value={'Zombie'}>Zombie</MenuItem>
                 </Select>
             </>
         );
@@ -70,6 +71,7 @@ export default function getMenuItemsForCategory (
                     <MenuItem value={'Slap the board - targets'}>Slap the board - targets</MenuItem>
                     <MenuItem value={'Sticky ball - collage'}>Sticky ball - collage</MenuItem>
                     <MenuItem value={'Sticky ball - targets'}>Sticky ball - targets</MenuItem>
+                    <MenuItem value={'Charades'}>Charades</MenuItem>
                 </Select>
             </>
         );
@@ -97,7 +99,8 @@ export default function getMenuItemsForCategory (
                     label="Name"
                     onChange={(e) => func(e, id, 'name')}
                 >
-                    <MenuItem value={9}>Semi-controlled practice</MenuItem>
+                    <MenuItem value={'Whiteboard race'}>Whiteboard race</MenuItem>
+                    <MenuItem value={'Whiteboard race'}>Mini whiteboard race</MenuItem>
                 </Select>
             </>
         );
