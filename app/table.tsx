@@ -57,7 +57,7 @@ export default function BasicTable(rows: Row[], setRows: Dispatch<SetStateAction
   };
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: 650 }} aria-label="activity table">
         <TableHead>
           <TableRow>
             <TableCell><b>Activity</b></TableCell>

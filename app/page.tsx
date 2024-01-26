@@ -6,13 +6,13 @@ import TextField from '@mui/material/TextField';
 import CollapsibleTable from './table';
 import Button from '@mui/material/Button/Button';
 import { uuid } from 'uuidv4';
-import { AppBar, Card, CardContent, Checkbox, FormControlLabel, FormGroup, IconButton, Paper, Radio, RadioGroup, Step, StepButton, Stepper, Switch, Toolbar, Typography } from '@mui/material';
+import { AppBar, Card, CardContent, Checkbox, FormControlLabel, FormGroup, IconButton, Paper, Radio, RadioGroup, Step, StepButton, Stepper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from '@mui/material';
 import React from 'react';
-import { NavigateBefore, NavigateNext } from '@mui/icons-material';
+import { AddBoxOutlined, NavigateBefore, NavigateNext } from '@mui/icons-material';
 import Image from 'next/image';
 
 
-export var tl: [{term: string, image: string}?];
+export var tl: [{term: string, image: string}?] = [];
 
 export default function Home() {
 
@@ -20,9 +20,36 @@ export default function Home() {
 
 
   const [activeStep, setActiveStep] = React.useState(0);
+  const [currTL, setTL] = React.useState(tl)
   const [completed, setCompleted] = React.useState<{
     [k: number]: boolean;
   }>({});
+
+  const updateTL = () => {
+    tl = currTL;
+  }
+
+  const handleChange = (e: any, i: number, field: String) => {
+    console.log('test')
+    const newRows = currTL.map((row, index) => {
+      console.log('test')
+      if (index == i) {
+        if (field=='term') {
+          return {...row, term: e.target.value}
+        }
+        if (field=='type') {
+        return {...row, type: e.target.value, term: '', image: ''}
+        }
+        if (field=='image') {
+          return {...row, image: e.target.value}
+        }
+      } else {
+        return row
+      }
+    })
+    setTL(newRows as any)
+    updateTL()
+  }
 
   const totalSteps = () => {
     return steps.length;
@@ -53,7 +80,7 @@ export default function Home() {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
+  
   const handleStep = (step: number) => () => {
     setActiveStep(step);
   };
@@ -217,21 +244,48 @@ const handleSubmitTerms = (target: FormData) => {
 {    activeStep==0 ? <div className="flex flex-row">
   
   
-  <Paper elevation={4} className="flex p-5">
-                    <RadioGroup>
-                      Lesson type:
-                      <FormControlLabel value="language"  control={<Radio defaultChecked={true} />} label="Language (vocab/grammar)" />
-                      <FormControlLabel value="productive" control={<Radio />} label="Productive (speaking/writing)" />
-                      <FormControlLabel value="receptive" control={<Radio />} label="Receptive (listening/reading)" />
-                    </RadioGroup>
-                    </Paper>
                     <Card className="flex">
 
-      <CardContent>
+      <CardContent >
 
       <h2><b>Target language</b></h2>
+
+      <Button variant="outlined" onClick={() => {
+        const arr = [{term: '', image: ''}]
+        setTL([...currTL, arr] as any)
+        updateTL()
+
+      }}><b>Add TL</b><AddBoxOutlined /></Button>
       <div className="overflow-y-scroll">
-      <form action={(target) => handleSubmitTerms(target)}>
+
+      <TableContainer component={Paper} >
+      <Table sx={{ minWidth: 650 }} aria-label="tl table" >
+        <TableHead >
+          <TableRow >
+            <TableCell align="left" >Type</TableCell>
+            <TableCell align="left" >Language</TableCell>
+            <TableCell align="left" >Image (Optional)</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+
+        {
+        currTL.map((row, i) => (
+            <TableRow
+              key={i}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell  align="right"><TextField value=""></TextField></TableCell>
+              <TableCell  align="right"><TextField value={row?.term} onChange={(e) => handleChange(e, i, 'term')}></TextField></TableCell>
+              <TableCell  align="right"><TextField value={row?.image} onChange={(e) => handleChange(e, i, 'image')}></TextField></TableCell>
+            </TableRow>
+          ))}
+
+        </TableBody>
+      </Table>
+    </TableContainer>
+
+      {/* <form action={(target) => handleSubmitTerms(target)}>
         {inputFieldsTerms.map((input, index) => {
           return (
             <div key={index}>
@@ -247,7 +301,7 @@ const handleSubmitTerms = (target: FormData) => {
             </div>
           )
         })}
-      </form>
+      </form> */}
       </div>
       </CardContent>
     </Card>

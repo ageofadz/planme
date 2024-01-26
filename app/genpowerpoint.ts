@@ -21,14 +21,14 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                     if (tlItem.image?.length > 0) {
                         slide.addImage({ path: tlItem.image, x:'50%', sizing: {type: 'contain', w: 6, h: 6} })
                     }
-                    slide.addText(tlItem.term,{y:'80%', fontSize:48, fontFace:'Verdana'})
+                    slide.addText(tlItem.term,{y:'80%', fontSize:48})
                 }
                 continue;}
 
             case 'Zombie':{
                     let slide = pres.addSlide();
-                    slide.addText('🧟‍♂️',{y:'80%', fontSize:48, fontFace:'Verdana'})
-                    slide.addText('Say the magic spell to scare away the zombie!',{y:'50%', fontSize:48, fontFace:'Verdana'})
+                    slide.addText('🧟‍♂️',{y:'80%', fontSize:48})
+                    slide.addText('Say the magic spell to scare away the zombie!',{y:'50%', fontSize:48})
                 continue;}
 
             case 'Dragon drilling':{
@@ -40,7 +40,7 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                     if (tlItem.image?.length > 0) {
                         slide.addImage({ path: tlItem.image, x:'50%', sizing: {type: 'contain', w: 6, h: 6} })
                     }
-                    slide.addText(tlItem.term,{y:'80%', fontSize:48, fontFace:'Verdana'})
+                    slide.addText(tlItem.term,{y:'80%', fontSize:48})
                     var d = Math.random();
                     if (d > 0.8) {
                         let slide2 = pres.addSlide();
@@ -55,7 +55,7 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                     if (tlItem.image?.length > 0) {
                         slide.addImage({ path: tlItem.image, x:'50%', sizing: {type: 'contain', w: 6, h: 6} })
                     }
-                    slide.addText(tlItem.term,{y:'80%', fontSize:48, fontFace:'Verdana'})
+                    slide.addText(tlItem.term,{y:'80%', fontSize:48})
                     var d = Math.random();
                     if (d > 0.7) {
                         let slide2 = pres.addSlide();
@@ -71,7 +71,7 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                         continue;
                     }
                     let slide = pres.addSlide();
-                    slide.addText(tlItem.term,{y:'80%', fontSize:48, fontFace:'Verdana'})
+                    slide.addText(tlItem.term,{y:'80%', fontSize:48})
 
                     
                 
@@ -100,36 +100,36 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                     }
 
                     slide.addMedia({h:'30%', w:'30%', type: "online", link: options.songs?.timer ?? 'https://www.youtube.com/watch?v=tVlcKp3bWH8'});
-                    slide.addText(tlItem.term,{y:'80%', fontSize:48, fontFace:'Verdana'})
+                    slide.addText(tlItem.term,{y:'80%', fontSize:48})
                 }
                 continue;}
 
-            case  'Intro Song':{
+            case  'Intro song':{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.intro ?? 'https://www.youtube.com/watch?v=tVlcKp3bWH8'});
                 continue;}
 
-            case  'Cleanup Song':{
+            case  'Cleanup song':{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.cleanup ?? 'https://www.youtube.com/watch?v=SFE0mMWbA-Y'});
                 continue;}
 
-            case  'Goodbye Song':{
+            case  'Goodbye song':{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.goodbye ?? 'https://www.youtube.com/watch?v=PraN5ZoSjiY'});
                 continue;}
 
-            case  'Song/Video 1':{
+            case  'Song/video 1':{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.one});
                 continue;}
 
-            case  'Song/Video 2':{
+            case  'Song/video 2':{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.two});
                 continue;}
 
-            case  'Song/Video 3':{
+            case  'Song/video 3':{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.three});
                 continue;}
@@ -141,72 +141,72 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                 if (options.rules.english) {
 
                 let slide = pres.addSlide();
-                slide.addText("🇬🇧🇺🇸🇦🇺🇳🇿🇨🇦",{y: '20%', fontSize:48, fontFace:'Verdana'})
-                slide.addText("Speak _____.",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                slide.addText("🇬🇧🇺🇸🇦🇺🇳🇿🇨🇦",{y: '20%', fontSize:48})
+                slide.addText("Speak _____.",{y: '50%', fontSize:48})
 
                 let slide2 = pres.addSlide();
-                slide2.addText("🇬🇧🇺🇸🇦🇺🇳🇿🇨🇦",{y: '20%', fontSize:48, fontFace:'Verdana'})
-                slide2.addText("Speak English.",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                slide2.addText("🇬🇧🇺🇸🇦🇺🇳🇿🇨🇦",{y: '20%', fontSize:48})
+                slide2.addText("Speak English.",{y: '50%', fontSize:48})
                 }
                 if (options.rules.listen) {
 
                     let slide = pres.addSlide();
-                    slide.addText("🧏‍♀️🧏‍♂️",{y: '20%', fontSize:48, fontFace:'Verdana'})
-                    slide.addText("_____ to the teacher.",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                    slide.addText("🧏‍♀️🧏‍♂️",{y: '20%', fontSize:48})
+                    slide.addText("_____ to the teacher.",{y: '50%', fontSize:48})
     
                     let slide2 = pres.addSlide();
-                    slide2.addText("🧏‍♀️🧏‍♂️",{y: '20%', fontSize:48, fontFace:'Verdana'})
-                    slide2.addText("Listen to the teacher.",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                    slide2.addText("🧏‍♀️🧏‍♂️",{y: '20%', fontSize:48})
+                    slide2.addText("Listen to the teacher.",{y: '50%', fontSize:48})
 
                 }
                 if (options.rules.nice) {
 
                     let slide = pres.addSlide();
-                    slide.addText("😇❤️",{y: '20%', fontSize:48, fontFace:'Verdana'})
-                    slide.addText("Be _____.",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                    slide.addText("😇❤️",{y: '20%', fontSize:48})
+                    slide.addText("Be _____.",{y: '50%', fontSize:48})
     
                     let slide2 = pres.addSlide();
-                    slide2.addText("😇❤️",{y: '20%', fontSize:48, fontFace:'Verdana'})
-                    slide2.addText("Be nice.",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                    slide2.addText("😇❤️",{y: '20%', fontSize:48})
+                    slide2.addText("Be nice.",{y: '50%', fontSize:48})
                     
                 }
                 if (options.rules.raiseHand) {
 
                     let slide = pres.addSlide();
-                    slide.addText("🙋🙋‍♀️",{y: '20%', fontSize:48, fontFace:'Verdana'})
-                    slide.addText("Raise your _____.",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                    slide.addText("🙋🙋‍♀️",{y: '20%', fontSize:48})
+                    slide.addText("Raise your _____.",{y: '50%', fontSize:48})
     
                     let slide2 = pres.addSlide();
-                    slide2.addText("🙋🙋‍♀️",{y: '20%', fontSize:48, fontFace:'Verdana'})
-                    slide2.addText("Raise your hand.",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                    slide2.addText("🙋🙋‍♀️",{y: '20%', fontSize:48})
+                    slide2.addText("Raise your hand.",{y: '50%', fontSize:48})
                     
                 }
                 if (options.rules.sitNicely) {
 
                     let slide = pres.addSlide();
-                    slide.addText("🪑🤫",{y: '20%', fontSize:48, fontFace:'Verdana'})
-                    slide.addText("Sit _____.",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                    slide.addText("🪑🤫",{y: '20%', fontSize:48})
+                    slide.addText("Sit _____.",{y: '50%', fontSize:48})
     
                     let slide2 = pres.addSlide();
-                    slide2.addText("🪑🤫",{y: '20%', fontSize:48, fontFace:'Verdana'})
-                    slide2.addText("Sit nicely.",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                    slide2.addText("🪑🤫",{y: '20%', fontSize:48})
+                    slide2.addText("Sit nicely.",{y: '50%', fontSize:48})
                     
                 }
                 if (options.rules.tryBest) {
 
                     let slide = pres.addSlide();
-                    slide.addText("💪🏋️",{y: '20%', fontSize:48, fontFace:'Verdana'})
-                    slide.addText("Try our _____.",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                    slide.addText("💪🏋️",{y: '20%', fontSize:48})
+                    slide.addText("Try our _____.",{y: '50%', fontSize:48})
     
                     let slide2 = pres.addSlide();
-                    slide2.addText("💪🏋️",{y: '20%', fontSize:48, fontFace:'Verdana'})
-                    slide2.addText("Try our best.",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                    slide2.addText("💪🏋️",{y: '20%', fontSize:48})
+                    slide2.addText("Try our best.",{y: '50%', fontSize:48})
                     
                 }
                 if (options.rules.sticker) {
                     let slide = pres.addSlide();
-                    slide.addText("⭐️⭐️⭐️⭐️⭐️",{y: '20%', fontSize:48, fontFace:'Verdana'})
-                    slide.addText("Five stars - 1 sticker!",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                    slide.addText("⭐️⭐️⭐️⭐️⭐️",{y: '20%', fontSize:48})
+                    slide.addText("Five stars - 1 sticker!",{y: '50%', fontSize:48})
                 }
                 
                 continue;}
@@ -214,7 +214,7 @@ export default function genPowerPoint(rows: Row[], options: Options) {
             case 'Sticky ball - collage':{
 
                 let inst = pres.addSlide();
-                inst.addText("Listen to the teacher. Repeat after the teacher. Throw the ball at what you hear.",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                inst.addText("Listen to the teacher. Repeat after the teacher. Throw the ball at what you hear.",{y: '50%', fontSize:48})
 
                 let slide = pres.addSlide();
                 fillSlide(slide, tl.map(a => a?.image!))
@@ -224,19 +224,19 @@ export default function genPowerPoint(rows: Row[], options: Options) {
             case 'Charades':{
 
                 let inst = pres.addSlide();
-                inst.addText("Two teams. One person in your team faces you. Teacher points at a picture. The group has to act the picture out, and not speak. The standing person has to not look at the board. If the standing person the word from your groups acting, your team gets a point.",{y: '50%', fontSize:24, fontFace:'Verdana'})
+                inst.addText("Two teams. One person in your team faces you. Teacher points at a picture. The group has to act the picture out, and not speak. The standing person has to not look at the board. If the standing person the word from your groups acting, your team gets a point.",{y: '50%', fontSize:24})
 
                 let inst2 = pres.addSlide();
-                inst2.addText("Does the person standing guess the word?",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                inst2.addText("Does the person standing guess the word?",{y: '50%', fontSize:48})
 
                 let inst3 = pres.addSlide();
-                inst3.addText("Does the person standing guess the word? Yes!",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                inst3.addText("Does the person standing guess the word? Yes!",{y: '50%', fontSize:48})
 
                 let inst4 = pres.addSlide();
-                inst4.addText("Do you speak if you're sitting down?",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                inst4.addText("Do you speak if you're sitting down?",{y: '50%', fontSize:48})
 
                 let inst5 = pres.addSlide();
-                inst5.addText("Do you speak if you're sitting down? No!",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                inst5.addText("Do you speak if you're sitting down? No!",{y: '50%', fontSize:48})
 
                 let slide = pres.addSlide();
                 fillSlide(slide, tl.map(a => a?.image!))
@@ -246,7 +246,7 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                 case 'Sticky ball - targets':{
     
                     let inst = pres.addSlide();
-                    inst.addText("Look at the picture. Throw the ball at the right answer at the bottom",{x:0, y: '50%', fontSize:48, fontFace:'Verdana'})
+                    inst.addText("Look at the picture. Throw the ball at the right answer at the bottom",{x:0, y: '50%', fontSize:48})
     
     
                     for (const tlItem of tl) {
@@ -261,9 +261,9 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                         const terms = tlterms.filter(a => {if (a && a != tlItem.term){ return a}}).slice(0,2)
                         terms.push(tlItem.term)
                         terms.sort(() => 0.5 - Math.random())
-                        slide.addText(terms[0],{y:'80%', x:'0%', fontSize:24, fontFace:'Verdana'})
-                        slide.addText(terms[1],{y:'80%', x:'30%', fontSize:24, fontFace:'Verdana'})
-                        slide.addText(terms[2],{y:'80%', x:'60%', fontSize:24, fontFace:'Verdana'})
+                        slide.addText(terms[0],{y:'80%', x:'0%', fontSize:24})
+                        slide.addText(terms[1],{y:'80%', x:'30%', fontSize:24})
+                        slide.addText(terms[2],{y:'80%', x:'60%', fontSize:24})
                     }
                     
                     continue;}
@@ -271,7 +271,7 @@ export default function genPowerPoint(rows: Row[], options: Options) {
             case 'Slap the board - collage':{
 
                 let inst = pres.addSlide();
-                inst.addText("Listen to the teacher. Slap what you hear. Slap one time, and do not slap hard!",{y: '50%', fontSize:48, fontFace:'Verdana'})
+                inst.addText("Listen to the teacher. Slap what you hear. Slap one time, and do not slap hard!",{y: '50%', fontSize:48})
 
                 let slide = pres.addSlide();
                 fillSlide(slide, tl.map(a => a?.image!))
@@ -281,7 +281,7 @@ export default function genPowerPoint(rows: Row[], options: Options) {
             case 'Slap the board - targets':{
 
                 let inst = pres.addSlide();
-                inst.addText("Look at the picture. Slap the right answer at the bottom. Slap one time, and do not slap hard!",{x:0, y: '50%', fontSize:48, fontFace:'Verdana'})
+                inst.addText("Look at the picture. Slap the right answer at the bottom. Slap one time, and do not slap hard!",{x:0, y: '50%', fontSize:48})
 
 
                 for (const tlItem of tl) {
@@ -296,9 +296,9 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                     const terms = tlterms.filter(a => {if (a && a != tlItem.term){ return a}}).slice(0,2)
                     terms.push(tlItem.term)
                     terms.sort(() => 0.5 - Math.random())
-                    slide.addText(terms[0],{y:'80%', x:'0%', fontSize:24, fontFace:'Verdana'})
-                    slide.addText(terms[1],{y:'80%', x:'30%', fontSize:24, fontFace:'Verdana'})
-                    slide.addText(terms[2],{y:'80%', x:'60%', fontSize:24, fontFace:'Verdana'})
+                    slide.addText(terms[0],{y:'80%', x:'0%', fontSize:24})
+                    slide.addText(terms[1],{y:'80%', x:'30%', fontSize:24})
+                    slide.addText(terms[2],{y:'80%', x:'60%', fontSize:24})
                 }
                 
                 continue;}
