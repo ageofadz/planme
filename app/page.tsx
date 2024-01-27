@@ -212,15 +212,16 @@ const handleSubmitTerms = (target: FormData) => {
                 <FormGroup>
 
                     <FormControlLabel control={<Switch checked={options.generateHandouts} onChange={(e) => setOptions({...options, generateHandouts : e.target.checked})} />} label="Generate handouts" />
+                    <FormControlLabel control={<Switch checked={options.rulesAfterActivities} onChange={(e) => setOptions({...options, rulesAfterActivities : e.target.checked})} />} label="Rule check after lesson stages" />
 
                     {<TextField className="my-2" label="Timer URL" value={options.songs?.timer} onChange={(e) => setOptions({...options, songs: {...options.songs, timer: e.target.value}})} />}
-                    {<TextField className="my-2" label="Intro Song URL" value={options.songs?.intro} onChange={(e) => setOptions({...options, songs: {...options.songs, intro: e.target.value}})} />}
+                    {<TextField className="my-2" label="intro song URL" value={options.songs?.intro} onChange={(e) => setOptions({...options, songs: {...options.songs, intro: e.target.value}})} />}
                     {//make songs reactive - loop through songs and set accordingly
                     }
-                    {<TextField className="my-2" label="Song 1 URL" onChange={(e) => setOptions({...options, songs: {...options.songs, one: e.target.value}})}  />}
-                    {<TextField className="my-2" label="Song 2 URL" onChange={(e) => setOptions({...options, songs: {...options.songs, two: e.target.value}})}  />}
-                    {<TextField className="my-2" label="Song 3 URL" onChange={(e) => setOptions({...options, songs: {...options.songs, three: e.target.value}})} />}
-                    {<TextField className="my-2" label="Cleanup song URL"  value={options.songs?.cleanup} onChange={(e) => setOptions({...options, songs: {...options.songs, cleanup: e.target.value}})} />}
+                    {<TextField className="my-2" label="Song 1 URL" value={options.songs?.one} onChange={(e) => setOptions({...options, songs: {...options.songs, one: e.target.value}})}  />}
+                    {<TextField className="my-2" label="Song 2 URL" value={options.songs?.two} onChange={(e) => setOptions({...options, songs: {...options.songs, two: e.target.value}})}  />}
+                    {<TextField className="my-2" label="Song 3 URL" value={options.songs?.three} onChange={(e) => setOptions({...options, songs: {...options.songs, three: e.target.value}})} />}
+                    {<TextField className="my-2" label="cleanup song URL"  value={options.songs?.cleanup} onChange={(e) => setOptions({...options, songs: {...options.songs, cleanup: e.target.value}})} />}
                     {<TextField className="my-2" label="Goodbye song URL"  value={options.songs?.goodbye} onChange={(e) => setOptions({...options, songs: {...options.songs, goodbye: e.target.value}})} />}
                     {<TextField className="my-2" label="Dragon picture URL" value={options.dragonImage} onChange={(e) => setOptions({...options, dragonImage: e.target.value})} />
 }

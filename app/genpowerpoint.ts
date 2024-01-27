@@ -9,13 +9,13 @@ export default function genPowerPoint(rows: Row[], options: Options) {
 
     for (const row of rows) {
         if (!row.name) {
-            continue;
+            break;
         }
         switch (row.name) {
             case 'Vocab on board':{
                 for (const tlItem of tl) {
                     if (!tlItem) {
-                        continue;
+                        break;
                     }
                     let slide = pres.addSlide();
                     if (tlItem.image?.length > 0) {
@@ -23,19 +23,29 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                     }
                     slide.addText(tlItem.term,{y:'80%', fontSize:48})
                 }
-                continue;}
+                break;}
 
             case 'Zombie':{
                     let slide = pres.addSlide();
                     slide.addText('🧟‍♂️',{y:'80%', fontSize:48})
                     slide.addText('Say the magic spell to scare away the zombie!',{y:'50%', fontSize:48})
-                continue;}
+                break;}
+
+            case 'How are you':{
+                    let slide = pres.addSlide();
+                    slide.addText('😃😭😡😋😴🤪',{y:'50%', fontSize:48})
+                    slide.addText('How are you today? Pass the ball, and answer.',{y:'20%', fontSize:48})
+                    slide.addText('Happy, sad, angry, hungry, tired, silly',{y:'80%', fontSize:24})
+                break;}
 
             case 'Dragon drilling':{
                 for (const tlItem of tl) {
                     if (!tlItem) {
-                        continue;
+                        break;
                     }
+                    let inst = pres.addSlide();
+                    inst.addText('Stand up and say the word. If you see the dragon, sit down and be silent!',{y:'50%', fontSize:48})
+
                     let slide = pres.addSlide();
                     if (tlItem.image?.length > 0) {
                         slide.addImage({ path: tlItem.image, x:'50%', sizing: {type: 'contain', w: 6, h: 6} })
@@ -49,7 +59,7 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                 }
                 for (const tlItem of tl) {
                     if (!tlItem) {
-                        continue;
+                        break;
                     }
                     let slide = pres.addSlide();
                     if (tlItem.image?.length > 0) {
@@ -62,20 +72,20 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                         slide2.addImage({path: options.dragonImage ?? 'https://media1.tenor.com/m/W9Dmn0ZkTmsAAAAC/dragon-rawr.gif', x:'25%', sizing: {type: 'contain', w: 6, h: 6}});
                     }
                 }
-                continue;}
+                break;}
 
 
             case 'Vocab bingo':{
                 for (const tlItem of tl) {
                     if (!tlItem) {
-                        continue;
+                        break;
                     }
                     let slide = pres.addSlide();
                     slide.addText(tlItem.term,{y:'80%', fontSize:48})
 
                     
                 
-                continue;}
+                break;}
                 if (options.generateHandouts) {
                 //     let handoutSlide = pres.addSlide
                 //     for (let i =0; i<tl.length; i++) {
@@ -92,8 +102,10 @@ export default function genPowerPoint(rows: Row[], options: Options) {
             case 'Hot potato':{
                 for (const tlItem of tl) {
                     if (!tlItem) {
-                        continue;
+                        break;
                     }
+                    let inst = pres.addSlide();
+                    inst.addText('There is one ball. Pass the ball around the room and say the word. If you do not have the ball, sit nicely and quietly.',{y:'50%', fontSize:48})
                     let slide = pres.addSlide();
                     if (tlItem.image?.length > 0) {
                         slide.addImage({ path: tlItem.image, x:'50%', sizing: {type: 'contain', w: 6, h: 6} })
@@ -102,41 +114,41 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                     slide.addMedia({h:'30%', w:'30%', type: "online", link: options.songs?.timer ?? 'https://www.youtube.com/watch?v=tVlcKp3bWH8'});
                     slide.addText(tlItem.term,{y:'80%', fontSize:48})
                 }
-                continue;}
+                break;}
 
-            case  'Intro song':{
+            case  'intro song':{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.intro ?? 'https://www.youtube.com/watch?v=tVlcKp3bWH8'});
-                continue;}
+                break;}
 
-            case  'Cleanup song':{
+            case  'cleanup song':{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.cleanup ?? 'https://www.youtube.com/watch?v=SFE0mMWbA-Y'});
-                continue;}
+                break;}
 
             case  'Goodbye song':{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.goodbye ?? 'https://www.youtube.com/watch?v=PraN5ZoSjiY'});
-                continue;}
+                break;}
 
             case  'Song/video 1':{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.one});
-                continue;}
+                break;}
 
             case  'Song/video 2':{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.two});
-                continue;}
+                break;}
 
             case  'Song/video 3':{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.three});
-                continue;}
+                break;}
 
             case 'Rules':{
                 if (!options.rules) {
-                    continue;
+                    break;
                 }
                 if (options.rules.english) {
 
@@ -209,7 +221,7 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                     slide.addText("Five stars - 1 sticker!",{y: '50%', fontSize:48})
                 }
                 
-                continue;}
+                break;}
 
             case 'Sticky ball - collage':{
 
@@ -219,7 +231,7 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                 let slide = pres.addSlide();
                 fillSlide(slide, tl.map(a => a?.image!))
                 
-                continue;}
+                break;}
 
             case 'Charades':{
 
@@ -241,7 +253,7 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                 let slide = pres.addSlide();
                 fillSlide(slide, tl.map(a => a?.image!))
                 
-                continue;}
+                break;}
 
                 case 'Sticky ball - targets':{
     
@@ -251,11 +263,11 @@ export default function genPowerPoint(rows: Row[], options: Options) {
     
                     for (const tlItem of tl) {
                         if (!tlItem) {
-                            continue;
+                            break;
                         }
                         let slide = pres.addSlide();
                         if (tlItem.image?.length > 0) {
-                            slide.addImage({ path: tlItem.image, x:'50%', sizing: {type: 'contain', w: 6, h: 6} })
+                            slide.addImage({ path: tlItem.image, x:'70%', sizing: {type: 'contain', w: 3, h: 3} })
                         }
                         const tlterms = tl.map(a => a?.term ?? '')
                         const terms = tlterms.filter(a => {if (a && a != tlItem.term){ return a}}).slice(0,2)
@@ -266,7 +278,7 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                         slide.addText(terms[2],{y:'80%', x:'60%', fontSize:24})
                     }
                     
-                    continue;}
+                    break;}
 
             case 'Slap the board - collage':{
 
@@ -276,7 +288,7 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                 let slide = pres.addSlide();
                 fillSlide(slide, tl.map(a => a?.image!))
                 
-                continue;}
+                break;}
 
             case 'Slap the board - targets':{
 
@@ -286,11 +298,11 @@ export default function genPowerPoint(rows: Row[], options: Options) {
 
                 for (const tlItem of tl) {
                     if (!tlItem) {
-                        continue;
+                        break;
                     }
                     let slide = pres.addSlide();
                     if (tlItem.image?.length > 0) {
-                        slide.addImage({ path: tlItem.image, x:'50%', sizing: {type: 'contain', w: 6, h: 6} })
+                        slide.addImage({ path: tlItem.image, x:'70%', sizing: {type: 'contain', w: 3, h: 3} })
                     }
                     const tlterms = tl.map(a => a?.term ?? '')
                     const terms = tlterms.filter(a => {if (a && a != tlItem.term){ return a}}).slice(0,2)
@@ -301,11 +313,66 @@ export default function genPowerPoint(rows: Row[], options: Options) {
                     slide.addText(terms[2],{y:'80%', x:'60%', fontSize:24})
                 }
                 
-                continue;}
+                break;}
 
             default:
-                continue
+                break
 
+        }
+
+        switch (row.category) {
+            case 'Other':
+                break;
+            case 'Controlled practice':
+                break;
+            case 'Freer practice':
+                break;
+            default:
+                if (options.rulesAfterActivities && options.rules) {
+                    if (options.rules.english) {
+    
+                    let slide = pres.addSlide();
+                    slide.addText("🇬🇧🇺🇸🇦🇺🇳🇿🇨🇦",{y: '20%', fontSize:48})
+                    slide.addText("Did we speak English?",{y: '50%', fontSize:48})
+                    }
+                    if (options.rules.listen) {
+    
+                        let slide2 = pres.addSlide();
+                        slide2.addText("🧏‍♀️🧏‍♂️",{y: '20%', fontSize:48})
+                        slide2.addText("Did we listen to the teacher?",{y: '50%', fontSize:48})
+    
+                    }
+                    if (options.rules.nice) {
+
+                        let slide2 = pres.addSlide();
+                        slide2.addText("😇❤️",{y: '20%', fontSize:48})
+                        slide2.addText("Were we nice?",{y: '50%', fontSize:48})
+                        
+                    }
+                    if (options.rules.raiseHand) {
+        
+                        let slide2 = pres.addSlide();
+                        slide2.addText("🙋🙋‍♀️",{y: '20%', fontSize:48})
+                        slide2.addText("Did we raise our hands?",{y: '50%', fontSize:48})
+                        
+                    }
+                    if (options.rules.tryBest) {
+
+                        let slide2 = pres.addSlide();
+                        slide2.addText("💪🏋️",{y: '20%', fontSize:48})
+                        slide2.addText("Did we try our best?",{y: '50%', fontSize:48})
+                        
+                    }
+                    if (options.rules.sitNicely) {
+
+                        let slide2 = pres.addSlide();
+                        slide2.addText("🪑🤫",{y: '20%', fontSize:48})
+                        slide2.addText("Are we sitting nicely? Who's sitting nicely? 🎶",{y: '50%', fontSize:48})
+                        
+                    }
+                    break;
+                }
+                
         }
     }
 

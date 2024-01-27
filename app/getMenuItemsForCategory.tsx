@@ -128,13 +128,14 @@ export default function getMenuItemsForCategory (
                         label="Name"
                         onChange={(e) => func(e, id, 'name')}
                     >
-                        <MenuItem value={'Intro Song'}>Intro Song</MenuItem>
+                        <MenuItem value={'intro song'}>intro song</MenuItem>
                         <MenuItem value={'Song/video 1'}>Song/video 1</MenuItem>
                         <MenuItem value={'Song/video 2'}>Song/video 2</MenuItem>
                         <MenuItem value={'Song/video 3'}>Song/video 3</MenuItem>
-                        <MenuItem value={'Cleanup song'}>Cleanup song</MenuItem>
+                        <MenuItem value={'cleanup song'}>cleanup song</MenuItem>
                         <MenuItem value={'Goodbye song'}>Goodbye song</MenuItem>
                         <MenuItem value={'Rules'}>Rules</MenuItem>
+                        <MenuItem value={'How are you'}>How are you warmup?</MenuItem>
                     </Select>
                 </>
             );
