@@ -1,7 +1,12 @@
 import pptxgen from "pptxgenjs";
 import { tl } from "./page";
+import Reveal from 'reveal.js';
 
 export default function genPowerPoint(rows: Row[], options: Options) {
+
+    let deck = new Reveal()
+     deck.initialize();
+
     let pres = new pptxgen();
     console.log(tl);
     pres.theme = { headFontFace: "Arial Light" };
