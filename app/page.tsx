@@ -10,6 +10,8 @@ import { AppBar, Card, CardContent, Checkbox, FormControlLabel, FormGroup, IconB
 import React from 'react';
 import { AddBoxOutlined, NavigateBefore, NavigateNext } from '@mui/icons-material';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
+const Slide = dynamic(() => import('./presentation'), { ssr: false, })
 
 
 export var tl: [{term: string, image: string}?] = [];
@@ -312,11 +314,17 @@ const handleSubmitTerms = (target: FormData) => {
           
       {activeStep == 1 ? CollapsibleTable(rows, setRows) : <></>}
 
-      {activeStep== 3 ? <Button variant="outlined" onClick={() => {
-        genPowerPoint(rows, options)
+      {activeStep== 3 ? 
+      <div>
+       <Button variant="outlined" onClick={() => {
+        genPowerPoint(rows, options, Slide)
         }}>
           Generate powerpoint
-        </Button> : <></>}
+        </Button>
+        <div style={{ height: '25rem', width: '50rem' }}>
+        <Slide />
+        </div>
+        </div> : <></>}
 
       </div>
     </main>

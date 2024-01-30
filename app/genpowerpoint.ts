@@ -1,11 +1,22 @@
 import pptxgen from "pptxgenjs";
-import { tl } from "./page";
-import Reveal from 'reveal.js';
+import page, { tl } from "./page";
+import { createElement } from "react";
+import ReactDom from 'next/dist/compiled/react-dom/cjs/react-dom-server-legacy.browser.development';
+import fileDownload from 'js-file-download'
+import { hydrateRoot } from "react-dom/client";
 
-export default function genPowerPoint(rows: Row[], options: Options) {
 
-    let deck = new Reveal()
-     deck.initialize();
+
+
+export default function genPowerPoint(rows: Row[], options: Options, item?: any) {
+
+
+const element = createElement(item)
+const html =  ReactDom.renderToStaticMarkup(element) as string
+const newHTML = `
+<script src="js/reveal.js"></script>${html}`
+fileDownload(newHTML, 'page.html')
+
 
     let pres = new pptxgen();
     console.log(tl);
