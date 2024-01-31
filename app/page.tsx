@@ -4,6 +4,8 @@ import { useState } from 'react'
 import genPowerPoint from './genpowerpoint'
 import TextField from '@mui/material/TextField';
 import CollapsibleTable from './table';
+import '/node_modules/reveal.js/dist/reveal.css';
+import '/node_modules/reveal.js/dist/theme/beige.css';
 import Button from '@mui/material/Button/Button';
 import { uuid } from 'uuidv4';
 import { AppBar, Card, CardContent, Checkbox, FormControlLabel, FormGroup, IconButton, Paper, Radio, RadioGroup, Step, StepButton, Stepper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from '@mui/material';
@@ -167,7 +169,7 @@ const handleSubmitTerms = (target: FormData) => {
 }
   return (
     <main>
-    <div className="flex flex-col bg-gradient-to-t lg:static">
+    <div className="flex flex-col bg-gradient-to-t lg:static bg-blue-gray-100">
     <AppBar position="static" className="flex">
         <Toolbar>
           <IconButton
@@ -202,11 +204,12 @@ const handleSubmitTerms = (target: FormData) => {
         <Button variant='outlined' onClick = {() => setActiveStep(activeStep+1)} disabled={activeStep==3}><NavigateNext /></Button>
         </div>
         </div>
-    <div className="flex flex-row p-24 bg-gradient-to-t lg:static items-center justify-center ">
+        <div className="flex">
+    <div className="flex p-24 bg-gradient-to-t lg:static items-center justify-center bg-white w-full">
 
 
 
-
+          <div className="flex">
     {    activeStep==2 ?  <Card>
         <CardContent>
     <h2><b>Options</b></h2>
@@ -316,17 +319,23 @@ const handleSubmitTerms = (target: FormData) => {
 
       {activeStep== 3 ? 
       <div>
-       <Button variant="outlined" onClick={() => {
+      <Button className="flex w-32" variant="outlined" onClick={() => {
+       window.open('/presentation')
+       }}>
+         Preview powerpoint
+       </Button>
+       <Button className="flex w-32" variant="outlined" onClick={() => {
         genPowerPoint(rows, options, Slide)
         }}>
           Generate powerpoint
         </Button>
-        <div style={{ height: '25rem', width: '50rem' }}>
-        <Slide />
-        </div>
         </div> : <></>}
 
       </div>
+
+      </div>
+
+        </div>
     </main>
   )
 }

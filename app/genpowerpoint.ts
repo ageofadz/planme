@@ -3,7 +3,8 @@ import page, { tl } from "./page";
 import { createElement } from "react";
 import ReactDom from 'next/dist/compiled/react-dom/cjs/react-dom-server-legacy.browser.development';
 import fileDownload from 'js-file-download'
-import { hydrateRoot } from "react-dom/client";
+import { createRoot} from "react-dom/client";
+import {suffix, prefix} from './htmlStrings'
 
 
 
@@ -13,8 +14,9 @@ export default function genPowerPoint(rows: Row[], options: Options, item?: any)
 
 const element = createElement(item)
 const html =  ReactDom.renderToStaticMarkup(element) as string
+options.theme='beige'
 const newHTML = `
-<script src="js/reveal.js"></script>${html}`
+${prefix(options.theme ?? 'black')}<script src="js/reveal.js"></script>${html}${suffix}`
 fileDownload(newHTML, 'page.html')
 
 

@@ -8,6 +8,7 @@ type Row =
     type Options = 
     {
         dragonImage?: string,
+        theme?: 'black' | 'white' | 'league' | 'beige' | 'night' | 'serif'| 'simple'| 'solarized'| 'moon'| 'dracula'| 'sky'| 'blood'
         songs?: {
             intro?: string,
             one?: string,

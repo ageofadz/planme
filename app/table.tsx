@@ -59,14 +59,9 @@ export default function BasicTable(rows: Row[], setRows: Dispatch<SetStateAction
     <DragDropContext onDragEnd={handleDragEnd}>
       <Table sx={{ minWidth: 650 }} aria-label="activity table">
         <TableHead>
-          <TableRow>
-            <TableCell><b>Activity</b></TableCell>
-            <TableCell><b>Category</b></TableCell>
-            <TableCell><b>Name</b></TableCell>
-            <TableCell><Button variant="outlined" onClick={()=>handleAdd()}><b>Add stage</b><AddBoxOutlined /></Button></TableCell>
-            <TableCell>
 
-            <FormControl fullWidth>
+
+        <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">Template</InputLabel>
                         <Select
                         labelId="demo-simple-select-label"
@@ -79,7 +74,11 @@ export default function BasicTable(rows: Row[], setRows: Dispatch<SetStateAction
                         <MenuItem>Thirty</MenuItem>
                         </Select>
                         </FormControl>
-    </TableCell>
+          <TableRow>
+            <TableCell><b>Activity</b></TableCell>
+            <TableCell><b>Category</b></TableCell>
+            <TableCell><b>Name</b></TableCell>
+            <TableCell><Button variant="outlined" onClick={()=>handleAdd()}><b>Add stage</b><AddBoxOutlined /></Button></TableCell>
           </TableRow>
         </TableHead>
         <Droppable droppableId="droppable-1">
