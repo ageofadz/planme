@@ -7,16 +7,18 @@ import CollapsibleTable from './table';
 import '/node_modules/reveal.js/dist/reveal.css';
 import '/node_modules/reveal.js/dist/theme/beige.css';
 import Button from '@mui/material/Button/Button';
+import ClearIcon from '@mui/icons-material/Clear';
 import { uuid } from 'uuidv4';
-import { AppBar, Card, CardContent, Checkbox, FormControlLabel, FormGroup, IconButton, Paper, Radio, RadioGroup, Step, StepButton, Stepper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from '@mui/material';
+import { AppBar, Card, CardContent, Checkbox, FormControlLabel, FormGroup, IconButton, MenuItem, Paper, Radio, RadioGroup, Select, Step, StepButton, Stepper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from '@mui/material';
 import React from 'react';
 import { AddBoxOutlined, NavigateBefore, NavigateNext } from '@mui/icons-material';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
+import { Activity } from './types/activity';
 const Slide = dynamic(() => import('./presentation'), { ssr: false, })
 
 
-export var tl: [{term: string, image: string}?] = [];
+export var tl: [{term: string, image: string, type: string | undefined}?] = [];
 
 export default function Home() {
 
@@ -52,7 +54,7 @@ export default function Home() {
       }
     })
     setTL(newRows as any)
-    updateTL()
+    tl=newRows as [{term: string, image: string, type: string}?]
   }
 
   const totalSteps = () => {
@@ -102,11 +104,11 @@ export default function Home() {
   };
 
 
-  function createData(id: string, category: string, name: string) {
+  function createData(id: string, category: string, name: Activity) {
     return { id, category, name };
   }
   const [rows, setRows] = useState([
-    createData(uuid(), 'Other', "Song"),
+    createData(uuid(), 'Other', Activity.Song1),
   ]);
 
   let optionsObj: Options = {
@@ -136,37 +138,6 @@ export default function Home() {
   const [inputFieldsTerms, setinputFieldsTerms] = useState([
     {term: '', image: ''}
 ])
-const addFieldTerms = () => {
-  let newfield = { term: '', image: '' }
-
-  setinputFieldsTerms([...inputFieldsTerms, newfield])
-}
-const removeField = () => {
-  let data = [...inputFieldsTerms];
-  data.splice(inputFieldsTerms.length-1, 1)
-  setinputFieldsTerms(data)
-}
-
-const handleSubmitTerms = (target: FormData) => {
-  const terms = (target.getAll('term'));
-  const images = (target.getAll('image'));
-  tl = [];
-  console.log("cleared");
-  for (var i = 0; i < terms.length; i++) {
-    const term = terms[i].toString()
-    const image = images[i].toString()
-    tl.push({term, image})
-  }
-  console.log(tl);
-  if (terms[terms.length-1].toString().length<1) {
-    console.log("empty");
-    return;
-  }
-  else {
-    addFieldTerms();
-  }
-
-}
   return (
     <main>
     <div className="flex flex-col bg-gradient-to-t lg:static bg-blue-gray-100">
@@ -281,9 +252,18 @@ const handleSubmitTerms = (target: FormData) => {
               key={i}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell  align="right"><TextField value=""></TextField></TableCell>
-              <TableCell  align="right"><TextField value={row?.term} onChange={(e) => handleChange(e, i, 'term')}></TextField></TableCell>
+              <TableCell  align="right">
+              <Select value={row?.type} onChange={(e) => handleChange(e, i, 'type')}>
+              <MenuItem value={'vocab/grammar'}>Vocab/Grammar Point</MenuItem>
+              <MenuItem value={'text'}>Receptive Text Segment</MenuItem>
+              </Select>
+              </TableCell>
+              <TableCell  align="right"><TextField multiline={row?.type=='text'} value={row?.term} onChange={(e) => handleChange(e, i, 'term')}></TextField></TableCell>
               <TableCell  align="right"><TextField value={row?.image} onChange={(e) => handleChange(e, i, 'image')}></TextField></TableCell>
+              <TableCell  align="right"><Button variant='outlined' className='my-auto' onClick={() => {
+              setTL(currTL.filter((v, ind) => ind!==i) as any)
+              updateTL()
+              }}><ClearIcon /></Button></TableCell>
             </TableRow>
           ))}
 
@@ -320,6 +300,9 @@ const handleSubmitTerms = (target: FormData) => {
       {activeStep== 3 ? 
       <div>
       <Button className="flex w-32" variant="outlined" onClick={() => {
+       localStorage.setItem('rows', JSON.stringify(rows));
+       localStorage.setItem('options', JSON.stringify(options));
+       localStorage.setItem('tl', JSON.stringify(tl));
        window.open('/presentation')
        }}>
          Preview powerpoint

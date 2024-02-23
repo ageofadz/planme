@@ -5,6 +5,8 @@ import ReactDom from 'next/dist/compiled/react-dom/cjs/react-dom-server-legacy.b
 import fileDownload from 'js-file-download'
 import { createRoot} from "react-dom/client";
 import {suffix, prefix} from './htmlStrings'
+import { Activity } from "./types/activity";
+import { Options, Row } from "./row";
 
 
 
@@ -29,8 +31,8 @@ fileDownload(newHTML, 'page.html')
         if (!row.name) {
             break;
         }
-        switch (row.name) {
-            case 'Vocab on board':{
+        switch (row.name as Activity) {
+            case Activity.VocabOnBoard:{
                 for (const tlItem of tl) {
                     if (!tlItem) {
                         break;
@@ -43,20 +45,20 @@ fileDownload(newHTML, 'page.html')
                 }
                 break;}
 
-            case 'Zombie':{
+            case Activity.Zombie:{
                     let slide = pres.addSlide();
                     slide.addText('🧟‍♂️',{y:'80%', fontSize:48})
                     slide.addText('Say the magic spell to scare away the zombie!',{y:'50%', fontSize:48})
                 break;}
 
-            case 'How are you':{
+            case Activity.HowAreYou:{
                     let slide = pres.addSlide();
                     slide.addText('😃😭😡😋😴🤪',{y:'50%', fontSize:48})
                     slide.addText('How are you today? Pass the ball, and answer.',{y:'20%', fontSize:48})
                     slide.addText('Happy, sad, angry, hungry, tired, silly',{y:'80%', fontSize:24})
                 break;}
 
-            case 'Dragon drilling':{
+            case Activity.Dragon:{
                 for (const tlItem of tl) {
                     if (!tlItem) {
                         break;
@@ -93,7 +95,7 @@ fileDownload(newHTML, 'page.html')
                 break;}
 
 
-            case 'Vocab bingo':{
+            case Activity.VocabBingo:{
                 for (const tlItem of tl) {
                     if (!tlItem) {
                         break;
@@ -117,7 +119,7 @@ fileDownload(newHTML, 'page.html')
             }
 
 
-            case 'Hot potato':{
+            case Activity.HotPotato:{
                 for (const tlItem of tl) {
                     if (!tlItem) {
                         break;
@@ -134,37 +136,37 @@ fileDownload(newHTML, 'page.html')
                 }
                 break;}
 
-            case  'intro song':{
+            case  Activity.Intro:{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.intro ?? 'https://www.youtube.com/watch?v=tVlcKp3bWH8'});
                 break;}
 
-            case  'cleanup song':{
+            case  Activity.Cleanup:{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.cleanup ?? 'https://www.youtube.com/watch?v=SFE0mMWbA-Y'});
                 break;}
 
-            case  'Goodbye song':{
+            case  Activity.Goodbye:{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.goodbye ?? 'https://www.youtube.com/watch?v=PraN5ZoSjiY'});
                 break;}
 
-            case  'Song/video 1':{
+            case  Activity.Song1:{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.one});
                 break;}
 
-            case  'Song/video 2':{
+            case  Activity.Song2:{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.two});
                 break;}
 
-            case  'Song/video 3':{
+            case  Activity.Song3:{
                 let slide = pres.addSlide();
                 slide.addMedia({h:'100%', w:'100%', type: "online", link: options.songs?.three});
                 break;}
 
-            case 'Rules':{
+            case Activity.Rules:{
                 if (!options.rules) {
                     break;
                 }
@@ -241,7 +243,7 @@ fileDownload(newHTML, 'page.html')
                 
                 break;}
 
-            case 'Sticky ball - collage':{
+            case Activity.StickyCollage:{
 
                 let inst = pres.addSlide();
                 inst.addText("Listen to the teacher. Repeat after the teacher. Throw the ball at what you hear.",{y: '50%', fontSize:48})
@@ -251,7 +253,7 @@ fileDownload(newHTML, 'page.html')
                 
                 break;}
 
-            case 'Charades':{
+            case Activity.Charades:{
 
                 let inst = pres.addSlide();
                 inst.addText("Two teams. One person in your team faces you. Teacher points at a picture. The group has to act the picture out, and not speak. The standing person has to not look at the board. If the standing person the word from your groups acting, your team gets a point.",{y: '50%', fontSize:24})
@@ -273,7 +275,7 @@ fileDownload(newHTML, 'page.html')
                 
                 break;}
 
-                case 'Sticky ball - targets':{
+                case Activity.StickyTargets:{
     
                     let inst = pres.addSlide();
                     inst.addText("Look at the picture. Throw the ball at the right answer at the bottom",{x:0, y: '50%', fontSize:48})
@@ -298,7 +300,7 @@ fileDownload(newHTML, 'page.html')
                     
                     break;}
 
-            case 'Slap the board - collage':{
+            case Activity.SlapCollage:{
 
                 let inst = pres.addSlide();
                 inst.addText("Listen to the teacher. Slap what you hear. Slap one time, and do not slap hard!",{y: '50%', fontSize:48})
@@ -308,7 +310,7 @@ fileDownload(newHTML, 'page.html')
                 
                 break;}
 
-            case 'Slap the board - targets':{
+            case Activity.SlapTargets:{
 
                 let inst = pres.addSlide();
                 inst.addText("Look at the picture. Slap the right answer at the bottom. Slap one time, and do not slap hard!",{x:0, y: '50%', fontSize:48})
