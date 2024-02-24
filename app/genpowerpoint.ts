@@ -6,7 +6,8 @@ import fileDownload from 'js-file-download'
 import { createRoot} from "react-dom/client";
 import {suffix, prefix} from './htmlStrings'
 import { Activity } from "./types/activity";
-import { Options, Row } from "./row";
+import { Row } from "./types/row";
+import { Options } from './types/options';
 
 
 

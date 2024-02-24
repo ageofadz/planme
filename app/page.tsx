@@ -228,7 +228,7 @@ export default function Home() {
       <h2><b>Target language</b></h2>
 
       <Button variant="outlined" onClick={() => {
-        const arr = [{term: '', image: ''}]
+        const arr = {term: '', image: '', type: currTL[currTL.length-1]?.type ?? ''}
         setTL([...currTL, arr] as any)
         updateTL()
 

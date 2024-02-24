@@ -12,7 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { Button, FormControl, InputLabel } from "@mui/material";
 import getMenuItemsForCategory from "./getMenuItemsForCategory";
 import getOptionsForItem from "./getOptionsForItem";
-import { Row } from "./row";
+import { Row } from "./types/row";
 
 export default function BasicTable(rows: Row[], setRows: Dispatch<SetStateAction<Row[]>>) {
 

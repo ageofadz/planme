@@ -1,13 +1,4 @@
-import { Activity } from "./types/activity";
-
-export type Row =
-    {
-        id: string;
-        category: string;
-        name: Activity;
-    };
-
-export    type Options = 
+export type Options = 
     {
         dragonImage?: string,
         theme?: 'black' | 'white' | 'league' | 'beige' | 'night' | 'serif'| 'simple'| 'solarized'| 'moon'| 'dracula'| 'sky'| 'blood'

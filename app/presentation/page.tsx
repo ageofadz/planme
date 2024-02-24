@@ -6,7 +6,8 @@ import Reveal from 'reveal.js';
 import '/node_modules/reveal.js/dist/reveal.css';
 import '/node_modules/reveal.js/dist/theme/beige.css';
 import { Activity } from '../types/activity';
-import { Options, Row } from '../row';
+import { Row } from '../types/row';
+import { Options } from '../types/options';
 
 function convertToEmbed(url: string) {
     const pattern = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
