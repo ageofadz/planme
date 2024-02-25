@@ -15,6 +15,7 @@ import { AddBoxOutlined, NavigateBefore, NavigateNext } from '@mui/icons-materia
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { Activity } from './types/activity';
+import { Options } from './types/options';
 const Slide = dynamic(() => import('./presentation'), { ssr: false, })
 
 
