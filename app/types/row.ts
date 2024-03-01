@@ -1,8 +1,7 @@
-import { Activity } from "./activity";
+import { type Activity } from './activity'
 
-export type Row =
-    {
-        id: string;
-        category: string;
-        name: Activity;
-    };
+export interface Row {
+  id: string
+  category: string
+  name: Activity
+}

@@ -1,4 +1,5 @@
-export const prefix = (theme: string) =>
+/* eslint-disable no-tabs */
+export const prefix = (theme: string): string =>
 `<head>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.7.0/css/reveal.css">

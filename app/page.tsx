@@ -1,144 +1,94 @@
-
 'use client'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import genPowerPoint from './genpowerpoint'
-import TextField from '@mui/material/TextField';
-import CollapsibleTable from './table';
-import '/node_modules/reveal.js/dist/reveal.css';
-import '/node_modules/reveal.js/dist/theme/beige.css';
-import Button from '@mui/material/Button/Button';
-import ClearIcon from '@mui/icons-material/Clear';
-import { uuid } from 'uuidv4';
-import { AppBar, Card, CardContent, Checkbox, FormControlLabel, FormGroup, IconButton, MenuItem, Paper, Radio, RadioGroup, Select, Step, StepButton, Stepper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from '@mui/material';
-import React from 'react';
-import { AddBoxOutlined, NavigateBefore, NavigateNext } from '@mui/icons-material';
-import Image from 'next/image';
-import dynamic from 'next/dynamic';
-import { Activity } from './types/activity';
-import { Options } from './types/options';
-const Slide = dynamic(() => import('./presentation'), { ssr: false, })
+import TextField from '@mui/material/TextField'
+import CollapsibleTable from './table'
+import '../node_modules/reveal.js/dist/reveal.css'
+import '../node_modules/reveal.js/dist/theme/beige.css'
+import Button from '@mui/material/Button/Button'
+import ClearIcon from '@mui/icons-material/Clear'
+import { uuid } from 'uuidv4'
+import { AppBar, Card, CardContent, Checkbox, FormControlLabel, FormGroup, IconButton, MenuItem, Paper, Select, Step, StepButton, Stepper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from '@mui/material'
+import { AddBoxOutlined, NavigateBefore, NavigateNext } from '@mui/icons-material'
+import Image from 'next/image'
+import dynamic from 'next/dynamic'
+import { Activity } from './types/activity'
+import type { Options } from './types/options'
+const Slide = dynamic(async () => await import('./presentation'), { ssr: false })
 
+export let tl: [{ term: string, image: string, type: string | undefined }?] = []
 
-export var tl: [{term: string, image: string, type: string | undefined}?] = [];
+export default function Home (): React.JSX.Element {
+  const steps = ['Enter target language', 'Add lesson stages', 'Set lesson options', 'Finish']
 
-export default function Home() {
-
-  const steps = ['Enter target language', 'Add lesson stages', 'Set lesson options', 'Finish'];
-
-
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = React.useState(0)
   const [currTL, setTL] = React.useState(tl)
-  const [completed, setCompleted] = React.useState<{
-    [k: number]: boolean;
-  }>({});
+  const [completed] = React.useState<Record<number, boolean>>({})
 
-  const updateTL = () => {
-    tl = currTL;
+  const updateTL = (): void => {
+    tl = currTL
   }
 
-  const handleChange = (e: any, i: number, field: String) => {
+  const handleChange = (e: any, i: number, field: string): void => {
     console.log('test')
     const newRows = currTL.map((row, index) => {
       console.log('test')
-      if (index == i) {
-        if (field=='term') {
-          return {...row, term: e.target.value}
+      if (index === i) {
+        if (field === 'term') {
+          return { ...row, term: e.target.value }
         }
-        if (field=='type') {
-        return {...row, type: e.target.value, term: '', image: ''}
+        if (field === 'type') {
+          return { ...row, type: e.target.value, term: '', image: '' }
         }
-        if (field=='image') {
-          return {...row, image: e.target.value}
+        if (field === 'image') {
+          return { ...row, image: e.target.value }
         }
       } else {
         return row
       }
+      return null
     })
+    // Fix this by adding a proper type to newRows and the setter
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     setTL(newRows as any)
-    tl=newRows as [{term: string, image: string, type: string}?]
+    tl = newRows as [{ term: string, image: string, type: string }?]
   }
 
-  const totalSteps = () => {
-    return steps.length;
-  };
-
-  const completedSteps = () => {
-    return Object.keys(completed).length;
-  };
-
-  const isLastStep = () => {
-    return activeStep === totalSteps() - 1;
-  };
-
-  const allStepsCompleted = () => {
-    return completedSteps() === totalSteps();
-  };
-
-  const handleNext = () => {
-    const newActiveStep =
-      isLastStep() && !allStepsCompleted()
-        ? // It's the last step, but not all steps have been completed,
-          // find the first step that has been completed
-          steps.findIndex((step, i) => !(i in completed))
-        : activeStep + 1;
-    setActiveStep(newActiveStep);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-  
   const handleStep = (step: number) => () => {
-    setActiveStep(step);
-  };
+    setActiveStep(step)
+  }
 
-  const handleComplete = () => {
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    handleNext();
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-    setCompleted({});
-  };
-
-
-  function createData(id: string, category: string, name: Activity) {
-    return { id, category, name };
+  function createData (id: string, category: string, name: Activity): { id: string, category: string, name: Activity } {
+    return { id, category, name }
   }
   const [rows, setRows] = useState([
-    createData(uuid(), 'Other', Activity.Song1),
-  ]);
+    createData(uuid(), 'Other', Activity.Song1)
+  ])
 
-  let optionsObj: Options = {
+  const optionsObj: Options = {
     songs: {
-      timer: "https://www.youtube.com/watch?v=_W0bSen8Qjg",
-      intro: "https://www.youtube.com/watch?v=tVlcKp3bWH8",
-      cleanup: "https://www.youtube.com/watch?v=SFE0mMWbA-Y",
-      goodbye: "https://www.youtube.com/watch?v=PraN5ZoSjiY",
+      timer: 'https://www.youtube.com/watch?v=_W0bSen8Qjg',
+      intro: 'https://www.youtube.com/watch?v=tVlcKp3bWH8',
+      cleanup: 'https://www.youtube.com/watch?v=SFE0mMWbA-Y',
+      goodbye: 'https://www.youtube.com/watch?v=PraN5ZoSjiY'
 
     },
-    rules: { 
+    rules: {
       listen: true,
       sitNicely: true,
       english: true,
       nice: true,
       tryBest: true,
       raiseHand: true,
-      sticker: true,
+      sticker: true
     },
-    dragonImage: "https://media1.tenor.com/m/W9Dmn0ZkTmsAAAAC/dragon-rawr.gif",
+    dragonImage: 'https://media1.tenor.com/m/W9Dmn0ZkTmsAAAAC/dragon-rawr.gif',
     generateHandouts: true,
-    rulesAfterActivities: true,
-  };
+    rulesAfterActivities: true
+  }
 
-  const [options, setOptions] = useState(optionsObj);
+  const [options, setOptions] = useState(optionsObj)
 
-  const [inputFieldsTerms, setinputFieldsTerms] = useState([
-    {term: '', image: ''}
-])
   return (
     <main>
     <div className="flex flex-col bg-gradient-to-t lg:static bg-blue-gray-100">
@@ -172,56 +122,56 @@ export default function Home() {
         ))}
       </Stepper>
       <div className="flex items-center justify-center my-4">
-        <Button variant='outlined' onClick = {() => setActiveStep(activeStep-1)} disabled={activeStep==0}><NavigateBefore /></Button>
-        <Button variant='outlined' onClick = {() => setActiveStep(activeStep+1)} disabled={activeStep==3}><NavigateNext /></Button>
+        <Button variant='outlined' onClick = {() => { setActiveStep(activeStep - 1) }} disabled={activeStep === 0}><NavigateBefore /></Button>
+        <Button variant='outlined' onClick = {() => { setActiveStep(activeStep + 1) }} disabled={activeStep === 3}><NavigateNext /></Button>
         </div>
         </div>
         <div className="flex">
     <div className="flex p-24 bg-gradient-to-t lg:static items-center justify-center bg-white w-full">
 
-
-
           <div className="flex">
-    {    activeStep==2 ?  <Card>
+    { activeStep === 2
+      ? <Card>
         <CardContent>
     <h2><b>Options</b></h2>
 
                 <FormGroup>
 
-                    <FormControlLabel control={<Switch checked={options.generateHandouts} onChange={(e) => setOptions({...options, generateHandouts : e.target.checked})} />} label="Generate handouts" />
-                    <FormControlLabel control={<Switch checked={options.rulesAfterActivities} onChange={(e) => setOptions({...options, rulesAfterActivities : e.target.checked})} />} label="Rule check after lesson stages" />
+                    <FormControlLabel control={<Switch checked={options.generateHandouts} onChange={(e) => { setOptions({ ...options, generateHandouts: e.target.checked }) }} />} label="Generate handouts" />
+                    <FormControlLabel control={<Switch checked={options.rulesAfterActivities} onChange={(e) => { setOptions({ ...options, rulesAfterActivities: e.target.checked }) }} />} label="Rule check after lesson stages" />
 
-                    {<TextField className="my-2" label="Timer URL" value={options.songs?.timer} onChange={(e) => setOptions({...options, songs: {...options.songs, timer: e.target.value}})} />}
-                    {<TextField className="my-2" label="intro song URL" value={options.songs?.intro} onChange={(e) => setOptions({...options, songs: {...options.songs, intro: e.target.value}})} />}
-                    {//make songs reactive - loop through songs and set accordingly
+                    {<TextField className="my-2" label="Timer URL" value={options.songs?.timer} onChange={(e) => { setOptions({ ...options, songs: { ...options.songs, timer: e.target.value } }) }} />}
+                    {<TextField className="my-2" label="intro song URL" value={options.songs?.intro} onChange={(e) => { setOptions({ ...options, songs: { ...options.songs, intro: e.target.value } }) }} />}
+                    {// make songs reactive - loop through songs and set accordingly
                     }
-                    {<TextField className="my-2" label="Song 1 URL" value={options.songs?.one} onChange={(e) => setOptions({...options, songs: {...options.songs, one: e.target.value}})}  />}
-                    {<TextField className="my-2" label="Song 2 URL" value={options.songs?.two} onChange={(e) => setOptions({...options, songs: {...options.songs, two: e.target.value}})}  />}
-                    {<TextField className="my-2" label="Song 3 URL" value={options.songs?.three} onChange={(e) => setOptions({...options, songs: {...options.songs, three: e.target.value}})} />}
-                    {<TextField className="my-2" label="cleanup song URL"  value={options.songs?.cleanup} onChange={(e) => setOptions({...options, songs: {...options.songs, cleanup: e.target.value}})} />}
-                    {<TextField className="my-2" label="Goodbye song URL"  value={options.songs?.goodbye} onChange={(e) => setOptions({...options, songs: {...options.songs, goodbye: e.target.value}})} />}
-                    {<TextField className="my-2" label="Dragon picture URL" value={options.dragonImage} onChange={(e) => setOptions({...options, dragonImage: e.target.value})} />
+                    {<TextField className="my-2" label="Song 1 URL" value={options.songs?.one} onChange={(e) => { setOptions({ ...options, songs: { ...options.songs, one: e.target.value } }) }} />}
+                    {<TextField className="my-2" label="Song 2 URL" value={options.songs?.two} onChange={(e) => { setOptions({ ...options, songs: { ...options.songs, two: e.target.value } }) }} />}
+                    {<TextField className="my-2" label="Song 3 URL" value={options.songs?.three} onChange={(e) => { setOptions({ ...options, songs: { ...options.songs, three: e.target.value } }) }} />}
+                    {<TextField className="my-2" label="cleanup song URL" value={options.songs?.cleanup} onChange={(e) => { setOptions({ ...options, songs: { ...options.songs, cleanup: e.target.value } }) }} />}
+                    {<TextField className="my-2" label="Goodbye song URL" value={options.songs?.goodbye} onChange={(e) => { setOptions({ ...options, songs: { ...options.songs, goodbye: e.target.value } }) }} />}
+                    {<TextField className="my-2" label="Dragon picture URL" value={options.dragonImage} onChange={(e) => { setOptions({ ...options, dragonImage: e.target.value }) }} />
 }
                     <Paper elevation={4}>
                     Rules:
                     <br></br>
 
-                <FormControlLabel control={<Checkbox checked={options.rules?.listen} onChange={(e) => setOptions({...options, rules: {...options.rules, listen: e.target.checked}})} />} label="Listen to the teacher"  />
-                <FormControlLabel control={<Checkbox checked={options.rules?.sitNicely} onChange={(e) => setOptions({...options, rules: {...options.rules, sitNicely: e.target.checked}})} />} label="Sit nicely" />
-                <FormControlLabel control={<Checkbox checked={options.rules?.english} onChange={(e) => setOptions({...options, rules: {...options.rules, english: e.target.checked}})} />} label="Speak English" />
-                <FormControlLabel control={<Checkbox checked={options.rules?.raiseHand} onChange={(e) => setOptions({...options, rules: {...options.rules, raiseHand: e.target.checked}})} />} label="Raise your hand" />
-                <FormControlLabel control={<Checkbox checked={options.rules?.nice} onChange={(e) => setOptions({...options, rules: {...options.rules, nice: e.target.checked}})} />} label="Be nice" />
-                <FormControlLabel control={<Checkbox checked={options.rules?.tryBest} onChange={(e) => setOptions({...options, rules: {...options.rules, tryBest: e.target.checked}})} />} label="Try your best" />
-                <FormControlLabel control={<Checkbox checked={options.rules?.sticker} onChange={(e) => setOptions({...options, rules: {...options.rules, sticker: e.target.checked}})} />} label="Five stars, sticker" />
+                <FormControlLabel control={<Checkbox checked={options.rules?.listen} onChange={(e) => { setOptions({ ...options, rules: { ...options.rules, listen: e.target.checked } }) }} />} label="Listen to the teacher" />
+                <FormControlLabel control={<Checkbox checked={options.rules?.sitNicely} onChange={(e) => { setOptions({ ...options, rules: { ...options.rules, sitNicely: e.target.checked } }) }} />} label="Sit nicely" />
+                <FormControlLabel control={<Checkbox checked={options.rules?.english} onChange={(e) => { setOptions({ ...options, rules: { ...options.rules, english: e.target.checked } }) }} />} label="Speak English" />
+                <FormControlLabel control={<Checkbox checked={options.rules?.raiseHand} onChange={(e) => { setOptions({ ...options, rules: { ...options.rules, raiseHand: e.target.checked } }) }} />} label="Raise your hand" />
+                <FormControlLabel control={<Checkbox checked={options.rules?.nice} onChange={(e) => { setOptions({ ...options, rules: { ...options.rules, nice: e.target.checked } }) }} />} label="Be nice" />
+                <FormControlLabel control={<Checkbox checked={options.rules?.tryBest} onChange={(e) => { setOptions({ ...options, rules: { ...options.rules, tryBest: e.target.checked } }) }} />} label="Try your best" />
+                <FormControlLabel control={<Checkbox checked={options.rules?.sticker} onChange={(e) => { setOptions({ ...options, rules: { ...options.rules, sticker: e.target.checked } }) }} />} label="Five stars, sticker" />
                 </Paper>
-                    
+
                 </FormGroup>
       </CardContent>
-    </Card>   : <></>}
+    </Card>
+      : <></>}
 
-{    activeStep==0 ? <div className="flex flex-row">
-  
-  
+{ activeStep === 0
+  ? <div className="flex flex-row">
+
                     <Card className="flex">
 
       <CardContent >
@@ -229,10 +179,10 @@ export default function Home() {
       <h2><b>Target language</b></h2>
 
       <Button variant="outlined" onClick={() => {
-        const arr = {term: '', image: '', type: currTL[currTL.length-1]?.type ?? ''}
+        const arr = { term: '', image: '', type: currTL[currTL.length - 1]?.type ?? '' }
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         setTL([...currTL, arr] as any)
         updateTL()
-
       }}><b>Add TL</b><AddBoxOutlined /></Button>
       <div className="overflow-y-scroll">
 
@@ -253,20 +203,21 @@ export default function Home() {
               key={i}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell  align="right">
-              <Select value={row?.type} onChange={(e) => handleChange(e, i, 'type')}>
+              <TableCell align="right">
+              <Select value={row?.type} onChange={(e) => { handleChange(e, i, 'type') }}>
               <MenuItem value={'vocab/grammar'}>Vocab/Grammar Point</MenuItem>
               <MenuItem value={'text'}>Receptive Text Segment</MenuItem>
               </Select>
               </TableCell>
-              <TableCell  align="right"><TextField multiline={row?.type=='text'} value={row?.term} onChange={(e) => handleChange(e, i, 'term')}></TextField></TableCell>
-              <TableCell  align="right"><TextField value={row?.image} onChange={(e) => handleChange(e, i, 'image')}></TextField></TableCell>
-              <TableCell  align="right"><Button variant='outlined' className='my-auto' onClick={() => {
-              setTL(currTL.filter((v, ind) => ind!==i) as any)
-              updateTL()
+              <TableCell align="right"><TextField multiline={row?.type === 'text'} value={row?.term} onChange={(e) => { handleChange(e, i, 'term') }}></TextField></TableCell>
+              <TableCell align="right"><TextField value={row?.image} onChange={(e) => { handleChange(e, i, 'image') }}></TextField></TableCell>
+              <TableCell align="right"><Button variant='outlined' className='my-auto' onClick={() => {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                setTL(currTL.filter((_, ind) => ind !== i) as any)
+                updateTL()
               }}><ClearIcon /></Button></TableCell>
             </TableRow>
-          ))}
+        ))}
 
         </TableBody>
       </Table>
@@ -292,28 +243,29 @@ export default function Home() {
       </div>
       </CardContent>
     </Card>
-                    
-  </div> : <></> } 
-      
-          
-      {activeStep == 1 ? CollapsibleTable(rows, setRows) : <></>}
 
-      {activeStep== 3 ? 
-      <div>
+  </div>
+  : <></> }
+
+      {activeStep === 1 ? CollapsibleTable(rows, setRows) : <></>}
+
+      {activeStep === 3
+        ? <div>
       <Button className="flex w-32" variant="outlined" onClick={() => {
-       localStorage.setItem('rows', JSON.stringify(rows));
-       localStorage.setItem('options', JSON.stringify(options));
-       localStorage.setItem('tl', JSON.stringify(tl));
-       window.open('/presentation')
-       }}>
+        localStorage.setItem('rows', JSON.stringify(rows))
+        localStorage.setItem('options', JSON.stringify(options))
+        localStorage.setItem('tl', JSON.stringify(tl))
+        window.open('/presentation')
+      }}>
          Preview powerpoint
        </Button>
        <Button className="flex w-32" variant="outlined" onClick={() => {
-        genPowerPoint(rows, options, Slide)
-        }}>
+         genPowerPoint(rows, options, Slide)
+       }}>
           Generate powerpoint
         </Button>
-        </div> : <></>}
+        </div>
+        : <></>}
 
       </div>
 

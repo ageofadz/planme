@@ -1,3 +1,5 @@
+/* eslint-disable react/react-in-jsx-scope */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
@@ -6,11 +8,11 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'planmi',
-  description: 'Create beautiful communicative lessons in seconds',
+  description: 'Create beautiful communicative lessons in seconds'
 }
 
-export default function RootLayout({
-  children,
+export default function RootLayout ({
+  children
 }: {
   children: React.ReactNode
 }) {

@@ -1,49 +1,47 @@
 /* eslint-disable react/react-in-jsx-scope */
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import { Activity } from "./types/activity";
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import { Activity } from './types/activity'
 
 export default function getMenuItemsForCategory (
-    category: string,
-    name: Activity,
-    id: string,
-    func: Function
-) {
-
-    switch (category) {
-
-    case "Group receptive":
-        return (
+  category: string,
+  name: Activity,
+  id: string,
+  func: (e: any, id: string, field: string) => void
+): React.JSX.Element {
+  switch (category) {
+    case 'Group receptive':
+      return (
             <>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={name}
                     label="Name"
-                    onChange={(e) => func(e, id, 'name')}
+                    onChange={(e) => { func(e, id, 'name') }}
                 >
                     <MenuItem value={'Grass skirts'}>Grass skirts</MenuItem>
                     <MenuItem value={Activity.VocabBingo}>Vocab bingo</MenuItem>
                     <MenuItem value={Activity.VocabOnBoard}>Vocab on board</MenuItem>
                 </Select>
             </>
-        );
-    case "Individual productive":
-        return (
+      )
+    case 'Individual productive':
+      return (
             <>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={name}
                     label="Name"
-                    onChange={(e) => func(e, id, 'name')}
+                    onChange={(e) => { func(e, id, 'name') }}
                 >
                     <MenuItem value={Activity.HotPotato}>Hot potato</MenuItem>
                 </Select>
             </>
-        );
-    case "Group productive":
-        return (
+      )
+    case 'Group productive':
+      return (
             <>
                 <Select
                     labelId="demo-simple-select-label"
@@ -51,22 +49,22 @@ export default function getMenuItemsForCategory (
                     value={name}
                     label="Name"
                     name={id}
-                    onChange={(e) => func(e, id, 'name')}
+                    onChange={(e) => { func(e, id, 'name') }}
                 >
                     <MenuItem value={Activity.Dragon}>Dragon drilling</MenuItem>
                     <MenuItem value={Activity.Zombie}>Zombie</MenuItem>
                 </Select>
             </>
-        );
-    case "Individual receptive":
-        return (
+      )
+    case 'Individual receptive':
+      return (
             <>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={name}
                     label="Name"
-                    onChange={(e) => func(e, id, 'name')}
+                    onChange={(e) => { func(e, id, 'name') }}
                 >
                     <MenuItem value={Activity.SlapCollage}>Slap the board - collage</MenuItem>
                     <MenuItem value={Activity.SlapTargets}>Slap the board - targets</MenuItem>
@@ -75,59 +73,59 @@ export default function getMenuItemsForCategory (
                     <MenuItem value={Activity.Charades}>Charades</MenuItem>
                 </Select>
             </>
-        );
-    case "Controlled practice":
-        return (
+      )
+    case 'Controlled practice':
+      return (
             <>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={name}
                     label="Name"
-                    onChange={(e) => func(e, id, 'name')}
+                    onChange={(e) => { func(e, id, 'name') }}
                 >
                     <MenuItem value={'Worksheet'}>Worksheet</MenuItem>
                 </Select>
             </>
-        );
-    case "Semi-controlled practice":
-        return (
+      )
+    case 'Semi-controlled practice':
+      return (
             <>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={name}
                     label="Name"
-                    onChange={(e) => func(e, id, 'name')}
+                    onChange={(e) => { func(e, id, 'name') }}
                 >
                     <MenuItem value={'Whiteboard race'}>Whiteboard race</MenuItem>
                     <MenuItem value={'Whiteboard race'}>Mini whiteboard race</MenuItem>
                 </Select>
             </>
-        );
-    case "Freer practice":
-        return (
+      )
+    case 'Freer practice':
+      return (
             <>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={name}
                     label="Name"
-                    onChange={(e) => func(e, id, 'name')}
+                    onChange={(e) => { func(e, id, 'name') }}
                 >
                     <MenuItem value={10}>Freer practice</MenuItem>
                 </Select>
             </>
-        );
-        case "Other":
-            return (
+      )
+    case 'Other':
+      return (
                 <>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={name}
                         label="Name"
-                        onChange={(e) => func(e, id, 'name')}
+                        onChange={(e) => { func(e, id, 'name') }}
                     >
                         <MenuItem value={Activity.Intro}>intro song</MenuItem>
                         <MenuItem value={Activity.Song1}>Song/video 1</MenuItem>
@@ -139,10 +137,8 @@ export default function getMenuItemsForCategory (
                         <MenuItem value={Activity.HowAreYou}>How are you warmup?</MenuItem>
                     </Select>
                 </>
-            );
-        default:
-            return (<></>)
-
-    }
-
+      )
+    default:
+      return (<></>)
+  }
 }
