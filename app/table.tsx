@@ -112,6 +112,7 @@ export default function BasicTable (rows: Row[], setRows: Dispatch<SetStateActio
                                         onChange={(e) => { handleChange(e, row.id, 'category') }}
                                     >
                                         <MenuItem value={'Other'}>Other</MenuItem>
+                                        <MenuItem value={'Receptive skills'}>Receptive skills</MenuItem>
                                         <MenuItem value={'Individual receptive'}>Individual receptive</MenuItem>
                                         <MenuItem value={'Group receptive'}>Group receptive</MenuItem>
                                         <MenuItem value={'Individual productive'}>Individual productive</MenuItem>

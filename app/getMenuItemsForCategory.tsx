@@ -37,6 +37,7 @@ export default function getMenuItemsForCategory (
                     onChange={(e) => { func(e, id, 'name') }}
                 >
                     <MenuItem value={Activity.HotPotato}>Hot potato</MenuItem>
+                    <MenuItem value={Activity.SpellingRace}>Spelling Race</MenuItem>
                 </Select>
             </>
       )
@@ -55,6 +56,20 @@ export default function getMenuItemsForCategory (
                     <MenuItem value={Activity.Zombie}>Zombie</MenuItem>
                 </Select>
             </>
+      )
+    case 'Receptive skills':
+      return (
+              <>
+                  <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={name}
+                      label="Name"
+                      onChange={(e) => { func(e, id, 'name') }}
+                  >
+                      <MenuItem value={Activity.SlapOrder}>Slap the order</MenuItem>
+                  </Select>
+              </>
       )
     case 'Individual receptive':
       return (

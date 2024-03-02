@@ -14,6 +14,21 @@ function convertToEmbed (url: string): string {
   return embedUrl
 }
 
+function substituteLetters (str: string, letters: number): string {
+  if (letters + 1 >= str.length) {
+    letters = str.length - 2
+  }
+  for (let i = 0; i < letters;) {
+    const pos = Math.floor(Math.random() * str.length)
+    if (str[pos] === '_') {
+      continue
+    }
+    str = str.substring(0, pos) + '_' + str.substring(pos + 1)
+    i++
+  }
+  return str
+}
+
 function fillScreen (tl: Array<{ term: string, image: string }>): React.JSX.Element {
   const contents = []
 
@@ -46,7 +61,9 @@ export default function Presentation (props: { rows: Row[], options: Options }):
   }
 
   const rows = JSON.parse(rowsString) as Row[]
-  const tl = JSON.parse(tlString ?? '[]') as Array<{ term: string, image: string }>
+  let tl = JSON.parse(tlString ?? '[]') as Array<{ term: string, image: string, type: string }>
+  const receptiveText = tl.filter(tlItem => tlItem.type === 'text')
+  tl = tl.filter(tlItem => tlItem.type !== 'text')
   const options = JSON.parse(optionsString) as Options
 
   useEffect(() => {
@@ -72,10 +89,36 @@ export default function Presentation (props: { rows: Row[], options: Options }):
                         {tlItem.term}
                         </div>
                         <div className='w-1/2'>
-                        <img className='object-cover w-full h-full' src={tlItem.image}/>
+                        {tlItem.image ? <img className='object-cover w-full h-full' src={tlItem.image}/> : <></>}
                         </div>
                         </div>
                     </section>)
+          }
+          break }
+
+        case Activity.SpellingRace:{
+          slideList.push(<section>
+                      <div className='flex flex-col w-full'>
+                      <div className='h-1/3'>
+                      <h1>Spelling race!</h1>
+                      </div>
+                      <div className='h-1/3'>
+                      Two teams. Write the <b>missing letters</b>. Fastest wins!
+                      </div>
+                      </div>
+                  </section>)
+          for (const tlItem of tl) {
+            slideList.push(<section>
+                          <div className='flex flex-row w-full'>
+                          <div className='w-1/2'>
+                          {substituteLetters(tlItem.term, 3)}
+                          </div>
+                          <div className='w-1/2'>
+
+                        {tlItem.image ? <img className='object-cover w-full h-full' src={tlItem.image}/> : <></>}
+                          </div>
+                          </div>
+                      </section>)
           }
           break }
 
@@ -126,7 +169,8 @@ export default function Presentation (props: { rows: Row[], options: Options }):
                         {tlItem.term}
                         </div>
                         <div className='w-1/2'>
-                        <img className='object-cover w-full h-full' src={tlItem.image}/>
+
+                        {tlItem.image ? <img className='object-cover w-full h-full' src={tlItem.image}/> : <></>}
                         </div>
                         </div>
                     </section>)
@@ -148,7 +192,8 @@ export default function Presentation (props: { rows: Row[], options: Options }):
                         {tlItem.term}
                         </div>
                         <div className='w-1/2'>
-                        <img className='object-cover w-full h-full' src={tlItem.image}/>
+
+                        {tlItem.image ? <img className='object-cover w-full h-full' src={tlItem.image}/> : <></>}
                         </div>
                         </div>
                     </section>)
@@ -184,7 +229,8 @@ export default function Presentation (props: { rows: Row[], options: Options }):
                         {tlItem.term}
                         </div>
                         <div className='w-1/3'>
-                        <img className='object-cover w-full h-full' src={tlItem.image}/>
+
+                        {tlItem.image ? <img className='object-cover w-full h-full' src={tlItem.image}/> : <></>}
                         </div>
                         <iframe width="560" height="315" src={convertToEmbed(options.songs?.timer ?? 'https://www.youtube.com/watch?v=tVlcKp3bWH8')} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
                         </div>
@@ -426,6 +472,27 @@ export default function Presentation (props: { rows: Row[], options: Options }):
             fillScreen(tl))
           break }
 
+        case Activity.SlapOrder:{
+          slideList.push(<section>
+                      <div className='flex flex-row w-full'>
+                      <div className='w-1/2'>
+                      Slap the scenes in the right order!
+                      </div>
+                      <div className='w-1/2'>
+                      <h1>☄️</h1>
+                      </div>
+                      </div>
+                  </section>)
+
+          const randomOrder = receptiveText
+            .map(value => ({ value, sort: Math.random() }))
+            .sort((a, b) => a.sort - b.sort)
+            .map(({ value }) => value)
+
+          slideList.push(
+            fillScreen(randomOrder))
+          break }
+
         case Activity.StickyTargets:{
           slideList.push(<section>
                     <div className='flex flex-row w-full'>
@@ -447,8 +514,7 @@ export default function Presentation (props: { rows: Row[], options: Options }):
                 </section>)
 
           for (const tlItem of tl) {
-            let terms = [(tl.at(Math.floor(tl.length * Math.random()))?.term), (tl.at(Math.floor(tl.length * Math.random()))?.term), tlItem.term]
-            terms = terms
+            const terms = [(tl.at(Math.floor(tl.length * Math.random()))?.term), (tl.at(Math.floor(tl.length * Math.random()))?.term), tlItem.term]
               .map(value => ({ value, sort: Math.random() }))
               .sort((a, b) => a.sort - b.sort)
               .map(({ value }) => value)
@@ -466,7 +532,8 @@ export default function Presentation (props: { rows: Row[], options: Options }):
                     </div>
                     </div>
                     <div className='w-1/2'>
-                    <img className='object-cover w-full h-full' src={tlItem.image}/>
+
+                        {tlItem.image ? <img className='object-cover w-full h-full' src={tlItem.image}/> : <></>}
                     </div>
                     </div>
                 </section>)
@@ -564,7 +631,8 @@ export default function Presentation (props: { rows: Row[], options: Options }):
                     </div>
                     </div>
                     <div className='w-1/2'>
-                    <img className='object-cover w-full h-full' src={tlItem.image}/>
+
+                        {tlItem.image ? <img className='object-cover w-full h-full' src={tlItem.image}/> : <></>}
                     </div>
                     </div>
                 </section>)
