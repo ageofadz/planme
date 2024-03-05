@@ -1,6 +1,5 @@
 'use client'
 import React, { useState } from 'react'
-import genPowerPoint from './genpowerpoint'
 import TextField from '@mui/material/TextField'
 import CollapsibleTable from './table'
 import '../node_modules/reveal.js/dist/reveal.css'
@@ -11,10 +10,8 @@ import { uuid } from 'uuidv4'
 import { AppBar, Card, CardContent, Checkbox, FormControlLabel, FormGroup, IconButton, MenuItem, Paper, Select, Step, StepButton, Stepper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from '@mui/material'
 import { AddBoxOutlined, NavigateBefore, NavigateNext } from '@mui/icons-material'
 import Image from 'next/image'
-import dynamic from 'next/dynamic'
 import { Activity } from './types/activity'
 import type { Options } from './types/options'
-const Slide = dynamic(async () => await import('./presentation'), { ssr: false })
 
 export let tl: [{ term: string, image: string, type: string | undefined }?] = []
 
@@ -137,6 +134,29 @@ export default function Home (): React.JSX.Element {
     <h2><b>Options</b></h2>
 
                 <FormGroup>
+
+                    <FormControlLabel control={
+                        <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={options.theme}
+                        label="Theme"
+                        onChange={(e) => { setOptions({ ...options, theme: e.target.value as any }) }}
+                      >
+                        <MenuItem value={'black'}>Black</MenuItem>
+                        <MenuItem value={'white'}>White</MenuItem>
+                        <MenuItem value={'league'}>League</MenuItem>
+                        <MenuItem value={'beige'}>Beige</MenuItem>
+                        <MenuItem value={'night'}>Night</MenuItem>
+                        <MenuItem value={'serif'}>Serif</MenuItem>
+                        <MenuItem value={'simple'}>Simple</MenuItem>
+                        <MenuItem value={'solarized'}>Solarized</MenuItem>
+                        <MenuItem value={'moon'}>Moon</MenuItem>
+                        <MenuItem value={'dracula'}>Dracula</MenuItem>
+                        <MenuItem value={'sky'}>Sky</MenuItem>
+                        <MenuItem value={'blood'}>Blood</MenuItem>
+                      </Select>
+                    } label="Theme" />
 
                     <FormControlLabel control={<Switch checked={options.generateHandouts} onChange={(e) => { setOptions({ ...options, generateHandouts: e.target.checked }) }} />} label="Generate handouts" />
                     <FormControlLabel control={<Switch checked={options.rulesAfterActivities} onChange={(e) => { setOptions({ ...options, rulesAfterActivities: e.target.checked }) }} />} label="Rule check after lesson stages" />
@@ -261,7 +281,6 @@ export default function Home (): React.JSX.Element {
          Preview presentation
        </Button>
        <Button className="flex w-32 my-4" variant="outlined" onClick={() => {
-         genPowerPoint(rows, options, Slide)
        }}>
           Save presentation
         </Button>

@@ -3,7 +3,6 @@
 import React, { useEffect } from 'react'
 import Reveal from 'reveal.js'
 import '../../node_modules/reveal.js/dist/reveal.css'
-import '../../node_modules/reveal.js/dist/theme/beige.css'
 import { Activity } from '../types/activity'
 import { type Row } from '../types/row'
 import { type Options } from '../types/options'
@@ -72,6 +71,7 @@ export default function Presentation (props: { rows: Row[], options: Options }):
   const receptiveText = tl.filter(tlItem => tlItem.type === 'text')
   tl = tl.filter(tlItem => tlItem.type !== 'text')
   const options = JSON.parse(optionsString) as Options
+  import ('../../node_modules/reveal.js/dist/theme/' + options.theme?.toString() + '.css')
 
   const [currTL, setCurrentTL] = React.useState(0)
   const [missingCount, setMissingCount] = React.useState(3)
