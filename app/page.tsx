@@ -110,6 +110,7 @@ export default function Home (): React.JSX.Element {
           />
           </Typography>
           <Button color="inherit">Login</Button>
+          <Button color="inherit">Register</Button>
         </Toolbar>
       </AppBar>
     <Stepper nonLinear activeStep={activeStep} className="flex w-4/5 mx-auto my-4">
@@ -251,18 +252,18 @@ export default function Home (): React.JSX.Element {
 
       {activeStep === 3
         ? <div>
-      <Button className="flex w-32" variant="outlined" onClick={() => {
+      <Button className="flex w-32 my-4" variant="outlined" onClick={() => {
         localStorage.setItem('rows', JSON.stringify(rows))
         localStorage.setItem('options', JSON.stringify(options))
         localStorage.setItem('tl', JSON.stringify(tl))
         window.open('/presentation')
       }}>
-         Preview powerpoint
+         Preview presentation
        </Button>
-       <Button className="flex w-32" variant="outlined" onClick={() => {
+       <Button className="flex w-32 my-4" variant="outlined" onClick={() => {
          genPowerPoint(rows, options, Slide)
        }}>
-          Generate powerpoint
+          Save presentation
         </Button>
         </div>
         : <></>}

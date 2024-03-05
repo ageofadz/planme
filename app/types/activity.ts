@@ -18,5 +18,6 @@ export enum Activity {
   SlapTargets,
   Charades,
   SpellingRace,
-  SlapOrder
+  SlapOrder,
+  MissingPicture
 }
