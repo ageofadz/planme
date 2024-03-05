@@ -1,3 +1,13 @@
+# Planmi
+
+Generate and present fun, communicative language lessons in your browser.
+
+Planmi works with any language and curriculum, and generates a variety of activities and handouts for teaching grammar, receptive skills, and productive skills.
+
+Quality communicative lessons can be generated quickly using a template, but Planmi presentations are highly customizable and can be fine-tuned to your students needs.
+
+Planmi uses [reveal.js](https://github.com/hakimel/reveal.js) to create cross-compatible browser presentations.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
