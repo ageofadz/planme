@@ -6,12 +6,15 @@ import '../node_modules/reveal.js/dist/reveal.css'
 import '../node_modules/reveal.js/dist/theme/beige.css'
 import Button from '@mui/material/Button/Button'
 import ClearIcon from '@mui/icons-material/Clear'
+import { UserProvider } from '@auth0/nextjs-auth0/client'
 import { uuid } from 'uuidv4'
 import { AppBar, Card, CardContent, Checkbox, FormControlLabel, FormGroup, IconButton, MenuItem, Paper, Select, Step, StepButton, Stepper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from '@mui/material'
 import { AddBoxOutlined, NavigateBefore, NavigateNext } from '@mui/icons-material'
 import Image from 'next/image'
 import { Activity } from './types/activity'
 import type { Options } from './types/options'
+import { saveLesson } from './networking/routes'
+import LoginButton from './login'
 
 export let tl: [{ term: string, image: string, type: string | undefined }?] = []
 
@@ -87,6 +90,7 @@ export default function Home (): React.JSX.Element {
   const [options, setOptions] = useState(optionsObj)
 
   return (
+    <UserProvider>
     <main>
     <div className="flex flex-col bg-gradient-to-t lg:static bg-blue-gray-100">
     <AppBar position="static" className="flex">
@@ -106,8 +110,11 @@ export default function Home (): React.JSX.Element {
             alt="Your Name"
           />
           </Typography>
-          <Button color="inherit">Login</Button>
-          <Button color="inherit">Register</Button>
+          <LoginButton />
+          <Button color="inherit" onClick = {() => {
+            setRows([{ id: 'a137d048-66fa-4a02-874e-7b400c40f33c', category: 'Group productive', name: 3 }, { id: 'd8cf45c8-3787-491e-b934-43a1c29f6bd3', category: 'Individual receptive', name: 14 }, { id: 'a811ecd7-9740-4fc3-b5f3-715fe4eaab23', category: 'Individual receptive', name: 15 }, { id: '9612ae08-8669-4f49-a9dd-52280dbef06b', category: 'Individual productive', name: 18 }, { id: '1d3d61a0-124a-48f2-be14-2def622b344b', category: 'Other', name: 7 }])
+            setOptions({ songs: { timer: 'https://www.youtube.com/watch?v=_W0bSen8Qjg', intro: 'https://www.youtube.com/watch?v=tVlcKp3bWH8', cleanup: 'https://www.youtube.com/watch?v=SFE0mMWbA-Y', goodbye: 'https://www.youtube.com/watch?v=PraN5ZoSjiY' }, rules: { listen: true, sitNicely: true, english: true, nice: true, tryBest: true, raiseHand: true, sticker: true }, dragonImage: 'https://media1.tenor.com/m/W9Dmn0ZkTmsAAAAC/dragon-rawr.gif', generateHandouts: true, rulesAfterActivities: true })
+          }}>Register</Button>
         </Toolbar>
       </AppBar>
     <Stepper nonLinear activeStep={activeStep} className="flex w-4/5 mx-auto my-4">
@@ -281,6 +288,7 @@ export default function Home (): React.JSX.Element {
          Preview presentation
        </Button>
        <Button className="flex w-32 my-4" variant="outlined" onClick={() => {
+         saveLesson(rows, tl, options)
        }}>
           Save presentation
         </Button>
@@ -293,5 +301,6 @@ export default function Home (): React.JSX.Element {
 
         </div>
     </main>
+    </UserProvider>
   )
 }
