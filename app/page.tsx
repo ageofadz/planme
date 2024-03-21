@@ -15,6 +15,7 @@ import { Activity } from './types/activity'
 import type { Options } from './types/options'
 import { saveLesson } from './networking/routes'
 import ProfileSection from './profilesection'
+import Checkout from './checkout'
 
 export let tl: [{ term: string, image: string, type: string | undefined }?] = []
 
@@ -84,7 +85,8 @@ export default function Home (): React.JSX.Element {
     },
     dragonImage: 'https://media1.tenor.com/m/W9Dmn0ZkTmsAAAAC/dragon-rawr.gif',
     generateHandouts: true,
-    rulesAfterActivities: true
+    rulesAfterActivities: true,
+    theme: 'white'
   }
 
   const [options, setOptions] = useState(optionsObj)
@@ -284,7 +286,11 @@ export default function Home (): React.JSX.Element {
          Preview presentation
        </Button>
        <Button className="flex w-32 my-4" variant="outlined" onClick={() => {
-         saveLesson(rows, tl, options)
+         saveLesson(rows, tl, options).then(() => {
+           window.location.reload()
+         }).catch((err) => {
+           console.log(err)
+         })
        }}>
           Save presentation
         </Button>
