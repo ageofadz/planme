@@ -7,11 +7,10 @@ function Message ({ content }) {
 }
 
 function App () {
-  const initialOptions = {
-    'client-id': process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
-    'enable-funding': 'paylater,card',
-    'disable-funding': '',
-    'data-sdk-integration-source': 'integrationbuilder_sc',
+  const initialOptions: ReactPayPalScriptOptions = {
+    clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? '',
+    enableFunding: 'paylater,card',
+    disableFunding: '',
     vault: 'true',
     intent: 'subscription'
   }
@@ -24,8 +23,10 @@ function App () {
         <PayPalButtons
           style={{
             shape: 'rect',
-            layout: 'vertical'
+            layout: 'vertical',
+            color: 'silver'
           }}
+
           createSubscription={async () => {
             try {
               const response = await fetch(process.env.NEXT_PUBLIC_API_URL + '/paypal/create-subscription', {

@@ -553,6 +553,20 @@ export default function Presentation (props: { rows: Row[], options: Options }):
             fillScreen(randomOrder))
           break }
 
+        case Activity.UnderlineVocab:{
+          slideList.push(<section>
+                        <div className='flex flex-row w-full'>
+                        <div className='w-1/2'>
+                        <u>Underline</u> the vocabulary!
+                        </div>
+                        <div className='w-1/2'>
+                        <p>{tl.map(e => e.term).toString()}</p>
+                        </div>
+
+                        </div>
+                    </section>)
+          break }
+
         case Activity.StickyTargets:{
           slideList.push(<section>
                     <div className='flex flex-row w-full'>

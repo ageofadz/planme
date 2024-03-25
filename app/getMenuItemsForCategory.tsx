@@ -37,7 +37,6 @@ export default function getMenuItemsForCategory (
                     onChange={(e) => { func(e, id, 'name') }}
                 >
                     <MenuItem value={Activity.HotPotato}>Hot potato</MenuItem>
-                    <MenuItem value={Activity.SpellingRace}>Spelling Race</MenuItem>
                 </Select>
             </>
       )
@@ -68,6 +67,7 @@ export default function getMenuItemsForCategory (
                       onChange={(e) => { func(e, id, 'name') }}
                   >
                       <MenuItem value={Activity.SlapOrder}>Slap the order</MenuItem>
+                      <MenuItem value={Activity.UnderlineVocab}>Underline the vocabulary</MenuItem>
                   </Select>
               </>
       )
@@ -99,6 +99,8 @@ export default function getMenuItemsForCategory (
                     label="Name"
                     onChange={(e) => { func(e, id, 'name') }}
                 >
+                    <MenuItem value={Activity.Wordsearch}>Wordsearch</MenuItem>
+                    <MenuItem value={'Worksheet'}>Worksheet</MenuItem>
                     <MenuItem value={'Worksheet'}>Worksheet</MenuItem>
                 </Select>
             </>
@@ -113,8 +115,7 @@ export default function getMenuItemsForCategory (
                     label="Name"
                     onChange={(e) => { func(e, id, 'name') }}
                 >
-                    <MenuItem value={'Whiteboard race'}>Whiteboard race</MenuItem>
-                    <MenuItem value={'Whiteboard race'}>Mini whiteboard race</MenuItem>
+                    <MenuItem value={Activity.Wordsearch}>Wordsearch</MenuItem>
                 </Select>
             </>
       )

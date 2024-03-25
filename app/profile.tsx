@@ -12,10 +12,13 @@ export default function ProfileClient (): React.JSX.Element {
   return (
     user
       ? (
-          <div>
-            <img src={user.picture ?? ''} alt={user.name ?? ''} />
-            <h2>{user.name}</h2>
-            <p>{user.email}</p>
+          <div className='flex flex-col'>
+            <div className='flex'>
+            <img className='py-4 mx-auto' src={user.picture ?? ''} alt={user.name ?? ''} />
+            </div>
+            <div className='flex w-full text-wrap'>
+            <h2 className='m-auto text-xl text-center py-4'>{user.name}</h2>
+            </div>
           </div>
         )
       : (<></>)

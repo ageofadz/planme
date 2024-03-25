@@ -15,7 +15,6 @@ import { Activity } from './types/activity'
 import type { Options } from './types/options'
 import { saveLesson } from './networking/routes'
 import ProfileSection from './profilesection'
-import Checkout from './checkout'
 
 export let tl: [{ term: string, image: string, type: string | undefined }?] = []
 

@@ -19,5 +19,7 @@ export enum Activity {
   Charades,
   SpellingRace,
   SlapOrder,
-  MissingPicture
+  UnderlineVocab,
+  MissingPicture,
+  Wordsearch
 }
