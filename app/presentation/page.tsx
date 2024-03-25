@@ -52,10 +52,14 @@ function fillScreen (tl: Array<{ term: string, image: string }>): React.JSX.Elem
 }
 
 export default function Presentation (): React.JSX.Element {
-  console.log(localStorage)
-  const rowsString = localStorage.getItem('rows')
-  const tlString = localStorage.getItem('tl')
-  const optionsString = localStorage.getItem('options')
+  let rowsString = ''
+  let tlString = ''
+  let optionsString = ''
+  if (typeof window !== 'undefined') {
+    rowsString = localStorage.getItem('rows') ?? ''
+    tlString = localStorage.getItem('tl') ?? ''
+    optionsString = localStorage.getItem('options') ?? ''
+  }
 
   if (!rowsString || !optionsString) {
     return (
