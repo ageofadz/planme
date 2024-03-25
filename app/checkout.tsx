@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
+import { PayPalScriptProvider, PayPalButtons, type ReactPayPalScriptOptions } from '@paypal/react-paypal-js'
 
 // Renders errors or successfull transactions on the screen.
-function Message ({ content }) {
+function Message ({ content }: { content: string }): React.JSX.Element {
   return <p>{content}</p>
 }
 
-function App () {
+function App (): React.JSX.Element {
   const initialOptions: ReactPayPalScriptOptions = {
     clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? '',
     enableFunding: 'paylater,card',
@@ -51,13 +51,12 @@ function App () {
                   `Could not initiate PayPal Subscription...<br><br>${
                     errorDetail?.issue || ''
                   } ${errorDetail?.description || data?.message || ''} ` +
-                    (data?.debug_id ? `(${data.debug_id})` : ''),
-                  { hideButtons: true }
+                    (data?.debug_id ? `(${data.debug_id})` : '')
                 )
               }
             } catch (error) {
               console.error(error)
-              setMessage(`Could not initiate PayPal Subscription...${error}`)
+              setMessage(`Could not initiate PayPal Subscription...${error as any}`)
             }
           }}
           onApprove={async (data, actions) => {

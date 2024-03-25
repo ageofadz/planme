@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import Reveal from 'reveal.js'
 import '../../node_modules/reveal.js/dist/reveal.css'
 import { Activity } from '../types/activity'
 import { type Row } from '../types/row'
@@ -52,7 +51,7 @@ function fillScreen (tl: Array<{ term: string, image: string }>): React.JSX.Elem
     </section>)
 }
 
-export default function Presentation (props: { rows: Row[], options: Options }): React.JSX.Element {
+export default function Presentation (): React.JSX.Element {
   console.log(localStorage)
   const rowsString = localStorage.getItem('rows')
   const tlString = localStorage.getItem('tl')
@@ -136,6 +135,7 @@ export default function Presentation (props: { rows: Row[], options: Options }):
 
   useEffect(() => {
     const clientSideInitialization = async (): Promise<void> => {
+      const Reveal = (await import('reveal.js')).default
       void Reveal.initialize({
         controls: true,
         hash: true,
