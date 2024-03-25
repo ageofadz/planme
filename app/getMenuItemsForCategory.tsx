@@ -101,7 +101,6 @@ export default function getMenuItemsForCategory (
                 >
                     <MenuItem value={Activity.Wordsearch}>Wordsearch</MenuItem>
                     <MenuItem value={'Worksheet'}>Worksheet</MenuItem>
-                    <MenuItem value={'Worksheet'}>Worksheet</MenuItem>
                 </Select>
             </>
       )
@@ -115,7 +114,6 @@ export default function getMenuItemsForCategory (
                     label="Name"
                     onChange={(e) => { func(e, id, 'name') }}
                 >
-                    <MenuItem value={Activity.Wordsearch}>Wordsearch</MenuItem>
                 </Select>
             </>
       )

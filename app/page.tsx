@@ -13,10 +13,10 @@ import { AddBoxOutlined, NavigateBefore, NavigateNext } from '@mui/icons-materia
 import Image from 'next/image'
 import { Activity } from './types/activity'
 import type { Options } from './types/options'
-import { saveLesson } from './networking/routes'
+import { genPrintables, saveLesson } from './networking/routes'
 import ProfileSection from './profilesection'
 
-export let tl: [{ term: string, image: string, type: string | undefined }?] = []
+let tl: [{ term: string, image: string, type: string | undefined }?] = []
 
 export default function Home (): React.JSX.Element {
   const steps = ['Enter target language', 'Add lesson stages', 'Set lesson options', 'Finish']
@@ -286,6 +286,7 @@ export default function Home (): React.JSX.Element {
        </Button>
        <Button className="flex w-32 my-4" variant="outlined" onClick={() => {
          saveLesson(rows, tl, options).then(() => {
+           if (options.generateHandouts) void genPrintables(rows, tl, options)
            window.location.reload()
          }).catch((err) => {
            console.log(err)
