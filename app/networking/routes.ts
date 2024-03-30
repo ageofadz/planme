@@ -19,13 +19,17 @@ export async function saveLesson (rows: Row[], tl: [({
   // const res = await axios.post('/lesson', { rows, tl, options, user: 'sub' }
   // )
 
-  fetch(process.env.NEXT_PUBLIC_API_URL + '/lesson', {
-    method: 'POST',
-    headers: { contentType: 'application/json' },
-    body: JSON.stringify({
-      rows, tl, options, user: 'sub'
-    })
-  }).then(e => { console.log(e) }).catch(e => { console.log(e) })
+  const get = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/lesson', { rows, tl, options, user: 'sub' })
+
+  console.log(get)
+
+  // fetch(process.env.NEXT_PUBLIC_API_URL + '/lesson', {
+  //   method: 'POST',
+  //   headers: { contentType: 'application/json' },
+  //   body: JSON.stringify({
+  //     rows, tl, options, user: 'sub'
+  //   })
+  // }).then(e => { console.log(e) }).catch(e => { console.log(e) })
 }
 export async function openSubscription (): Promise<any> {
   const res = await axios.post('/paypal/create-subscription', { userAction: 'SUBSCRIBE_NOW' })
