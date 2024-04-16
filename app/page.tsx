@@ -8,8 +8,8 @@ import Button from '@mui/material/Button/Button'
 import ClearIcon from '@mui/icons-material/Clear'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
 import { uuid } from 'uuidv4'
-import { AppBar, Card, CardContent, Checkbox, FormControlLabel, FormGroup, IconButton, MenuItem, Paper, Select, Step, StepButton, Stepper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from '@mui/material'
-import { AddBoxOutlined, NavigateBefore, NavigateNext } from '@mui/icons-material'
+import { AppBar, Box, Card, CardContent, Checkbox, FormControlLabel, FormGroup, IconButton, MenuItem, Modal, Paper, Select, Step, StepButton, Stepper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from '@mui/material'
+import { AddBoxOutlined, NavigateBefore, NavigateNext, Save } from '@mui/icons-material'
 import Image from 'next/image'
 import { Activity } from './types/activity'
 import type { Options } from './types/options'
@@ -24,6 +24,22 @@ export default function Home (): React.JSX.Element {
   const [activeStep, setActiveStep] = React.useState(0)
   const [currTL, setTL] = React.useState(tl)
   const [completed] = React.useState<Record<number, boolean>>({})
+  const [isSaveOpen, setSaveOpen] = React.useState(false)
+
+  const saveOpen = (): void => { setSaveOpen(true); console.log('save open') }
+  const saveClosed = (): void => { setSaveOpen(false); console.log('save closed') }
+
+  const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '30vw',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4
+  }
 
   const updateTL = (): void => {
     tl = currTL
@@ -200,7 +216,7 @@ export default function Home (): React.JSX.Element {
                     <Card className="flex">
 
       <CardContent >
-
+    <div className="flex-col">
       <h2><b>Target language</b></h2>
 
       <Button variant="outlined" onClick={() => {
@@ -209,6 +225,7 @@ export default function Home (): React.JSX.Element {
         setTL([...currTL, arr] as any)
         updateTL()
       }}><b>Add TL</b><AddBoxOutlined /></Button>
+      </div>
       <div className="overflow-y-scroll">
 
       <TableContainer component={Paper} >
@@ -284,15 +301,8 @@ export default function Home (): React.JSX.Element {
       }}>
          Preview presentation
        </Button>
-       <Button className="flex w-32 my-4" variant="outlined" onClick={() => {
-         saveLesson(rows, tl, options).then(() => {
-           if (options.generateHandouts) void genPrintables(rows, tl, options)
-           window.location.reload()
-         }).catch((err) => {
-           console.log(err)
-         })
-       }}>
-          Save presentation
+       <Button className="flex w-32 my-4" variant="outlined" onClick={saveOpen}>
+          Save lesson
         </Button>
         </div>
         : <></>}
@@ -302,7 +312,31 @@ export default function Home (): React.JSX.Element {
       </div>
 
         </div>
+
+<Modal
+    open={isSaveOpen}
+    onClose={saveClosed}
+    aria-labelledby="modal-modal-title"
+    aria-describedby="modal-modal-description"
+  >
+    <Box sx={style}>
+                <FormGroup>
+                <FormControlLabel labelPlacement='top' control={<TextField />} label="Lesson name" />
+                <FormControlLabel labelPlacement='top' control={
+        <Button variant="outlined" onClick = { () => {
+          saveLesson(rows, tl, options).then(() => {
+            if (options.generateHandouts) void genPrintables(rows, tl, options)
+          }).catch((err) => {
+            console.log(err)
+          })
+        }
+        }> <Save /> </Button>
+      } label="Save lesson" />
+        </FormGroup>
+    </Box>
+  </Modal>
     </main>
+
     </UserProvider>
   )
 }

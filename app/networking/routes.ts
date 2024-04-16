@@ -1,6 +1,7 @@
 import ax from 'axios'
 import type { Options } from '../types/options'
 import type { Row } from '../types/row'
+import download from 'downloadjs'
 
 const headers =
 {
@@ -21,7 +22,7 @@ export async function saveLesson (rows: Row[], tl: [({
 
   const get = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/lesson', { rows, tl, options, user: 'sub' })
 
-  console.log(get)
+  return get
 
   // fetch(process.env.NEXT_PUBLIC_API_URL + '/lesson', {
   //   method: 'POST',
@@ -35,11 +36,21 @@ export async function openSubscription (): Promise<any> {
   const res = await axios.post('/paypal/create-subscription', { userAction: 'SUBSCRIBE_NOW' })
   return res
 }
+
+interface resWorksheet {
+  data: string
+  headers: any
+}
+
 export async function genPrintables (rows: Row[], tl: [({
   term: string
   image: string
   type: string | undefined
 } | undefined)?], options: Options): Promise<any> {
-  const res = await axios.post('/worksheet', { rows, tl, options, user: 'sub' })
-  return res
+  const { data, headers }: resWorksheet = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/worksheet', { rows, tl, options, user: 'sub' })
+
+  const content = headers['content-type']
+  download(data, 'handout.pdf', content)
+
+  return 1
 }
