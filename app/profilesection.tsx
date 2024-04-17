@@ -5,9 +5,7 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import LogoutIcon from '@mui/icons-material/Logout'
 import LoginIcon from '@mui/icons-material/Login'
-import ClassIcon from '@mui/icons-material/Class'
 import Profile from './profile'
-import Subscribe from './subscribe'
 
 export default function ProfileSection (): React.JSX.Element {
   const { user } = useUser()
@@ -19,10 +17,6 @@ export default function ProfileSection (): React.JSX.Element {
   const [isLessonsOpen, setLessonsOpen] = React.useState(false)
   const lessonsOpen = (): void => { setLessonsOpen(true); console.log('lessons open') }
   const lessonsClosed = (): void => { setLessonsOpen(false); console.log('lessons closed') }
-
-  const [isSubscribeOpen, setSubscribeOpen] = React.useState(false)
-  const subscribeOpen = (): void => { setSubscribeOpen(true); console.log('subscribe open') }
-  const subscribeClosed = (): void => { setSubscribeOpen(false); console.log('subscribe closed') }
 
   const style = {
     position: 'absolute' as 'absolute',
@@ -39,8 +33,6 @@ export default function ProfileSection (): React.JSX.Element {
   return (user
     ? <div>
     <Button className="px-10" color="inherit" onClick={lessonsOpen} startIcon={<HistoryEduIcon />}>Lessons</Button>
-
-    <Button className="px-10" color="inherit" onClick={subscribeOpen} startIcon={<ClassIcon />}>Pro</Button>
 
     <Button className="px-10" color="inherit" onClick={profileOpen} startIcon={<AccountBoxIcon />}>Profile</Button>
 
@@ -72,17 +64,6 @@ export default function ProfileSection (): React.JSX.Element {
           </Typography>
         </Box>
       </Modal>
-
-<Modal
-  open={isSubscribeOpen}
-  onClose={subscribeClosed}
-  aria-labelledby="modal-modal-title"
-  aria-describedby="modal-modal-description"
->
-  <Box sx={style} className='w-full'>
-    <Subscribe />
-  </Box>
-</Modal>
 
     </div>
     : <>
