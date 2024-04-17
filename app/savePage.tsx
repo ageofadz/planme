@@ -2,16 +2,13 @@ import { Button } from '@mui/material'
 import React from 'react'
 import type { Options } from './types/options'
 import type { Activity } from './types/activity'
+import { type Language } from './types/language'
 
 export default function SavePage (rows: Array<{
   id: string
   category: string
   name: Activity
-}>, options: Options, tl: [({
-  term: string
-  image: string
-  type: string | undefined
-} | undefined)?],
+}>, options: Options, tl: Language,
 saveOpen: () => void): React.JSX.Element {
   return (
 <div>

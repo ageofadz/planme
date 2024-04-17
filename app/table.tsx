@@ -11,10 +11,11 @@ import { uuid } from 'uuidv4'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import { Button, FormControl, InputLabel } from '@mui/material'
-import getMenuItemsForCategory from './getMenuItemsForCategory'
-import { type Row } from './types/row'
+import { type activityItem } from './types/activity'
+import { type LanguageType } from './types/language'
+import { type Category } from './types/category'
 
-export default function BasicTable (rows: Row[], setRows: Dispatch<SetStateAction<Row[]>>): React.JSX.Element {
+export default function BasicTable (rows: activityItem[], setRows: Dispatch<SetStateAction<activityItem[]>>, activities: activityItem[]): React.JSX.Element {
   function createData (id: string, category: string, name: string): { id: string, category: string, name: string } {
     return { id, category, name }
   }
@@ -29,21 +30,24 @@ export default function BasicTable (rows: Row[], setRows: Dispatch<SetStateActio
         if (field === 'category') {
           return { ...row, category: e.target.value, name: '' }
         }
+        if (field === 'language') {
+          return { ...row, language: [e.target.value], category: '', name: '' }
+        }
       }
       return row
     })
-    setRows(newRows as SetStateAction<Row[]>)
+    setRows(newRows as SetStateAction<activityItem[]>)
   }
 
   const handleRemove = (id: string): void => {
     const newRows = rows.filter(row => row.id !== id)
-    setRows(newRows as SetStateAction<Row[]>)
+    setRows(newRows as SetStateAction<activityItem[]>)
   }
 
   const handleAdd = (): void => {
     const newRow = createData(uuid(), '', '')
     const newRows = [...rows, newRow]
-    setRows(newRows as SetStateAction<Row[]>)
+    setRows(newRows as SetStateAction<activityItem[]>)
   }
 
   const handleDragEnd = (e: DropResult): void => {
@@ -53,6 +57,49 @@ export default function BasicTable (rows: Row[], setRows: Dispatch<SetStateActio
     tempData.splice(e.destination.index, 0, sourceData)
     setRows(tempData)
   }
+
+  const categoryItems = (l: LanguageType): React.JSX.Element[] => {
+    const items = []
+    const correctActivities = []
+    for (const a of activities) {
+      for (const g of a.language) {
+        if (g === l) {
+          correctActivities.push(a)
+        }
+      }
+    }
+
+    const categories = correctActivities.map((a) => a.category).filter((c, i, self) =>
+      i === self.indexOf(c))
+
+    for (const c of categories) {
+      items.push(<MenuItem value={c}>{c}</MenuItem>)
+    }
+
+    return items
+  }
+
+  const activityItems = (l: LanguageType, c: Category): React.JSX.Element[] => {
+    const items = []
+    const correctActivities = []
+    for (const a of activities) {
+      for (const g of a.language) {
+        if (g === l && a.category === c) {
+          correctActivities.push(a)
+        }
+      }
+    }
+
+    const acts = correctActivities.map((a) => a.name).filter((c, i, self) =>
+      i === self.indexOf(c))
+
+    for (const a of acts) {
+      items.push(<MenuItem value={a}>{a}</MenuItem>)
+    }
+
+    return items
+  }
+
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <Table sx={{ minWidth: 650 }} aria-label="activity table">
@@ -72,9 +119,6 @@ export default function BasicTable (rows: Row[], setRows: Dispatch<SetStateActio
                         </Select>
                         </FormControl>
           <TableRow>
-            <TableCell><b>Activity</b></TableCell>
-            <TableCell><b>Category</b></TableCell>
-            <TableCell><b>Name</b></TableCell>
             <TableCell><Button variant="outlined" onClick={() => { handleAdd() }}><b>Add stage</b><AddBoxOutlined /></Button></TableCell>
           </TableRow>
         </TableHead>
@@ -99,6 +143,28 @@ export default function BasicTable (rows: Row[], setRows: Dispatch<SetStateActio
                         <DragHandle />
                       </TableCell>
                       <TableCell
+                        align="left"
+                      >
+                        <FormControl fullWidth>
+                                  <InputLabel id="demo-simple-select-label">Language type</InputLabel>
+
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={row.language}
+                                        label="Category"
+                                        onChange={(e) => { handleChange(e, row.id, 'language') }}
+                                    >
+                                        <MenuItem value={0}>Vocab</MenuItem>
+                                        <MenuItem value={1}>Receptive skills</MenuItem>
+                                        <MenuItem value={2}>Grammar</MenuItem>
+                                        <MenuItem value={3}>Rules</MenuItem>
+                                        <MenuItem value={4}>Review</MenuItem>
+                                        <MenuItem value={5}>Other</MenuItem>
+                                    </Select>
+                                </FormControl>
+                      </TableCell>
+                      <TableCell
                         align="left">
 
                           <FormControl fullWidth>
@@ -111,15 +177,7 @@ export default function BasicTable (rows: Row[], setRows: Dispatch<SetStateActio
                                         label="Category"
                                         onChange={(e) => { handleChange(e, row.id, 'category') }}
                                     >
-                                        <MenuItem value={'Other'}>Other</MenuItem>
-                                        <MenuItem value={'Receptive skills'}>Receptive skills</MenuItem>
-                                        <MenuItem value={'Individual receptive'}>Individual receptive</MenuItem>
-                                        <MenuItem value={'Group receptive'}>Group receptive</MenuItem>
-                                        <MenuItem value={'Individual productive'}>Individual productive</MenuItem>
-                                        <MenuItem value={'Group productive'}>Group productive</MenuItem>
-                                        <MenuItem value={'Controlled practice'}>Controlled practice</MenuItem>
-                                        <MenuItem value={'Semi-controlled practice'}>Semi-controlled practice</MenuItem>
-                                        <MenuItem value={'Freer practice'}>Freer practice</MenuItem>
+                                      {categoryItems(row.language[0])}
                                     </Select>
                                 </FormControl>
                           </TableCell>
@@ -127,7 +185,24 @@ export default function BasicTable (rows: Row[], setRows: Dispatch<SetStateActio
                             align="left">
                               <FormControl fullWidth>
                                   <InputLabel id="demo-simple-select-label">Activity Name</InputLabel>
-                                    {getMenuItemsForCategory(row.category, row.name, row.id, handleChange)}
+
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={row.name}
+                    label="Name"
+                    onChange={(e) => {
+                      const act = activities.filter((a) => a.category === row.category && a.name === e.target.value)
+                      if (act[0]) {
+                        row = act[0]
+                      }
+                      handleChange(e, row.id, 'name')
+                    }}
+                >
+                                    {activityItems(row.language[0], row.category)}
+
+                </Select>
+                                    {/* {getMenuItemsForCategory(row.category, row.name, row.id, handleChange)} */}
                                 </FormControl>
                               </TableCell>
                         <TableCell

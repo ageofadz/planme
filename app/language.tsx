@@ -1,21 +1,16 @@
 import { AddBoxOutlined } from '@mui/icons-material'
-import { Card, CardContent, Button, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Select, MenuItem, TextField } from '@mui/material'
+import { Card, CardContent, Button, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, TextField, Tabs, Tab } from '@mui/material'
 import React from 'react'
 import ClearIcon from '@mui/icons-material/Clear'
+import { type LanguageItem } from './types/language'
 
-export default function LanguagePage (currTL: [({
-  term: string
-  image: string
-  type: string | undefined
-} | undefined)?],
-
-setTL: (value: React.SetStateAction<[({
-  term: string
-  image: string
-  type: string | undefined
-} | undefined)?]>) => void,
-updateTL: () => void,
-handleChange: (e: any, i: number, field: string) => void): React.JSX.Element {
+export default function LanguagePage (languageType: () => {
+  func: React.Dispatch<React.SetStateAction<LanguageItem[]>>
+  language: LanguageItem[]
+},
+handleChange: (e: any, i: number, field: string) => void,
+activeTab: number,
+handleTabChange: (event: React.SyntheticEvent, newValue: number) => void): React.JSX.Element {
   return (
 <div className="flex flex-row">
 
@@ -23,22 +18,29 @@ handleChange: (e: any, i: number, field: string) => void): React.JSX.Element {
 
       <CardContent >
     <div className="flex-col">
-      <h2><b>Target language</b></h2>
+
+    <Tabs value={activeTab} onChange={handleTabChange} aria-label="basic tabs example" className='mb-4'>
+          <Tab label="Vocab items"/>
+          <Tab label="Receptive text segments"/>
+          <Tab label="Grammar points"/>
+          <Tab label="Rules"/>
+          <Tab label="Review items"/>
+        </Tabs>
 
       <Button variant="outlined" onClick={() => {
-        const arr = { term: '', image: '', type: currTL[currTL.length - 1]?.type ?? '' }
+        const arr = { term: '', image: '' }
+        const lt = languageType()
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        setTL([...currTL, arr] as any)
-        updateTL()
-      }}><b>Add TL</b><AddBoxOutlined /></Button>
+        lt.func([...lt.language, arr] as any)
+      }}><b>Add Language</b><AddBoxOutlined /></Button>
       </div>
       <div className="overflow-y-scroll">
 
       <TableContainer component={Paper} >
+
       <Table sx={{ minWidth: 650 }} aria-label="tl table" >
         <TableHead >
           <TableRow >
-            <TableCell align="left" >Type</TableCell>
             <TableCell align="left" >Language</TableCell>
             <TableCell align="left" >Image (Optional)</TableCell>
           </TableRow>
@@ -46,23 +48,16 @@ handleChange: (e: any, i: number, field: string) => void): React.JSX.Element {
         <TableBody>
 
         {
-        currTL.map((row, i) => (
+        languageType().language.map((row, i) => (
             <TableRow
               key={i}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell align="right">
-              <Select value={row?.type} onChange={(e) => { handleChange(e, i, 'type') }}>
-              <MenuItem value={'vocab/grammar'}>Vocab/Grammar Point</MenuItem>
-              <MenuItem value={'text'}>Receptive Text Segment</MenuItem>
-              </Select>
-              </TableCell>
-              <TableCell align="right"><TextField multiline={row?.type === 'text'} value={row?.term} onChange={(e) => { handleChange(e, i, 'term') }}></TextField></TableCell>
-              <TableCell align="right"><TextField value={row?.image} onChange={(e) => { handleChange(e, i, 'image') }}></TextField></TableCell>
-              <TableCell align="right"><Button variant='outlined' className='my-auto' onClick={() => {
+              <TableCell align="left"><TextField multiline={true} value={row?.language} onChange={(e) => { handleChange(e, i, 'term') }}></TextField></TableCell>
+              <TableCell align="left"><TextField value={row?.image} onChange={(e) => { handleChange(e, i, 'image') }}></TextField></TableCell>
+              <TableCell align="left"><Button variant='outlined' className='my-auto' onClick={() => {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                setTL(currTL.filter((_, ind) => ind !== i) as any)
-                updateTL()
+                languageType().func(languageType().language.filter((_, ind) => ind !== i) as any)
               }}><ClearIcon /></Button></TableCell>
             </TableRow>
         ))}
@@ -70,24 +65,6 @@ handleChange: (e: any, i: number, field: string) => void): React.JSX.Element {
         </TableBody>
       </Table>
     </TableContainer>
-
-      {/* <form action={(target) => handleSubmitTerms(target)}>
-        {inputFieldsTerms.map((input, index) => {
-          return (
-            <div key={index}>
-              <input className="text-black"
-                name='term'
-                placeholder='Term'
-              />
-              <input className="text-black"
-                name='image'
-                placeholder='Image URL (optional)'
-              />
-              <input type="submit" hidden />
-            </div>
-          )
-        })}
-      </form> */}
       </div>
       </CardContent>
     </Card>

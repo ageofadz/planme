@@ -6,27 +6,54 @@ import '../node_modules/reveal.js/dist/reveal.css'
 import '../node_modules/reveal.js/dist/theme/beige.css'
 import Button from '@mui/material/Button/Button'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
-import { uuid } from 'uuidv4'
 import { AppBar, Box, FormControlLabel, FormGroup, IconButton, Modal, Step, StepButton, Stepper, Toolbar, Typography } from '@mui/material'
 import { NavigateBefore, NavigateNext, Save } from '@mui/icons-material'
 import Image from 'next/image'
-import { Activity } from './types/activity'
+import { Layout, type activityItem } from './types/activity'
 import type { Options } from './types/options'
-import { genPrintables, saveLesson } from './networking/routes'
+import { genPrintables, getActivities, saveLesson } from './networking/routes'
 import ProfileSection from './profilesection'
 import OptionsPage from './options'
 import LanguagePage from './language'
 import SavePage from './savePage'
+import { type Language, LanguageType, type LanguageItem } from './types/language'
+import { Category } from './types/category'
 
-let tl: [{ term: string, image: string, type: string | undefined }?] = []
+const init: LanguageItem[] = []
+const initialLesson: Language = {
+  vocab: [],
+  receptive: [],
+  grammar: [],
+  rules: [],
+  review: []
+}
+const initialActivities: activityItem[] = []
+const initialActivity: activityItem = { id: '661f805bac6e447032a71901', name: 'Video', language: [LanguageType.other], category: Category.Video, layout: Layout.multimedia, instructions: 'https://www.youtube.com/watch?v=tVlcKp3bWH8' }
 
 export default function Home (): React.JSX.Element {
   const steps = ['Enter target language', 'Add lesson stages', 'Set lesson options', 'Finish']
-
   const [activeStep, setActiveStep] = React.useState(0)
-  const [currTL, setTL] = React.useState(tl)
   const [completed] = React.useState<Record<number, boolean>>({})
   const [isSaveOpen, setSaveOpen] = React.useState(false)
+  const [activeTab, setActiveTab] = React.useState(0)
+  const [vocab, setVocab] = React.useState(init)
+  const [receptive, setReceptive] = React.useState(init)
+  const [grammar, setGrammar] = React.useState(init)
+  const [rules, setRules] = React.useState(init)
+  const [review, setReview] = React.useState(init)
+  const [tl, setTL] = React.useState(initialLesson)
+  const [activities, setActivities] = React.useState(initialActivities)
+  const [rows, setRows] = React.useState([
+    initialActivity
+  ])
+
+  const populateTL = (): void => {
+    setTL({ vocab, receptive, grammar, rules, review })
+  }
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number): void => {
+    setActiveTab(newValue)
+  }
 
   const saveOpen = (): void => { setSaveOpen(true); console.log('save open') }
   const saveClosed = (): void => { setSaveOpen(false); console.log('save closed') }
@@ -43,45 +70,42 @@ export default function Home (): React.JSX.Element {
     p: 4
   }
 
-  const updateTL = (): void => {
-    tl = currTL
+  const languageType = (): { func: React.Dispatch<React.SetStateAction<LanguageItem[]>>, language: LanguageItem[] } => {
+    switch (activeTab) {
+      case LanguageType.vocab: return { func: setVocab, language: vocab }
+      case LanguageType.grammar: return { func: setGrammar, language: grammar }
+      case LanguageType.receptive: return { func: setReceptive, language: receptive }
+      case LanguageType.review: return { func: setReview, language: review }
+      case LanguageType.rules: return { func: setRules, language: rules }
+      default: return { func: setVocab, language: vocab }
+    }
   }
 
   const handleChange = (e: any, i: number, field: string): void => {
-    console.log('test')
-    const newRows = currTL.map((row, index) => {
-      console.log('test')
+    const value = e.target.value as string
+
+    const lt = languageType()
+
+    const newRows = lt.language.map((row, index) => {
       if (index === i) {
         if (field === 'term') {
-          return { ...row, term: e.target.value }
-        }
-        if (field === 'type') {
-          return { ...row, type: e.target.value, term: '', image: '' }
+          return { ...row, language: value }
         }
         if (field === 'image') {
-          return { ...row, image: e.target.value }
+          return { ...row, image: value }
         }
       } else {
         return row
       }
-      return null
+      return row
     })
-    // Fix this by adding a proper type to newRows and the setter
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    setTL(newRows as any)
-    tl = newRows as [{ term: string, image: string, type: string }?]
+    lt.func(newRows)
+    populateTL()
   }
 
   const handleStep = (step: number) => () => {
     setActiveStep(step)
   }
-
-  function createData (id: string, category: string, name: Activity): { id: string, category: string, name: Activity } {
-    return { id, category, name }
-  }
-  const [rows, setRows] = useState([
-    createData(uuid(), 'Other', Activity.Song1)
-  ])
 
   const optionsObj: Options = {
     songs: {
@@ -107,6 +131,12 @@ export default function Home (): React.JSX.Element {
   }
 
   const [options, setOptions] = useState(optionsObj)
+
+  if (activities.length < 1) {
+    void getActivities(setActivities)
+  }
+
+  console.log(activities)
 
   return (
     <UserProvider>
@@ -155,13 +185,14 @@ export default function Home (): React.JSX.Element {
       : <></>}
 
 { activeStep === 0
-  ? LanguagePage(currTL, setTL, updateTL, handleChange)
+  ? LanguagePage(languageType, handleChange, activeTab, handleTabChange)
   : <></> }
 
-      {activeStep === 1 ? CollapsibleTable(rows, setRows) : <></>}
+      {activeStep === 1 ? CollapsibleTable(rows, setRows, activities) : <></>}
 
       {activeStep === 3
-        ? SavePage(rows, options, tl, saveOpen)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        ? SavePage(rows as any, options, tl, saveOpen)
         : <></>}
 
       </div>
@@ -181,8 +212,12 @@ export default function Home (): React.JSX.Element {
                 <FormControlLabel labelPlacement='top' control={<TextField />} label="Lesson name" />
                 <FormControlLabel labelPlacement='top' control={
         <Button variant="outlined" onClick = { () => {
-          saveLesson(rows, tl, options).then(() => {
-            if (options.generateHandouts) void genPrintables(rows, tl, options)
+          populateTL()
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+          saveLesson(rows as any, tl, options).then(() => {
+            populateTL()
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+            if (options.generateHandouts) void genPrintables(rows as any, tl, options)
           }).catch((err) => {
             console.log(err)
           })
