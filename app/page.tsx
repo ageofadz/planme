@@ -9,7 +9,7 @@ import { UserProvider } from '@auth0/nextjs-auth0/client'
 import { AppBar, Box, FormControlLabel, FormGroup, IconButton, Modal, Step, StepButton, Stepper, Toolbar, Typography } from '@mui/material'
 import { NavigateBefore, NavigateNext, Save } from '@mui/icons-material'
 import Image from 'next/image'
-import { Layout, type activityItem } from './types/activity'
+import { initialActivity, type activityItem } from './types/activity'
 import type { Options } from './types/options'
 import { genPrintables, getActivities, saveLesson } from './networking/routes'
 import ProfileSection from './profilesection'
@@ -17,7 +17,6 @@ import OptionsPage from './options'
 import LanguagePage from './language'
 import SavePage from './savePage'
 import { type Language, LanguageType, type LanguageItem } from './types/language'
-import { Category } from './types/category'
 
 const init: LanguageItem[] = []
 const initialLesson: Language = {
@@ -28,7 +27,6 @@ const initialLesson: Language = {
   review: []
 }
 const initialActivities: activityItem[] = []
-const initialActivity: activityItem = { id: '661f805bac6e447032a71901', name: 'Video', language: [LanguageType.other], category: Category.Video, layout: Layout.multimedia, instructions: 'https://www.youtube.com/watch?v=tVlcKp3bWH8' }
 
 export default function Home (): React.JSX.Element {
   const steps = ['Enter target language', 'Add lesson stages', 'Set lesson options', 'Finish']

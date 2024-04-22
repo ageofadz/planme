@@ -36,7 +36,7 @@ export async function openSubscription (): Promise<any> {
 }
 
 export async function getActivities (setActivities: React.Dispatch<React.SetStateAction<activityItem[]>>): Promise<any> {
-  const res = await axios.get('/activity')
+  const res = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/activity')
   const data = res.data as activityItem[]
   setActivities(data)
 }

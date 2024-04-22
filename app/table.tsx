@@ -10,21 +10,21 @@ import { AddBoxOutlined, DragHandle, RemoveCircleOutline } from '@mui/icons-mate
 import { uuid } from 'uuidv4'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
-import { Button, FormControl, InputLabel } from '@mui/material'
-import { type activityItem } from './types/activity'
-import { type LanguageType } from './types/language'
+import { Button, FormControl, InputLabel, TextField } from '@mui/material'
+import { initialActivity, type activityItem } from './types/activity'
+import { LanguageType } from './types/language'
 import { type Category } from './types/category'
 
 export default function BasicTable (rows: activityItem[], setRows: Dispatch<SetStateAction<activityItem[]>>, activities: activityItem[]): React.JSX.Element {
-  function createData (id: string, category: string, name: string): { id: string, category: string, name: string } {
-    return { id, category, name }
-  }
-
   const handleChange = (e: any, id: string, field: string): void => {
     console.log(e, id)
     const newRows = rows.map(row => {
       if (row.id === id) {
         if (field === 'name') {
+          const act = activities.filter((a) => a.category === row.category && a.name === e.target.value)
+          if (act[0]) {
+            return { ...act[0], name: e.target.value, id: row.id, language: row.language }
+          }
           return { ...row, name: e.target.value }
         }
         if (field === 'category') {
@@ -32,6 +32,9 @@ export default function BasicTable (rows: activityItem[], setRows: Dispatch<SetS
         }
         if (field === 'language') {
           return { ...row, language: [e.target.value], category: '', name: '' }
+        }
+        if (field === 'media') {
+          return { ...row, name: row.category, extra: e.target.value }
         }
       }
       return row
@@ -45,7 +48,8 @@ export default function BasicTable (rows: activityItem[], setRows: Dispatch<SetS
   }
 
   const handleAdd = (): void => {
-    const newRow = createData(uuid(), '', '')
+    const prevRow = rows.length > 0 ? rows[rows.length - 1] : initialActivity
+    const newRow: activityItem = { id: uuid(), name: '', category: prevRow.category, language: prevRow.language, layout: prevRow.layout }
     const newRows = [...rows, newRow]
     setRows(newRows as SetStateAction<activityItem[]>)
   }
@@ -184,25 +188,27 @@ export default function BasicTable (rows: activityItem[], setRows: Dispatch<SetS
                           <TableCell
                             align="left">
                               <FormControl fullWidth>
-                                  <InputLabel id="demo-simple-select-label">Activity Name</InputLabel>
 
-                <Select
+                {row.language.length > 0 && row.language[0] === LanguageType.other
+                  ? <TextField
+                  label="URL"
+                  onChange={(e) => {
+                    handleChange(e, row.id, 'media')
+                  }}/>
+                  : <>
+                  <InputLabel id="demo-simple-select-label">Activity Name</InputLabel>
+                  <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={row.name}
                     label="Name"
                     onChange={(e) => {
-                      const act = activities.filter((a) => a.category === row.category && a.name === e.target.value)
-                      if (act[0]) {
-                        row = act[0]
-                      }
                       handleChange(e, row.id, 'name')
                     }}
                 >
                                     {activityItems(row.language[0], row.category)}
 
-                </Select>
-                                    {/* {getMenuItemsForCategory(row.category, row.name, row.id, handleChange)} */}
+                </Select></>}
                                 </FormControl>
                               </TableCell>
                         <TableCell
