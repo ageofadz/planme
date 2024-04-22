@@ -153,6 +153,7 @@ export default function BasicTable (rows: activityItem[], setRows: Dispatch<SetS
                                   <InputLabel id="demo-simple-select-label">Language type</InputLabel>
 
                                     <Select
+                                        className='w-40'
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
                                         value={row.language}
@@ -175,6 +176,7 @@ export default function BasicTable (rows: activityItem[], setRows: Dispatch<SetS
                                   <InputLabel id="demo-simple-select-label">Category</InputLabel>
 
                                     <Select
+                                        className='w-40'
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
                                         value={row.category}
@@ -191,6 +193,7 @@ export default function BasicTable (rows: activityItem[], setRows: Dispatch<SetS
 
                 {row.language.length > 0 && row.language[0] === LanguageType.other
                   ? <TextField
+                  className='w-40'
                   label="URL"
                   onChange={(e) => {
                     handleChange(e, row.id, 'media')
@@ -198,6 +201,7 @@ export default function BasicTable (rows: activityItem[], setRows: Dispatch<SetS
                   : <>
                   <InputLabel id="demo-simple-select-label">Activity Name</InputLabel>
                   <Select
+                    className='w-40'
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={row.name}

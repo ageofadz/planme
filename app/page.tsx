@@ -151,10 +151,10 @@ export default function Home (): React.JSX.Element {
           >
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Image src="/planmi.png" // Route of the image file
-            height={144} // Desired size with correct aspect ratio
-            width={144} // Desired size with correct aspect ratio
-            alt="Your Name"
+            <Image src="/planmi.png"
+            height={84}
+            width={84}
+            alt="planmi"
           />
           </Typography>
           <ProfileSection />

@@ -2,13 +2,14 @@
 
 import React, { useEffect } from 'react'
 import '../../node_modules/reveal.js/dist/reveal.css'
-import { Activity } from '../types/activity'
+import { Activity, type activityItem } from '../types/activity'
 import { type Row } from '../types/row'
 import { type Options } from '../types/options'
 import Button from '@mui/material/Button'
 import { Redo } from '@mui/icons-material'
 import Slider from '@mui/material/Slider'
 import { Typography } from '@mui/material'
+import { type Language } from '../types/language'
 
 let d = Math.random()
 
@@ -69,10 +70,8 @@ export default function Presentation (): React.JSX.Element {
     )
   }
 
-  const rows = JSON.parse(rowsString) as Row[]
-  let tl = JSON.parse(tlString ?? '[]') as Array<{ term: string, image: string, type: string }>
-  const receptiveText = tl.filter(tlItem => tlItem.type === 'text')
-  tl = tl.filter(tlItem => tlItem.type !== 'text')
+  const rows = JSON.parse(rowsString) as activityItem[]
+  const tl = JSON.parse(tlString ?? '[]') as Language
   const options = JSON.parse(optionsString) as Options
   import ('../../node_modules/reveal.js/dist/theme/' + options.theme?.toString() + '.css')
 
