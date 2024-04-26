@@ -22,4 +22,5 @@ export interface Options {
   generateHandouts?: boolean
   languageOrReading?: boolean
   rulesAfterActivities?: boolean
+  name?: string
 }

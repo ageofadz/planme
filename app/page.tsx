@@ -6,17 +6,19 @@ import '../node_modules/reveal.js/dist/reveal.css'
 import '../node_modules/reveal.js/dist/theme/beige.css'
 import Button from '@mui/material/Button/Button'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
-import { AppBar, Box, FormControlLabel, FormGroup, IconButton, Modal, Step, StepButton, Stepper, Toolbar, Typography } from '@mui/material'
+import { AppBar, Box, FormControlLabel, FormGroup, IconButton, Modal, Snackbar, Step, StepButton, Stepper, Toolbar, Typography } from '@mui/material'
 import { NavigateBefore, NavigateNext, Save } from '@mui/icons-material'
 import Image from 'next/image'
 import { initialActivity, type activityItem } from './types/activity'
 import type { Options } from './types/options'
 import { genPrintables, getActivities, saveLesson } from './networking/routes'
+import CloseIcon from '@mui/icons-material/Close'
 import ProfileSection from './profilesection'
 import OptionsPage from './options'
 import LanguagePage from './language'
 import SavePage from './savePage'
 import { type Language, LanguageType, type LanguageItem } from './types/language'
+import theme from './theme'
 
 const init: LanguageItem[] = []
 const initialLesson: Language = {
@@ -35,6 +37,8 @@ export default function Home (): React.JSX.Element {
   const [isSaveOpen, setSaveOpen] = React.useState(false)
   const [activeTab, setActiveTab] = React.useState(0)
   const [vocab, setVocab] = React.useState(init)
+  const [toastOpen, setToastOpen] = React.useState(false)
+  const [toastMessage, setToastMessage] = React.useState('')
   const [receptive, setReceptive] = React.useState(init)
   const [grammar, setGrammar] = React.useState(init)
   const [rules, setRules] = React.useState(init)
@@ -44,6 +48,11 @@ export default function Home (): React.JSX.Element {
   const [rows, setRows] = React.useState([
     initialActivity
   ])
+
+  const openToast = (message: string): void => {
+    setToastMessage(message)
+    setToastOpen(true)
+  }
 
   const populateTL = (): void => {
     setTL({ vocab, receptive, grammar, rules, review })
@@ -55,6 +64,27 @@ export default function Home (): React.JSX.Element {
 
   const saveOpen = (): void => { setSaveOpen(true); console.log('save open') }
   const saveClosed = (): void => { setSaveOpen(false); console.log('save closed') }
+
+  const handleSnackClose = (event: React.SyntheticEvent | Event, reason?: string): void => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setToastOpen(false)
+  }
+
+  const snackAction = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleSnackClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  )
 
   const style = {
     position: 'absolute' as 'absolute',
@@ -207,12 +237,13 @@ export default function Home (): React.JSX.Element {
   >
     <Box sx={style}>
                 <FormGroup>
-                <FormControlLabel labelPlacement='top' control={<TextField />} label="Lesson name" />
+                <FormControlLabel labelPlacement='top' control={<TextField onChange={(e) => { setOptions({ ...options, name: e.target.value }) }} value={options.name} />} label="Lesson name" />
                 <FormControlLabel labelPlacement='top' control={
-        <Button variant="outlined" onClick = { () => {
+        <Button disabled={!options.name || options.name.length < 3} variant="outlined" onClick = { () => {
           populateTL()
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-          saveLesson(rows as any, tl, options).then(() => {
+          saveLesson(rows, tl, options).then(() => {
+            openToast('Lesson saved!')
             populateTL()
             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
             if (options.generateHandouts) void genPrintables(rows as any, tl, options)
@@ -225,6 +256,14 @@ export default function Home (): React.JSX.Element {
         </FormGroup>
     </Box>
   </Modal>
+
+  <Snackbar
+  open={toastOpen}
+  autoHideDuration={6000}
+  message={toastMessage}
+  action={snackAction}
+  onClose={handleSnackClose}
+/>
     </main>
 
     </UserProvider>
