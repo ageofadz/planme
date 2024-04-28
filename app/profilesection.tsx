@@ -31,7 +31,7 @@ export default function ProfileSection (): React.JSX.Element {
   }
 
   return (user
-    ? <div>
+    ? <Box>
     <Button className="px-10" color="inherit" onClick={lessonsOpen} startIcon={<HistoryEduIcon />}>Lessons</Button>
 
     <Button className="px-10" color="inherit" onClick={profileOpen} startIcon={<AccountBoxIcon />}>Profile</Button>
@@ -56,16 +56,16 @@ export default function ProfileSection (): React.JSX.Element {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography id="modal-modal-title" variant="h6" component="h2" color="primary">
             Text in a modal
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }} color="primary">
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
           </Typography>
         </Box>
       </Modal>
 
-    </div>
+    </Box>
     : <>
 <Button color="inherit" href='/api/auth/login' startIcon={<LoginIcon />}>Log In/Register</Button>
 </>)

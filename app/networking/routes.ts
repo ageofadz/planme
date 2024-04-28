@@ -4,18 +4,26 @@ import type { Row } from '../types/row'
 import download from 'downloadjs'
 import { type Language } from '../types/language'
 import { type activityItem } from '../types/activity'
+import type React from 'react'
+import getUser from './getUser'
 
-const headers =
-{
+const config = (token: string): any => {
+  return {
+    headers: { Authorization: `Bearer ${token}` }
+  }
 }
 
 const axios = ax.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-  headers
+  baseURL: process.env.NEXT_PUBLIC_API_URL
 })
 
 export async function saveLesson (rows: activityItem[], tl: Language, options: Options): Promise<any> {
-  const get = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/lesson', { rows, tl, options, user: 'sub' })
+  const user = JSON.parse(await getUser())
+  if (!user) {
+    return
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  const get = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/lesson', { rows, tl, options }, config(user.idToken))
 
   return get
 }

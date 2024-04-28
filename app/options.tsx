@@ -30,7 +30,7 @@ export default function OptionsPage (options: Options, setOptions: React.Dispatc
                         <MenuItem value={'blood'}>Blood</MenuItem>
                       </Select>
                     } label="Theme"
-                    labelPlacement="start" />
+                    labelPlacement="top" />
 
                     <FormControlLabel
                     labelPlacement="start" className="my-2" control={<Switch checked={options.generateHandouts} onChange={(e) => { setOptions({ ...options, generateHandouts: e.target.checked }) }} />} label="Generate handouts" />

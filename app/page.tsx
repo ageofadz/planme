@@ -6,7 +6,7 @@ import '../node_modules/reveal.js/dist/reveal.css'
 import '../node_modules/reveal.js/dist/theme/beige.css'
 import Button from '@mui/material/Button/Button'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
-import { AppBar, Box, FormControlLabel, FormGroup, IconButton, Modal, Snackbar, Step, StepButton, Stepper, Toolbar, Typography } from '@mui/material'
+import { AppBar, Box, FormGroup, IconButton, Modal, Snackbar, Step, StepButton, Stepper, ThemeProvider, Toolbar, Typography } from '@mui/material'
 import { NavigateBefore, NavigateNext, Save } from '@mui/icons-material'
 import Image from 'next/image'
 import { initialActivity, type activityItem } from './types/activity'
@@ -168,14 +168,14 @@ export default function Home (): React.JSX.Element {
 
   return (
     <UserProvider>
+    <ThemeProvider theme={theme}>
     <main>
-    <div className="flex flex-col bg-gradient-to-t lg:static bg-blue-gray-100">
+    <Box className="flex flex-col  lg:static">
     <AppBar position="static" className="flex">
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
-            color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
           >
@@ -193,21 +193,21 @@ export default function Home (): React.JSX.Element {
     <Stepper nonLinear activeStep={activeStep} className="flex w-4/5 mx-auto my-4">
         {steps.map((label, index) => (
           <Step key={label} completed={completed[index]}>
-            <StepButton color="inherit" onClick={handleStep(index)}>
+            <StepButton onClick={handleStep(index)}>
               {label}
             </StepButton>
           </Step>
         ))}
       </Stepper>
-      <div className="flex items-center justify-center my-4">
+      <Box className="flex items-center justify-center my-4">
         <Button variant='outlined' onClick = {() => { setActiveStep(activeStep - 1) }} disabled={activeStep === 0}><NavigateBefore /></Button>
         <Button variant='outlined' onClick = {() => { setActiveStep(activeStep + 1) }} disabled={activeStep === 3}><NavigateNext /></Button>
-        </div>
-        </div>
-        <div className="flex">
-    <div className="flex p-24 bg-gradient-to-t lg:static items-center justify-center bg-white w-full">
+        </Box>
+        </Box>
+        <Box className="flex">
+    <Box className="flex p-24  lg:static items-center justify-center w-full">
 
-          <div className="flex">
+          <Box className="flex">
     { activeStep === 2
       ? OptionsPage(options, setOptions)
       : <></>}
@@ -223,11 +223,11 @@ export default function Home (): React.JSX.Element {
         ? SavePage(rows as any, options, tl, saveOpen)
         : <></>}
 
-      </div>
+      </Box>
 
-      </div>
+      </Box>
 
-        </div>
+        </Box>
 
 <Modal
     open={isSaveOpen}
@@ -237,9 +237,8 @@ export default function Home (): React.JSX.Element {
   >
     <Box sx={style}>
                 <FormGroup>
-                <FormControlLabel labelPlacement='top' control={<TextField onChange={(e) => { setOptions({ ...options, name: e.target.value }) }} value={options.name} />} label="Lesson name" />
-                <FormControlLabel labelPlacement='top' control={
-        <Button disabled={!options.name || options.name.length < 3} variant="outlined" onClick = { () => {
+                <TextField onChange={(e) => { setOptions({ ...options, name: e.target.value }) }} value={options.name} label="Lesson name" />
+        <Button className='my-5' disabled={!options.name || options.name.length < 3} variant="outlined" onClick = { () => {
           populateTL()
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           saveLesson(rows, tl, options).then(() => {
@@ -251,8 +250,7 @@ export default function Home (): React.JSX.Element {
             console.log(err)
           })
         }
-        }> <Save /> </Button>
-      } label="Save lesson" />
+        }> <Save /> Save lesson </Button>
         </FormGroup>
     </Box>
   </Modal>
@@ -266,6 +264,7 @@ export default function Home (): React.JSX.Element {
 />
     </main>
 
+    </ThemeProvider>
     </UserProvider>
   )
 }

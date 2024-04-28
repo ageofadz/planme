@@ -8,7 +8,7 @@ import Button from '@mui/material/Button'
 import { Redo } from '@mui/icons-material'
 import { getLanguageType, type LanguageItem, type Language } from '../types/language'
 import { Category } from '../types/category'
-import { Slider, Typography } from '@mui/material'
+import { Box, Slider, Typography } from '@mui/material'
 
 let d = 0
 let e = 0
@@ -38,17 +38,17 @@ function fillScreen (tl: LanguageItem[]): React.JSX.Element {
   const contents = []
 
   for (let i = 0; i < tl.length; i++) {
-    contents.push(<div>
+    contents.push(<Box>
         <img className='object-cover' src={tl[i].image}/>
-        </div>)
+        </Box>)
   }
 
   return (
     <section>
-        <div className="grid grid-cols-4 gap-4">
+        <Box className="grid grid-cols-4 gap-4">
             {contents
             }
-        </div>
+        </Box>
     </section>)
 }
 
@@ -68,9 +68,9 @@ export default function Presentation (): React.JSX.Element {
 
   if (!rows || !options || !tl) {
     return (
-            <div>
+            <Box>
                 Error previewing presentation
-            </div>
+            </Box>
     )
   }
   import ('../../node_modules/reveal.js/dist/theme/' + options.theme?.toString() + '.css')
@@ -100,19 +100,19 @@ export default function Presentation (): React.JSX.Element {
 
     return <section>
     <header className="h-10"><Button size='large' variant='outlined' onClick={() => { roll(tl) }}><Redo /></Button></header>
-            <div className='flex flex-col w-4/5 h-screen'>
+            <Box className='flex flex-col w-4/5 h-screen'>
 
-            <div className='h-1/2'>
+            <Box className='h-1/2'>
 
             {tl[d].image ? <img className='object-contain h-full w-full' src={tl[d].image}/> : <></>}
 
-            </div>
-            <div className='flex flex-row my-auto text-xl'>
-            <div className="font-bold text-white rounded-full bg-red-500 flex items-center justify-center font-mono aspect-square w-1/4 m-auto">{terms.pop()}</div>
-            <div className="font-bold text-white rounded-full bg-red-500 flex items-center justify-center font-mono aspect-square w-1/4 m-auto">{terms.pop()}</div>
-            <div className="font-bold text-white rounded-full bg-red-500 flex items-center justify-center font-mono aspect-square w-1/4 m-auto">{terms.pop()}</div>
-            </div>
-            </div>
+            </Box>
+            <Box className='flex flex-row my-auto text-xl'>
+            <Box className="font-bold text-white rounded-full bg-red-500 flex items-center justify-center font-mono aspect-square w-1/4 m-auto">{terms.pop()}</Box>
+            <Box className="font-bold text-white rounded-full bg-red-500 flex items-center justify-center font-mono aspect-square w-1/4 m-auto">{terms.pop()}</Box>
+            <Box className="font-bold text-white rounded-full bg-red-500 flex items-center justify-center font-mono aspect-square w-1/4 m-auto">{terms.pop()}</Box>
+            </Box>
+            </Box>
         </section>
   }
 
@@ -121,21 +121,21 @@ export default function Presentation (): React.JSX.Element {
 
     for (let i = 0; i < tl.length; i++) {
       if (i === e) {
-        contents.push(<div>
+        contents.push(<Box>
                 <img className='object-cover' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAjVBMVEX/////AAD/0ND/5eX/cnL/4eH/3d3/xsb/+fn//Pz/1NT/zc3/ycn/vr7/9PT/f3//d3f/aWn/YmL/Wlr/u7v/2dn/ZWX/GRn/IiL/U1P/MzP/W1v/tbX/r6//qqr/paX/h4f/DQ3/bW3/Kir/Ojr/QUH/SUn/6+v/kZH/i4v/fHz/JSX/Ly//mJj/RETgXsjCAAAE20lEQVR4nN3d13LbQAwFUFFh4oQucnovTrHjtP//vERuEqXlEosFcO8GrxyA9wyfOEtBi0WmVvdyV3lq+VzZ2HddE8Sh6x6oGv8BmyAO65wa4hWwAeJwnbOceAOkJw63OUuJd0By4rDJWUbcAlITh+2c9wsaR0Bi4nKcU07cAdISl7s5pcQ9IClxDyglJoCUxARQRkwCCYlJoIQ4AaQjTgDniZNAMuLhdM48MQOkImaAeWIWSETMAnPEGSANcQY4nXMWSEKcBU7lFAApiAJgOqcISEAUAVM5hUA48UibUwwEE8XA3ZwFQCixADjOWQQEEouA2zkLgTBiIXCTsxgIIh5ocyqAEKIC2HUXWiCAqAKuiae6xnCiEth102+SXEQ18CDzssxEVAOP190NEOuADRBrgfTEeiA50QJITTw2ARITrYC0RDXwYH8WJdESSEm0BRISrYF0RHsgGdEDSEV85gIkInoBaYh+QBKiJ5CCqAYeyebDid5AONEfCCZGAKHEGCCQ+C4ICCOqgYfl94IQI4EQYiwQQIwGhhPjgcFEBDCUiAEGEtXAZR0wjPgeBgwiIoEhRCwwgIgGuhPxQGeiGjjYAV2JHEBH4gcSoBuRB+hEZAK6ELmADkQ2oDmRD2hMZASaEjmBhsSP2jnaHRjRRF6gEZEZaELkBhoQ2YHVRH5gJbEFYA3xog1gDVFbukVJDRHDgdFEADCWCAFGEkHAOCIMGEUEAmOIUGAEEQz0J8KB3sSSHWxu5UmkAHoSSYB+RBqgF5EI6EOkAnoQyYD2RDqgNZEQaEuEb6NKlx2RFGhHpAVaEYmBNkRqoAWRHFhPpAfWEhsA1hGbAO4sSi8q0S9ACer7//4ML/XANohVwBaIlUB+4qdaIDvRAMhNNAEyE42AvEQzICvREMhJNAUyEo2BfMSVNZCN6ADkIroAmYhOQB6iG5CF6AjkIP7wBDIQnYF4ojsQTQwAYokhQCRRvZO/FWIYEEUMBGKIoUAEMRgYT9QCz9S7c4OJ6id4gl47KSzlf9OsgfDNmv7AFoiVQH5iNZCdaADkJmqBZyejMbxEIyAv8bMVkJVoCOQkmgIZicZAPqI5kI342B7IRXQBMhGdgDxELfDlw9nRHERHIAfRFchAfOELxBPdgWhiABBLDAEiiUFAHPFJFBBFDARiiFrgKw0QQQwGxhPDgdFEADCWCAFGEt9igHFENfBRJTCKCATGEJ8q7/DTAhhBBAP9iXCgN1EL/GIH9CVSAD2JJEA/Ig3Qi0gE9CG+ZgJ6ENVAF58DUQv85QW0JhICbYmUQEsiKdCOqAW+8QZaEYmBNkRqoAWRHFhPPGcH1hIbANYRf7cArCCutJ8hfI0Fqon9uldDDAcqif11bzkRAFQR+9veUiIEqCD2m96y03oQsJjYb/eWEGHAQmI/7pUTgcAiYr/bKyVCgQXEPaD0SBQMFBMTQBkRDhQSk0AJ8VssJl0C4gRwnkgBFBAngXNEEuAsMQPME2mAM8QsMEckAmaJM8BpIhUwQ5wFTn2HQQacJAqAaeIf78DllSSKgCkiITBJFAL3iZTABFEM3CWSAveIBcAx8dwrYH0t1cDtE31i4IhYCNwQqYFbxGLgLZEceEdUAK+J9MAbogq4PpNqAHhFVAIXi0vLIH61PM1d/Qts0nPMkOKmUwAAAABJRU5ErkJggg=='/>
-                </div>)
+                </Box>)
       }
-      contents.push(<div>
+      contents.push(<Box>
             <img className='object-cover' src={tl[i].image}/>
-            </div>)
+            </Box>)
     }
 
     return (
         <section>
-            <div className="grid grid-cols-4 gap-4">
+            <Box className="grid grid-cols-4 gap-4">
                 {contents
                 }
-            </div>
+            </Box>
   <header className="h-10"><Button size='large' variant='outlined' onClick={() => { increment(tl) }}><Redo /></Button></header>
         </section>)
   }
@@ -157,11 +157,11 @@ export default function Presentation (): React.JSX.Element {
     for (const row of rows) {
       row.instructions
         ? slideList.push(<section>
-                      <div className='flex flex-row w-full'>
-                      <div className='w-full'>
+                      <Box className='flex flex-row w-full'>
+                      <Box className='w-full'>
                       {row.instructions}
-                      </div>
-                      </div>
+                      </Box>
+                      </Box>
                   </section>)
         : <></>
       switch (row.layout) {
@@ -190,16 +190,16 @@ export default function Presentation (): React.JSX.Element {
           const langs = getLanguageType(row.language[0], tl)
           for (const tlItem of langs) {
             slideList.push(<section>
-                                  <div className='flex flex-row w-full'>
-                                  <div className='w-1/2'>
+                                  <Box className='flex flex-row w-full'>
+                                  <Box className='w-1/2'>
                                   {tlItem.language}
-                                  </div>
+                                  </Box>
 
-                                  <div className='w-1/2'>
+                                  <Box className='w-1/2'>
                                   {tlItem.image ? <img className='object-cover w-full h-full' src={tlItem.image}/> : <></>}
-                                  </div>
+                                  </Box>
 
-                                  </div>
+                                  </Box>
                               </section>)
           }
           break
@@ -209,17 +209,17 @@ export default function Presentation (): React.JSX.Element {
           const langs = getLanguageType(row.language[0], tl)
           if (row.extra?.includes('dragon')) langs.push({ language: 'Dragon!', image: options.dragonImage })
           slideList.push(<section>
-                              <div className='flex flex-row w-full h-96'>
-                              <div className='w-1/2 my-auto'>
-                                  <div>
+                              <Box className='flex flex-row w-full h-96'>
+                              <Box className='w-1/2 my-auto'>
+                                  <Box>
                               {langs[d].language}
-                              </div>
-                              </div>
-                              <div className='w-1/2'>
+                              </Box>
+                              </Box>
+                              <Box className='w-1/2'>
 
                               {langs[d].image ? <img className='object-cover w-full' src={langs[d].image}/> : <></>}
-                              </div>
-                              </div>
+                              </Box>
+                              </Box>
 
         <header className="h-10"><Button size='large' variant='outlined' onClick={() => { roll(getLanguageType(row.language[0], tl)) }}><Redo /></Button></header>
                           </section>)
@@ -232,42 +232,42 @@ export default function Presentation (): React.JSX.Element {
 
           row.extra?.includes('spelling')
             ? slideList.push(<section>
-                           <div className="flex flex-row mx-auto w-1/3">
-                           <div className='mx-auto'>
+                           <Box className="flex flex-row mx-auto w-1/3">
+                           <Box className='mx-auto'>
                            <Button size='large' variant='outlined' onClick={() => { increment(langs) }}><Redo /></Button>
-                           </div>
-                           <div className='mx-auto'>
+                           </Box>
+                           <Box className='mx-auto'>
                            <Typography id="input-slider" gutterBottom>
                                Missing letters
                              </Typography>
                            <Slider value={missingCount} onChange={(_, v) => { setMissingCount(v as number) }} step={1} marks min={0} max={7}
                          valueLabelDisplay="auto" aria-label='Missing letters' />
-                         </div>
-                         </div>
-                                       <div className='flex flex-col w-full h-5/6'>
-                                       <div className='w-96 h-96 m-auto'>
+                         </Box>
+                         </Box>
+                                       <Box className='flex flex-col w-full h-5/6'>
+                                       <Box className='w-96 h-96 m-auto'>
 
                                        {langs[e].image ? <img className='object-contain h-full w-full' src={langs[e].image}/> : <></>}
-                                       </div>
-                                       <div className='w-1/2 h-1/3 m-auto'>
+                                       </Box>
+                                       <Box className='w-1/2 h-1/3 m-auto'>
                                        {substituteLetters(langs[e].language, missingCount)}
-                                       </div>
-                                       </div>
+                                       </Box>
+                                       </Box>
                                    </section>)
             : row.extra?.includes('targets')
               ? slideList.push(targetRun(langs))
               : slideList.push(<section>
-                              <div className='flex flex-row w-full h-96'>
-                              <div className='w-1/2 my-auto'>
-                                  <div>
+                              <Box className='flex flex-row w-full h-96'>
+                              <Box className='w-1/2 my-auto'>
+                                  <Box>
                               {langs[e].language}
-                              </div>
-                              </div>
-                              <div className='w-1/2'>
+                              </Box>
+                              </Box>
+                              <Box className='w-1/2'>
 
                               {langs[e].image ? <img className='object-cover w-full' src={langs[e].image}/> : <></>}
-                              </div>
-                              </div>
+                              </Box>
+                              </Box>
 
         <header className="h-10"><Button size='large' variant='outlined' onClick={() => { increment(langs) }}><Redo /></Button></header>
                           </section>)
@@ -277,119 +277,119 @@ export default function Presentation (): React.JSX.Element {
         //       case Activity.VocabOnBoard:{
         //         for (const tlItem of tl) {
         //           slideList.push(<section>
-        //                       <div className='flex flex-row w-full'>
-        //                       <div className='w-1/2'>
+        //                       <Box className='flex flex-row w-full'>
+        //                       <Box className='w-1/2'>
         //                       {tlItem.term}
-        //                       </div>
+        //                       </Box>
 
-        //                       <div className='w-1/2'>
+        //                       <Box className='w-1/2'>
         //                       {tlItem.image ? <img className='object-cover w-full h-full' src={tlItem.image}/> : <></>}
-        //                       </div>
+        //                       </Box>
 
-        //                       </div>
+        //                       </Box>
         //                   </section>)
         //         }
         //         break }
 
         //       case Activity.SpellingRace:{
         //         slideList.push(<section>
-        //                     <div className='flex flex-col w-full'>
-        //                     <div className='h-1/3'>
+        //                     <Box className='flex flex-col w-full'>
+        //                     <Box className='h-1/3'>
         //                     <h1>Spelling race!</h1>
-        //                     </div>
-        //                     <div className='h-1/3'>
+        //                     </Box>
+        //                     <Box className='h-1/3'>
         //                     Two teams. Write the <b>missing letters</b>. Fastest wins!
-        //                     </div>
-        //                     </div>
+        //                     </Box>
+        //                     </Box>
         //                 </section>)
 
         //         slideList.push(<section>
-        //             <div className="flex flex-row mx-auto w-1/3">
-        //             <div className='mx-auto'>
+        //             <Box className="flex flex-row mx-auto w-1/3">
+        //             <Box className='mx-auto'>
         //             <Button size='large' variant='outlined' onClick={incrementTL}><Redo /></Button>
-        //             </div>
-        //             <div className='mx-auto'>
+        //             </Box>
+        //             <Box className='mx-auto'>
         //             <Typography id="input-slider" gutterBottom>
         //                 Missing letters
         //               </Typography>
         //             <Slider value={missingCount} onChange={(_, v) => { setMissingCount(v as number) }} step={1} marks min={0} max={7}
         //           valueLabelDisplay="auto" aria-label='Missing letters' />
-        //           </div>
-        //           </div>
-        //                         <div className='flex flex-col w-full h-5/6'>
-        //                         <div className='w-96 h-96 m-auto'>
+        //           </Box>
+        //           </Box>
+        //                         <Box className='flex flex-col w-full h-5/6'>
+        //                         <Box className='w-96 h-96 m-auto'>
 
         //                         {tl[currTL].image ? <img className='object-contain h-full w-full' src={tl[currTL].image}/> : <></>}
-        //                         </div>
-        //                         <div className='w-1/2 h-1/3 m-auto'>
+        //                         </Box>
+        //                         <Box className='w-1/2 h-1/3 m-auto'>
         //                         {substituteLetters(tl[currTL].term, missingCount)}
-        //                         </div>
-        //                         </div>
+        //                         </Box>
+        //                         </Box>
         //                     </section>)
         //         break }
 
         //       case Activity.Zombie:{
         //         slideList.push(<section>
-        //                       <div className='flex flex-row w-full'>
-        //                       <div className='w-1/2'>
+        //                       <Box className='flex flex-row w-full'>
+        //                       <Box className='w-1/2'>
         //                       Say the magic spell to scare away the zombie!
-        //                       </div>
-        //                       <div className='w-1/2'>
+        //                       </Box>
+        //                       <Box className='w-1/2'>
         //                       <h1>🧟</h1>
-        //                       </div>
-        //                       </div>
+        //                       </Box>
+        //                       </Box>
         //                   </section>)
         //         break }
 
         //       case Activity.HowAreYou:{
         //         slideList.push(<section>
-        //                       <div className='flex flex-col w-full'>
-        //                       <div className='h-1/3'>
+        //                       <Box className='flex flex-col w-full'>
+        //                       <Box className='h-1/3'>
         //                       <h1>😃😭😡😋😴🤪</h1>
-        //                       </div>
-        //                       <div className='h-1/3'>
+        //                       </Box>
+        //                       <Box className='h-1/3'>
         //                       How are you today? Pass the ball and answer.
-        //                       </div>
-        //                       <div className='h-1/3'>
+        //                       </Box>
+        //                       <Box className='h-1/3'>
         //                       Happy, sad, angry, hungry, tired, silly
-        //                       </div>
-        //                       </div>
+        //                       </Box>
+        //                       </Box>
         //                   </section>)
         //         break }
 
         //       case Activity.Dragon:{
         //         slideList.push(<section>
-        //                   <div className='flex flex-row w-full'>
-        //                   <div className='w-1/2'>
+        //                   <Box className='flex flex-row w-full'>
+        //                   <Box className='w-1/2'>
         //                   Stand up and say the word. If you see the dragon, sit down and be silent!
-        //                   </div>
-        //                   <div className='w-1/2'>
+        //                   </Box>
+        //                   <Box className='w-1/2'>
         //                   <img className='object-cover w-full h-full'src={options.dragonImage ?? 'https://media1.tenor.com/m/W9Dmn0ZkTmsAAAAC/dragon-rawr.gif'}></img>
-        //                   </div>
-        //                   </div>
+        //                   </Box>
+        //                   </Box>
         //               </section>)
         //         slideList.push(<section>
-        //                       <div className='flex flex-row w-full h-96'>
-        //                       <div className='w-1/2 my-auto'>
-        //                           <div>
+        //                       <Box className='flex flex-row w-full h-96'>
+        //                       <Box className='w-1/2 my-auto'>
+        //                           <Box>
         //                       {d < 0.8 ? tl[currTL].term : 'Dragon!'}
-        //                       </div>
-        //                       </div>
-        //                       <div className='w-1/2'>
+        //                       </Box>
+        //                       </Box>
+        //                       <Box className='w-1/2'>
 
         //                       {tl[currTL].image ? <img className='object-cover w-full' src={d < 0.8 ? tl[currTL].image : options.dragonImage}/> : <></>}
-        //                       </div>
-        //                       </div>
+        //                       </Box>
+        //                       </Box>
 
         // <header className="h-10"><Button size='large' variant='outlined' onClick={incrementTL}><Redo /></Button></header>
         //                   </section>)
         //         if (d > 0.8) {
         //           slideList.push(<section>
-        //                   <div className='flex flex-row w-full'>
-        //                   <div className='w-full'>
+        //                   <Box className='flex flex-row w-full'>
+        //                   <Box className='w-full'>
         //                   <img className='object-cover w-full h-full'src={options.dragonImage ?? 'https://media1.tenor.com/m/W9Dmn0ZkTmsAAAAC/dragon-rawr.gif'}></img>
-        //                   </div>
-        //                   </div>
+        //                   </Box>
+        //                   </Box>
         //               </section>)
         //         }
 
@@ -398,27 +398,27 @@ export default function Presentation (): React.JSX.Element {
 
         //       case Activity.HotPotato:{
         //         slideList.push(<section>
-        //                   <div className='flex flex-col w-full'>
-        //                   <div className='h-1/3'>
+        //                   <Box className='flex flex-col w-full'>
+        //                   <Box className='h-1/3'>
         //                   <h1>🔥🥔</h1>
-        //                   </div>
-        //                   <div className='h-1/3'>
+        //                   </Box>
+        //                   <Box className='h-1/3'>
         //                   There is one ball. Pass the ball around the room and say the word. If you do not have the ball, sit nicely and quietly.
-        //                   </div>
-        //                   </div>
+        //                   </Box>
+        //                   </Box>
         //               </section>)
         //         for (const tlItem of tl) {
         //           slideList.push(<section>
-        //                       <div className='flex flex-row w-full'>
-        //                       <div className='w-1/3'>
+        //                       <Box className='flex flex-row w-full'>
+        //                       <Box className='w-1/3'>
         //                       {tlItem.term}
-        //                       </div>
-        //                       <div className='w-1/3'>
+        //                       </Box>
+        //                       <Box className='w-1/3'>
 
         //                       {tlItem.image ? <img className='object-cover w-full h-full' src={tlItem.image}/> : <></>}
-        //                       </div>
+        //                       </Box>
         //                       <iframe width="560" height="315" src={convertToEmbed(options.songs?.timer ?? 'https://www.youtube.com/watch?v=tVlcKp3bWH8')} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
-        //                       </div>
+        //                       </Box>
         //                   </section>)
         //         }
         //         break }
@@ -472,170 +472,170 @@ export default function Presentation (): React.JSX.Element {
         //         if (options.rules.english) {
         //           slideList.push(<section data-transition="fade">
 
-        //                  <div className='flex flex-row w-full'>
-        //                      <div className='w-1/2'>
+        //                  <Box className='flex flex-row w-full'>
+        //                      <Box className='w-1/2'>
         //                      <h1>🇬🇧🇺🇸🇦🇺🇳🇿🇨🇦</h1>
-        //                      </div>
-        //                      <div className='w-1/2'>
+        //                      </Box>
+        //                      <Box className='w-1/2'>
         //                      <h1>Speak _____</h1>
-        //                      </div>
-        //                      </div>
+        //                      </Box>
+        //                      </Box>
 
         //              </section>)
         //           slideList.push(<section data-transition="fade">
 
-        //                   <div className='flex flex-row w-full'>
-        //                       <div className='w-1/2'>
+        //                   <Box className='flex flex-row w-full'>
+        //                       <Box className='w-1/2'>
         //                       <h1>🇬🇧🇺🇸🇦🇺🇳🇿🇨🇦</h1>
-        //                       </div>
-        //                       <div className='w-1/2'>
+        //                       </Box>
+        //                       <Box className='w-1/2'>
         //                       <h1>Speak English!</h1>
-        //                       </div>
-        //                       </div>
+        //                       </Box>
+        //                       </Box>
 
         //               </section>)
         //         }
         //         if (options.rules.english) {
         //           slideList.push(<section data-transition="fade">
 
-        //                   <div className='flex flex-row w-full'>
-        //                       <div className='w-1/2'>
+        //                   <Box className='flex flex-row w-full'>
+        //                       <Box className='w-1/2'>
         //                       <h1>🧏‍♀️🧏‍♂️</h1>
-        //                       </div>
-        //                       <div className='w-1/2'>
+        //                       </Box>
+        //                       <Box className='w-1/2'>
         //                       <h1>_____ to the teacher.</h1>
-        //                       </div>
-        //                       </div>
+        //                       </Box>
+        //                       </Box>
 
         //               </section>)
         //           slideList.push(<section data-transition="fade">
 
-        //                    <div className='flex flex-row w-full'>
-        //                        <div className='w-1/2'>
+        //                    <Box className='flex flex-row w-full'>
+        //                        <Box className='w-1/2'>
         //                        <h1>🧏‍♀️🧏‍♂️</h1>
-        //                        </div>
-        //                        <div className='w-1/2'>
+        //                        </Box>
+        //                        <Box className='w-1/2'>
         //                        <h1>Listen to the teacher.</h1>
-        //                        </div>
-        //                        </div>
+        //                        </Box>
+        //                        </Box>
 
         //                </section>)
         //         }
         //         if (options.rules.nice) {
         //           slideList.push(<section data-transition="fade">
 
-        //                    <div className='flex flex-row w-full'>
-        //                        <div className='w-1/2'>
+        //                    <Box className='flex flex-row w-full'>
+        //                        <Box className='w-1/2'>
         //                        <h1>😇❤️</h1>
-        //                        </div>
-        //                        <div className='w-1/2'>
+        //                        </Box>
+        //                        <Box className='w-1/2'>
         //                        <h1>Be ____</h1>
-        //                        </div>
-        //                        </div>
+        //                        </Box>
+        //                        </Box>
 
         //                </section>)
         //           slideList.push(<section data-transition="fade">
 
-        //                     <div className='flex flex-row w-full'>
-        //                         <div className='w-1/2'>
+        //                     <Box className='flex flex-row w-full'>
+        //                         <Box className='w-1/2'>
         //                         <h1>😇❤️</h1>
-        //                         </div>
-        //                         <div className='w-1/2'>
+        //                         </Box>
+        //                         <Box className='w-1/2'>
         //                         <h1>Be nice</h1>
-        //                         </div>
-        //                         </div>
+        //                         </Box>
+        //                         </Box>
 
         //                 </section>)
         //         }
         //         if (options.rules.raiseHand) {
         //           slideList.push(<section data-transition="fade">
 
-        //                     <div className='flex flex-row w-full'>
-        //                         <div className='w-1/2'>
+        //                     <Box className='flex flex-row w-full'>
+        //                         <Box className='w-1/2'>
         //                         <h1>🙋🙋‍♀️</h1>
-        //                         </div>
-        //                         <div className='w-1/2'>
+        //                         </Box>
+        //                         <Box className='w-1/2'>
         //                         <h1>Raise your ____</h1>
-        //                         </div>
-        //                         </div>
+        //                         </Box>
+        //                         </Box>
 
         //                 </section>)
         //           slideList.push(<section data-transition="fade">
 
-        //                      <div className='flex flex-row w-full'>
-        //                          <div className='w-1/2'>
+        //                      <Box className='flex flex-row w-full'>
+        //                          <Box className='w-1/2'>
         //                          <h1>🙋🙋‍♀️</h1>
-        //                          </div>
-        //                          <div className='w-1/2'>
+        //                          </Box>
+        //                          <Box className='w-1/2'>
         //                          <h1>Raise your hand</h1>
-        //                          </div>
-        //                          </div>
+        //                          </Box>
+        //                          </Box>
 
         //                  </section>)
         //         }
         //         if (options.rules.sitNicely) {
         //           slideList.push(<section data-transition="fade">
 
-        //                      <div className='flex flex-row w-full'>
-        //                          <div className='w-1/2'>
+        //                      <Box className='flex flex-row w-full'>
+        //                          <Box className='w-1/2'>
         //                          <h1>🪑🤫</h1>
-        //                          </div>
-        //                          <div className='w-1/2'>
+        //                          </Box>
+        //                          <Box className='w-1/2'>
         //                          <h1>Sit ______</h1>
-        //                          </div>
-        //                          </div>
+        //                          </Box>
+        //                          </Box>
 
         //                  </section>)
         //           slideList.push(<section data-transition="fade">
 
-        //                       <div className='flex flex-row w-full'>
-        //                           <div className='w-1/2'>
+        //                       <Box className='flex flex-row w-full'>
+        //                           <Box className='w-1/2'>
         //                           <h1>🪑🤫</h1>
-        //                           </div>
-        //                           <div className='w-1/2'>
+        //                           </Box>
+        //                           <Box className='w-1/2'>
         //                           <h1>Sit nicely</h1>
-        //                           </div>
-        //                           </div>
+        //                           </Box>
+        //                           </Box>
 
         //                   </section>)
         //         }
         //         if (options.rules.tryBest) {
         //           slideList.push(<section data-transition="fade">
 
-        //                       <div className='flex flex-row w-full'>
-        //                           <div className='w-1/2'>
+        //                       <Box className='flex flex-row w-full'>
+        //                           <Box className='w-1/2'>
         //                           <h1>💪🏋️</h1>
-        //                           </div>
-        //                           <div className='w-1/2'>
+        //                           </Box>
+        //                           <Box className='w-1/2'>
         //                           <h1>Try our ____</h1>
-        //                           </div>
-        //                           </div>
+        //                           </Box>
+        //                           </Box>
 
         //                   </section>)
         //           slideList.push(<section data-transition="fade">
 
-        //                        <div className='flex flex-row w-full'>
-        //                            <div className='w-1/2'>
+        //                        <Box className='flex flex-row w-full'>
+        //                            <Box className='w-1/2'>
         //                            <h1>💪🏋️</h1>
-        //                            </div>
-        //                            <div className='w-1/2'>
+        //                            </Box>
+        //                            <Box className='w-1/2'>
         //                            <h1>Try our best</h1>
-        //                            </div>
-        //                            </div>
+        //                            </Box>
+        //                            </Box>
 
         //                    </section>)
         //         }
         //         if (options.rules.sticker) {
         //           slideList.push(<section data-transition="fade">
 
-        //                        <div className='flex flex-row w-full'>
-        //                            <div className='w-1/2'>
+        //                        <Box className='flex flex-row w-full'>
+        //                            <Box className='w-1/2'>
         //                            <h1>⭐️⭐️⭐️⭐️⭐️</h1>
-        //                            </div>
-        //                            <div className='w-1/2'>
+        //                            </Box>
+        //                            <Box className='w-1/2'>
         //                            <h1>Five stars = 1 sticker!</h1>
-        //                            </div>
-        //                            </div>
+        //                            </Box>
+        //                            </Box>
 
         //                    </section>)
         //         }
@@ -643,14 +643,14 @@ export default function Presentation (): React.JSX.Element {
 
         //       case Activity.StickyCollage:{
         //         slideList.push(<section>
-        //                   <div className='flex flex-row w-full'>
-        //                   <div className='w-1/2'>
+        //                   <Box className='flex flex-row w-full'>
+        //                   <Box className='w-1/2'>
         //                   Throw a sticky ball and say the word!
-        //                   </div>
-        //                   <div className='w-1/2'>
+        //                   </Box>
+        //                   <Box className='w-1/2'>
         //                   <h1>☄️</h1>
-        //                   </div>
-        //                   </div>
+        //                   </Box>
+        //                   </Box>
         //               </section>)
 
         //         slideList.push(
@@ -659,14 +659,14 @@ export default function Presentation (): React.JSX.Element {
 
         //       case Activity.SlapOrder:{
         //         slideList.push(<section>
-        //                     <div className='flex flex-row w-full'>
-        //                     <div className='w-1/2'>
+        //                     <Box className='flex flex-row w-full'>
+        //                     <Box className='w-1/2'>
         //                     Slap the scenes in the right order!
-        //                     </div>
-        //                     <div className='w-1/2'>
+        //                     </Box>
+        //                     <Box className='w-1/2'>
         //                     <h1>☄️</h1>
-        //                     </div>
-        //                     </div>
+        //                     </Box>
+        //                     </Box>
         //                 </section>)
 
         //         const randomOrder = receptiveText
@@ -680,36 +680,36 @@ export default function Presentation (): React.JSX.Element {
 
         //       case Activity.UnderlineVocab:{
         //         slideList.push(<section>
-        //                       <div className='flex flex-row w-full'>
-        //                       <div className='w-1/2'>
+        //                       <Box className='flex flex-row w-full'>
+        //                       <Box className='w-1/2'>
         //                       <u>Underline</u> the vocabulary!
-        //                       </div>
-        //                       <div className='w-1/2'>
+        //                       </Box>
+        //                       <Box className='w-1/2'>
         //                       <p>{tl.map(e => e.term).toString()}</p>
-        //                       </div>
+        //                       </Box>
 
-        //                       </div>
+        //                       </Box>
         //                   </section>)
         //         break }
 
         //       case Activity.StickyTargets:{
         //         slideList.push(<section>
-        //                   <div className='flex flex-row w-full'>
-        //                   <div className='w-full'>
+        //                   <Box className='flex flex-row w-full'>
+        //                   <Box className='w-full'>
         //                   Sticky balls!
-        //                   </div>
-        //                   </div>
+        //                   </Box>
+        //                   </Box>
         //               </section>)
 
         //         slideList.push(<section>
-        //                   <div className='flex flex-row w-full'>
-        //                   <div className='w-1/2'>
+        //                   <Box className='flex flex-row w-full'>
+        //                   <Box className='w-1/2'>
         //                   Throw the ball at the target!
-        //                   </div>
-        //                   <div className='w-1/2'>
+        //                   </Box>
+        //                   <Box className='w-1/2'>
         //                   🎯
-        //                   </div>
-        //                   </div>
+        //                   </Box>
+        //                   </Box>
         //               </section>)
 
         //         slideList.push(targetRun(tl))
@@ -717,33 +717,33 @@ export default function Presentation (): React.JSX.Element {
 
         //       case Activity.Charades:{
         //         slideList.push(<section>
-        //                       <div className='flex flex-row w-full'>
-        //                       <div className='w-full'>
+        //                       <Box className='flex flex-row w-full'>
+        //                       <Box className='w-full'>
         //                       Charades!
-        //                       </div>
-        //                       </div>
+        //                       </Box>
+        //                       </Box>
         //                   </section>)
 
         //         slideList.push(<section>
-        //                       <div className='flex flex-row w-full'>
-        //                       <div className='w-1/2'>
+        //                       <Box className='flex flex-row w-full'>
+        //                       <Box className='w-1/2'>
         //                       Two teams. One person in your team faces you, and guesses. If you are sitting, you do not move your mouth.
-        //                       </div>
-        //                       <div className='w-1/2'>
+        //                       </Box>
+        //                       <Box className='w-1/2'>
         //                       🗣️ 🪑🤐🪑🤐🪑🤐🪑🤐
-        //                       </div>
-        //                       </div>
+        //                       </Box>
+        //                       </Box>
         //                   </section>)
 
         //         slideList.push(<section>
-        //                       <div className='flex flex-row w-full'>
-        //                       <div className='w-1/2'>
+        //                       <Box className='flex flex-row w-full'>
+        //                       <Box className='w-1/2'>
         //                       Teacher points at a picture. The group has to act the picture out, and not speak. The standing person has to not look at the board. If the standing person the word from your groups acting, your team gets a point.
-        //                       </div>
-        //                       <div className='w-1/2'>
+        //                       </Box>
+        //                       <Box className='w-1/2'>
         //                       🗣️ 🪑🤐🪑🤐🪑🤐🪑🤐
-        //                       </div>
-        //                       </div>
+        //                       </Box>
+        //                       </Box>
         //                   </section>)
 
         //         slideList.push(
@@ -752,14 +752,14 @@ export default function Presentation (): React.JSX.Element {
 
         //       case Activity.SlapCollage:{
         //         slideList.push(<section>
-        //                           <div className='flex flex-row w-full'>
-        //                           <div className='w-1/2'>
+        //                           <Box className='flex flex-row w-full'>
+        //                           <Box className='w-1/2'>
         //                           Slap the board and say the word!
-        //                           </div>
-        //                           <div className='w-1/2'>
+        //                           </Box>
+        //                           <Box className='w-1/2'>
         //                           <h1>☄️</h1>
-        //                           </div>
-        //                           </div>
+        //                           </Box>
+        //                           </Box>
         //                       </section>)
 
         //         slideList.push(
@@ -768,22 +768,22 @@ export default function Presentation (): React.JSX.Element {
 
         //       case Activity.SlapTargets:{
         //         slideList.push(<section>
-        //                   <div className='flex flex-row w-full'>
-        //                   <div className='w-full'>
+        //                   <Box className='flex flex-row w-full'>
+        //                   <Box className='w-full'>
         //                   Slap the board!
-        //                   </div>
-        //                   </div>
+        //                   </Box>
+        //                   </Box>
         //               </section>)
 
         //         slideList.push(<section>
-        //                   <div className='flex flex-row w-full'>
-        //                   <div className='w-1/2'>
+        //                   <Box className='flex flex-row w-full'>
+        //                   <Box className='w-1/2'>
         //                   Slap the target! Slap once 1️⃣ and slap gently 😊
-        //                   </div>
-        //                   <div className='w-1/2'>
+        //                   </Box>
+        //                   <Box className='w-1/2'>
         //                   🎯
-        //                   </div>
-        //                   </div>
+        //                   </Box>
+        //                   </Box>
         //               </section>)
 
         //         slideList.push(targetRun(tl))
@@ -791,11 +791,11 @@ export default function Presentation (): React.JSX.Element {
 
         //       case Activity.MissingPicture:{
         //         slideList.push(<section>
-        //                     <div className='flex flex-row w-full'>
-        //                     <div className='w-1/2'>
+        //                     <Box className='flex flex-row w-full'>
+        //                     <Box className='w-1/2'>
         //                     Find the missing word!
-        //                     </div>
-        //                     </div>
+        //                     </Box>
+        //                     </Box>
         //                 </section>)
         //         slideList.push(
         //           fillScreenMissing(tl))
@@ -810,10 +810,10 @@ export default function Presentation (): React.JSX.Element {
   }
 
   return (
-        <div className="reveal">
-            <div className="slides">
+        <Box className="reveal">
+            <Box className="slides">
                 {slides()}
-            </div>
-        </div>
+            </Box>
+        </Box>
   )
 }

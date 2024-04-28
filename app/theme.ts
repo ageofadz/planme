@@ -6,31 +6,20 @@ export const themeOptions: ThemeOptions = {
     mode: 'light',
     primary: {
       main: '#9ba88d',
-      contrastText: '#262a2b'
+      contrastText: 'rgba(255,255,255,0.87)'
     },
     secondary: {
-      main: '#a7d6bd'
+      main: '#9ba88d'
     },
     background: {
-      default: '#9ba88d',
-      paper: '#9ba88d'
+      default: '#282a2b',
+      paper: '#282a2b'
     },
     text: {
-      primary: '#262a2b',
-      secondary: '#262a2b',
-      disabled: 'rgba(38,42,43,0.49)'
+      primary: '#9ba88d',
+      secondary: '#9ba88d',
+      disabled: 'rgba(155,168,141,0.95)'
     }
-  },
-  typography: {
-    h1: {
-      fontWeight: 800
-    },
-    fontFamily: 'Open Sans',
-    fontWeightLight: 300,
-    fontWeightRegular: 500,
-    fontWeightMedium: 600,
-    fontWeightBold: 700
   }
 }
-
 export default createTheme(themeOptions)

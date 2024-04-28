@@ -1,5 +1,5 @@
 import { AddBoxOutlined } from '@mui/icons-material'
-import { Card, CardContent, Button, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, TextField, Tabs, Tab } from '@mui/material'
+import { Card, CardContent, Button, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, TextField, Tabs, Tab, Box } from '@mui/material'
 import React from 'react'
 import ClearIcon from '@mui/icons-material/Clear'
 import { type LanguageItem } from './types/language'
@@ -12,12 +12,12 @@ handleChange: (e: any, i: number, field: string) => void,
 activeTab: number,
 handleTabChange: (event: React.SyntheticEvent, newValue: number) => void): React.JSX.Element {
   return (
-<div className="flex flex-row">
+<Box className="flex flex-row">
 
                     <Card className="flex">
 
       <CardContent >
-    <div className="flex-col">
+    <Box className="flex-col">
 
     <Tabs value={activeTab} onChange={handleTabChange} aria-label="basic tabs example" className='mb-4'>
           <Tab label="Vocab items"/>
@@ -33,8 +33,8 @@ handleTabChange: (event: React.SyntheticEvent, newValue: number) => void): React
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         lt.func([...lt.language, arr] as any)
       }}><b>Add Language</b><AddBoxOutlined /></Button>
-      </div>
-      <div className="overflow-y-scroll">
+      </Box>
+      <Box className="overflow-y-scroll">
 
       <TableContainer component={Paper} >
 
@@ -53,8 +53,8 @@ handleTabChange: (event: React.SyntheticEvent, newValue: number) => void): React
               key={i}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell align="left"><TextField multiline={true} value={row?.language} onChange={(e) => { handleChange(e, i, 'term') }}></TextField></TableCell>
-              <TableCell align="left"><TextField value={row?.image} onChange={(e) => { handleChange(e, i, 'image') }}></TextField></TableCell>
+              <TableCell align="left"><TextField multiline={true} label="Language" value={row?.language} onChange={(e) => { handleChange(e, i, 'term') }}></TextField></TableCell>
+              <TableCell align="left"><TextField value={row?.image} label="Image (Optional)" onChange={(e) => { handleChange(e, i, 'image') }}></TextField></TableCell>
               <TableCell align="left"><Button variant='outlined' className='my-auto' onClick={() => {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                 languageType().func(languageType().language.filter((_, ind) => ind !== i) as any)
@@ -65,10 +65,10 @@ handleTabChange: (event: React.SyntheticEvent, newValue: number) => void): React
         </TableBody>
       </Table>
     </TableContainer>
-      </div>
+      </Box>
       </CardContent>
     </Card>
 
-  </div>
+  </Box>
   )
 }
