@@ -10,7 +10,7 @@ import { AppBar, Box, FormGroup, IconButton, Modal, Snackbar, Step, StepButton, 
 import { NavigateBefore, NavigateNext, Save } from '@mui/icons-material'
 import Image from 'next/image'
 import { initialActivity, type activityItem } from './types/activity'
-import type { Options } from './types/options'
+import { optionsObj } from './types/options'
 import { genPrintables, getActivities, saveLesson } from './networking/routes'
 import CloseIcon from '@mui/icons-material/Close'
 import ProfileSection from './profilesection'
@@ -19,9 +19,10 @@ import LanguagePage from './language'
 import SavePage from './savePage'
 import { type Language, LanguageType, type LanguageItem } from './types/language'
 import theme from './theme'
+import { type Lesson } from './types/lesson'
 
 const init: LanguageItem[] = []
-const initialLesson: Language = {
+const initialLanguage: Language = {
   vocab: [],
   receptive: [],
   grammar: [],
@@ -43,7 +44,7 @@ export default function Home (): React.JSX.Element {
   const [grammar, setGrammar] = React.useState(init)
   const [rules, setRules] = React.useState(init)
   const [review, setReview] = React.useState(init)
-  const [tl, setTL] = React.useState(initialLesson)
+  const [tl, setTL] = React.useState(initialLanguage)
   const [activities, setActivities] = React.useState(initialActivities)
   const [rows, setRows] = React.useState([
     initialActivity
@@ -60,6 +61,17 @@ export default function Home (): React.JSX.Element {
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number): void => {
     setActiveTab(newValue)
+  }
+
+  const loadLesson = (lesson: Lesson): void => {
+    setRows(lesson.rows)
+    setOptions(lesson.options)
+    setVocab(lesson.tl.vocab)
+    setGrammar(lesson.tl.grammar)
+    setReceptive(lesson.tl.receptive)
+    setRules(lesson.tl.rules)
+    setReview(lesson.tl.review)
+    populateTL()
   }
 
   const saveOpen = (): void => { setSaveOpen(true); console.log('save open') }
@@ -135,29 +147,6 @@ export default function Home (): React.JSX.Element {
     setActiveStep(step)
   }
 
-  const optionsObj: Options = {
-    songs: {
-      timer: 'https://www.youtube.com/watch?v=_W0bSen8Qjg',
-      intro: 'https://www.youtube.com/watch?v=tVlcKp3bWH8',
-      cleanup: 'https://www.youtube.com/watch?v=SFE0mMWbA-Y',
-      goodbye: 'https://www.youtube.com/watch?v=PraN5ZoSjiY'
-
-    },
-    rules: {
-      listen: true,
-      sitNicely: true,
-      english: true,
-      nice: true,
-      tryBest: true,
-      raiseHand: true,
-      sticker: true
-    },
-    dragonImage: 'https://media1.tenor.com/m/W9Dmn0ZkTmsAAAAC/dragon-rawr.gif',
-    generateHandouts: true,
-    rulesAfterActivities: true,
-    theme: 'white'
-  }
-
   const [options, setOptions] = useState(optionsObj)
 
   if (activities.length < 1) {
@@ -187,7 +176,7 @@ export default function Home (): React.JSX.Element {
             alt="planmi"
           />
           </Typography>
-          <ProfileSection />
+          <ProfileSection loadLesson={loadLesson} setActiveStep={setActiveStep} />
         </Toolbar>
       </AppBar>
     <Stepper nonLinear activeStep={activeStep} className="flex w-4/5 mx-auto my-4">

@@ -6,6 +6,7 @@ import { type Language } from '../types/language'
 import { type activityItem } from '../types/activity'
 import type React from 'react'
 import getUser from './getUser'
+import { type Lesson } from '../types/lesson'
 
 const config = (token: string): any => {
   return {
@@ -23,10 +24,21 @@ export async function saveLesson (rows: activityItem[], tl: Language, options: O
     return
   }
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  const get = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/lesson', { rows, tl, options }, config(user.idToken))
+  const get = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/lesson', { rows, tl, options }, config(user.accessToken))
 
   return get
 }
+
+export async function getLessons (): Promise<Lesson[] | undefined> {
+  const user = JSON.parse(await getUser())
+  if (!user) {
+    return
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  const get = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/lesson/user', {}, config(user.accessToken))
+  return get.data as Lesson[]
+}
+
 export async function openSubscription (): Promise<any> {
   const res = await axios.post('/paypal/create-subscription', { userAction: 'SUBSCRIBE_NOW' })
   return res

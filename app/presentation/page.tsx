@@ -10,9 +10,6 @@ import { getLanguageType, type LanguageItem, type Language } from '../types/lang
 import { Category } from '../types/category'
 import { Box, Slider, Typography } from '@mui/material'
 
-let d = 0
-let e = 0
-
 function convertToEmbed (url: string): string {
   const pattern = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
   const embedUrl = url.replace(pattern, 'https://www.youtube.com/embed/$1')
@@ -76,19 +73,21 @@ export default function Presentation (): React.JSX.Element {
   import ('../../node_modules/reveal.js/dist/theme/' + options.theme?.toString() + '.css')
 
   const [missingCount, setMissingCount] = React.useState(3)
+  const [e, incrementE] = React.useState(0)
+  const [d, incrementD] = React.useState(0)
 
   function roll (l: LanguageItem[]): void {
-    d = Math.floor(Math.random() * (l.length - 1))
+    incrementD(Math.floor(Math.random() * (l.length - 1)))
     console.log(d)
   }
 
   function increment (l: LanguageItem[]): void {
     if (e < l.length - 1) {
-      e++
+      incrementE(e + 1)
       return
     }
-    e = 0
-    d = Math.floor(Math.random() * (l.length - 1))
+    incrementE(0)
+    incrementD(Math.floor(Math.random() * (l.length - 1)))
   }
 
   function targetRun (tl: LanguageItem[]): React.JSX.Element {
