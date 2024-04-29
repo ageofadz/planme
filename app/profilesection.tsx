@@ -13,26 +13,32 @@ import { getLessons } from './networking/routes'
 interface profileProps {
   loadLesson: (l: Lesson) => void
   setActiveStep: (n: number) => void
+  lesson: Lesson | undefined
+  saveOpen: () => void
+  lessons: Lesson[] | undefined
+  setLessons: (l: Lesson[]) => void
 }
 
-export default function ProfileSection ({ loadLesson, setActiveStep }: profileProps): React.JSX.Element {
+export default function ProfileSection ({ loadLesson, setActiveStep, lesson, saveOpen, lessons, setLessons }: profileProps): React.JSX.Element {
   const { user } = useUser()
 
   const [isProfileOpen, setProfileOpen] = React.useState(false)
   const profileOpen = (): void => { setProfileOpen(true); console.log('profile open') }
   const profileClosed = (): void => { setProfileOpen(false); console.log('profile closed') }
 
-  const [lessons, setLessons] = React.useState(undefined as Lesson[] | undefined)
-
   const [isLessonsOpen, setLessonsOpen] = React.useState(false)
-  const lessonsOpen = (): void => {
-    setLessonsOpen(true)
 
+  const pullLessons = (): void => {
     getLessons().then((lessons) => {
       if (lessons) {
         setLessons(lessons)
       }
     }).catch((e) => { console.log(e) })
+  }
+
+  const lessonsOpen = (): void => {
+    pullLessons()
+    setLessonsOpen(true)
     console.log('lessons open')
   }
   const lessonsClosed = (): void => {
@@ -79,7 +85,7 @@ export default function ProfileSection ({ loadLesson, setActiveStep }: profilePr
       >
         <Box sx={style}>
           {
-          lessonsTable(lessons, loadLesson, lessonsClosed)
+          lessonsTable(lessons, loadLesson, lessonsClosed, lesson, saveOpen, pullLessons)
           }
         </Box>
       </Modal>

@@ -11,7 +11,7 @@ import { NavigateBefore, NavigateNext, Save } from '@mui/icons-material'
 import Image from 'next/image'
 import { initialActivity, type activityItem } from './types/activity'
 import { optionsObj } from './types/options'
-import { genPrintables, getActivities, saveLesson } from './networking/routes'
+import { genPrintables, getActivities, getLessons, saveLesson } from './networking/routes'
 import CloseIcon from '@mui/icons-material/Close'
 import ProfileSection from './profilesection'
 import OptionsPage from './options'
@@ -45,10 +45,20 @@ export default function Home (): React.JSX.Element {
   const [rules, setRules] = React.useState(init)
   const [review, setReview] = React.useState(init)
   const [tl, setTL] = React.useState(initialLanguage)
+  const [lesson, setLesson] = React.useState(undefined as Lesson | undefined)
   const [activities, setActivities] = React.useState(initialActivities)
+  const [lessons, setLessons] = React.useState(undefined as Lesson[] | undefined)
   const [rows, setRows] = React.useState([
     initialActivity
   ])
+
+  const pullLessons = (): void => {
+    getLessons().then((lessons) => {
+      if (lessons) {
+        setLessons(lessons)
+      }
+    }).catch((e) => { console.log(e) })
+  }
 
   const openToast = (message: string): void => {
     setToastMessage(message)
@@ -64,6 +74,7 @@ export default function Home (): React.JSX.Element {
   }
 
   const loadLesson = (lesson: Lesson): void => {
+    setLesson(lesson)
     setRows(lesson.rows)
     setOptions(lesson.options)
     setVocab(lesson.tl.vocab)
@@ -176,7 +187,7 @@ export default function Home (): React.JSX.Element {
             alt="planmi"
           />
           </Typography>
-          <ProfileSection loadLesson={loadLesson} setActiveStep={setActiveStep} />
+          <ProfileSection loadLesson={loadLesson} setActiveStep={setActiveStep} lesson={lesson} saveOpen={saveOpen} lessons={lessons} setLessons={setLessons} />
         </Toolbar>
       </AppBar>
     <Stepper nonLinear activeStep={activeStep} className="flex w-4/5 mx-auto my-4">
@@ -232,14 +243,16 @@ export default function Home (): React.JSX.Element {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           saveLesson(rows, tl, options).then(() => {
             openToast('Lesson saved!')
+            pullLessons()
             populateTL()
+            saveClosed()
             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
             if (options.generateHandouts) void genPrintables(rows as any, tl, options)
           }).catch((err) => {
             console.log(err)
           })
         }
-        }> <Save /> Save lesson </Button>
+        }> <Save /> {options.name === lesson?.options.name ? 'Save Lesson (Overwrite)' : 'Save as New Lesson'} </Button>
         </FormGroup>
     </Box>
   </Modal>

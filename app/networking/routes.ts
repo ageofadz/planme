@@ -25,8 +25,17 @@ export async function saveLesson (rows: activityItem[], tl: Language, options: O
   }
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const get = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/lesson', { rows, tl, options }, config(user.accessToken))
-
   return get
+}
+
+export async function deleteLesson (options: Options): Promise<any> {
+  const user = JSON.parse(await getUser())
+  if (!user) {
+    return
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  const del = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/lesson/delete', { options }, config(user.accessToken))
+  return del
 }
 
 export async function getLessons (): Promise<Lesson[] | undefined> {
